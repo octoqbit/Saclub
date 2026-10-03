@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAC - Sensing and Automation Club</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@900&family=Bungee&family=Quantico:wght@700&family=Saira+Stencil+One&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <!-- Floating Corner Markers (Orange) -->
+        <div class="orange-marker tl-marker"></div>
+        <div class="orange-marker tr-marker"></div>
+        <div class="orange-marker bl-marker"></div>
+        <div class="orange-marker br-marker"></div>
+
+        <div class="grid-bg"></div>
+
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="nav-cell logo-cell">
+                <!-- X icon decoration on the far left -->
+                <div class="logo-x-box">
+                    <span class="cross-icon"></span>
+                </div>
+                <img src="logo.png" alt="SAC Logo" class="nav-logo">
+            </div>
+
+            <!-- 2x2 Dots Mobile Menu Toggle -->
+            <div class="nav-cell mobile-menu-cell" id="mobile-menu-btn">
+                <div class="dots-grid">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+
+            <nav class="nav-cell links-cell" id="mobile-nav-links">
+                <a href="#" class="nav-link"><span>About</span></a>
+                <a href="#" class="nav-link"><span>Projects</span></a>
+                <a href="#" class="nav-link"><span>Events</span></a>
+                <a href="#" class="nav-link"><span>Team</span></a>
+            </nav>
+
+            <div class="nav-cell cta-cell">
+                <a href="join.html" class="btn-orange scramble-btn" id="join-sac-btn" data-original="JOIN SAC ↗">JOIN SAC ↗</a>
+            </div>
+        </header>
+
+        <!-- Main Hero -->
+        <main class="hero-main">
+            <!-- Background Giant Text Marquee -->
+            <div class="bg-marquee-container">
+                <div class="bg-giant-text">
+                    <span>INNOVATE BEYOND LIMITS</span>
+                    <span>INNOVATE BEYOND LIMITS</span>
+                    <span>INNOVATE BEYOND LIMITS</span>
+                    <span>INNOVATE BEYOND LIMITS</span>
+                </div>
+            </div>
+
+            <!-- Centered SAC robot (isolated styles, transparent background) -->
+            <iframe src="robot-3d/index.html?embed=1" title="SAC robot assembly" allow="autoplay" tabindex="-1"
+                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; height: 100%; border: 0; background: transparent; z-index: 6; pointer-events: none;"></iframe>
+
+            <div class="hero-content">
+                <!-- Left Side Content -->
+                <div class="hero-left">
+                    <div class="mini-label">■ BUILDING TOMORROW</div>
+                    <p class="hero-desc">
+                        A student community turning<br>
+                        curiosity into circuits, robots<br>
+                        and intelligent systems.
+                    </p>
+                    <a href="#" class="btn-orange scramble-btn desktop-btn" data-original="EXPLORE PROJECTS">EXPLORE PROJECTS</a>
+                    <a href="join.html" class="btn-orange scramble-btn mobile-btn" data-original="JOIN CLUB" style="display: none;">JOIN CLUB</a>
+                </div>
+
+                <!-- Center 3D Component -->
+                <div class="hero-center">
+                    <div class="component-placeholder" style="border: none;">
+                    </div>
+                </div>
+
+                <!-- Right Side Deco Box -->
+                <div class="hero-right">
+                    <div class="deco-box">
+                        <div class="target-corner t-tl"></div>
+                        <div class="target-corner t-tr"></div>
+                        <div class="target-corner t-bl"></div>
+                        <div class="target-corner t-br"></div>
+                        <div class="deco-icon">⚛</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Partners Row -->
+        <footer class="partners-row">
+            <div class="partner-cell">
+                <div class="p-logo">MICROCONTROLLERS</div>
+            </div>
+            <div class="partner-cell">
+                <div class="p-logo">ACTUATORS</div>
+            </div>
+            <div class="partner-cell">
+                <div class="p-logo">SENSORS</div>
+            </div>
+            <div class="partner-cell">
+                <div class="p-logo">AI MODELS</div>
+            </div>
+        </footer>
+
+        <!-- Section Two -->
+        <section class="section-two">
+            <!-- Top Banner Area -->
+            <div class="s2-top-banner">
+                <div class="s2-giant-text-container">
+                    <h2 class="s2-giant-text">BEYOND CIRCUITS</h2>
+                </div>
+                <div class="s2-deco-right">
+                    <div class="circles-placeholder"></div>
+                </div>
+            </div>
+
+            <!-- 3 Column Layout -->
+            <div class="s2-content-grid">
+
+                <!-- Left Column -->
+                <div class="s2-left">
+                    <h3 class="s2-heading"><span class="sq-bullet">■</span> Supercharging Tech Builders</h3>
+
+                    <ul class="s2-list">
+                        <li class="s2-list-item">
+                            <span class="c-marker tl"></span><span class="c-marker tr"></span><span
+                                class="c-marker bl"></span><span class="c-marker br"></span>
+                            <span class="hover-target">Robotics</span>
+                        </li>
+                        <li class="s2-list-item">
+                            <span class="c-marker tl"></span><span class="c-marker tr"></span><span
+                                class="c-marker bl"></span><span class="c-marker br"></span>
+                            <span class="hover-target">AI Systems</span>
+                        </li>
+                        <li class="s2-list-item">
+                            <span class="c-marker tl"></span><span class="c-marker tr"></span><span
+                                class="c-marker bl"></span><span class="c-marker br"></span>
+                            <span class="hover-target">IoT Networks</span>
+                        </li>
+                        <li class="s2-list-item">
+                            <span class="c-marker tl"></span><span class="c-marker tr"></span><span
+                                class="c-marker bl"></span><span class="c-marker br"></span>
+                            <span class="hover-target">Automation</span>
+                        </li>
+                    </ul>
+                    <div class="s2-orange-bar"></div>
+                </div>
+
+                <!-- Center Column -->
+                <div class="s2-center">
+                    <div class="s2-component-wrapper">
+                        <video src="videoforthepage2.mp4" autoplay loop muted playsinline
+                            style="width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; border-radius: 15px 15px 0 0;"></video>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="s2-right">
+                    <h3 class="s2-heading"><span class="sq-bullet">■</span> Smart Resources</h3>
+                    <p class="s2-subtext">Our ecosystem support</p>
+
+                    <div class="s2-cards">
+                        <div class="s2-card">
+                            <div class="card-top">
+                                <span class="sq-bullet">■</span> <span class="card-num">01</span>
+                            </div>
+                            <div class="card-icon-box">
+                                <span class="muted-text">ICON</span>
+                            </div>
+                            <p class="card-title">Incubation & Acceleration Program</p>
+                        </div>
+
+                        <div class="s2-card">
+                            <div class="card-top">
+                                <span class="sq-bullet">■</span> <span class="card-num">02</span>
+                            </div>
+                            <div class="card-icon-box">
+                                <span class="muted-text">ICON</span>
+                            </div>
+                            <p class="card-title">Investment & Funding</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section Three -->
+        <section class="section-three">
+            <!-- Top Banner -->
+            <div class="s3-top-banner">
+                <div class="s3-top-left">
+                    <div class="deco-sphere-box">
+                        <span class="c-marker tl"></span><span class="c-marker tr"></span><span
+                            class="c-marker bl"></span><span class="c-marker br"></span>
+                        <div class="sphere-placeholder"></div>
+                    </div>
+                    <div class="small-circle-btn">
+                        <div class="inner-dot"></div>
+                    </div>
+                </div>
+                <div class="s3-top-right">
+                    <h2 class="s3-giant-text">INCUBATION</h2>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="s3-content-grid">
+
+                <!-- Left Column -->
+                <div class="s3-left">
+                    <div class="s3-heading-block">
+                        <h3 class="s2-heading" style="justify-content: flex-start; padding: 0 1.5rem;"><span
+                                class="sq-bullet">■</span> End-end Support</h3>
+                        <p class="s2-subtext" style="padding: 0 1.5rem;">From prototyping to GTM</p>
+                    </div>
+
+                    <div class="s3-cards">
+                        <div class="s2-card">
+                            <div class="card-top">
+                                <span class="sq-bullet">■</span> <span class="card-num">06</span>
+                            </div>
+                            <div class="card-icon-box">
+                                <span class="muted-text">ICON</span>
+                            </div>
+                            <p class="card-title">Hardware Strategy & Design</p>
+                        </div>
+
+                        <div class="s2-card">
+                            <div class="card-top">
+                                <span class="sq-bullet">■</span> <span class="card-num">07</span>
+                            </div>
+                            <div class="card-icon-box">
+                                <span class="muted-text">ICON</span>
+                            </div>
+                            <p class="card-title">GTM & Marketing</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center Column -->
+                <div class="s3-center">
+                    <div class="s3-component-wrapper">
+                        <video src="videoforpage3.mp4" autoplay loop muted playsinline
+                            style="width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; border-radius: 0 0 15px 15px;"></video>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="s3-right">
+                    <div class="s3-heading-block">
+                        <h3 class="s2-heading" style="justify-content: flex-start; padding: 0 1.5rem;"><span
+                                class="sq-bullet">■</span> Unique Approach</h3>
+                        <p class="s2-subtext" style="padding: 0 1.5rem;">Beyond Components</p>
+                    </div>
+                    <div class="s3-text-block">
+                        <p>We do the impossible. In robotics, it takes an entire ecosystem to transform ideas into
+                            industry leaders. With strategic hardware funding, software support, and top-tier tech
+                            partnerships - we set you up for unparalleled growth.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section Four: Portfolio -->
+        <section class="section-four">
+            <div class="s4-top-banner">
+                <div class="s4-top-left">
+                    <h3 class="s2-heading" style="justify-content: flex-start; padding: 0; margin-bottom: 0.5rem;"><span
+                            class="sq-bullet">■</span> Our Incubations</h3>
+                    <h2 class="s3-giant-text" style="font-size: clamp(3rem, 5vw, 5rem);">PORTFOLIO</h2>
+                </div>
+                <div class="s4-top-center">
+                    <!-- Placeholder for 3D object -->
+                    <div class="placeholder-3d" style="width: 100%; height: 100%;"></div>
+                </div>
+                <div class="s4-top-right">
+                    <div class="all-projects-box">
+                        <div class="ap-info">
+                            <span class="ap-text">All Projects</span>
+                            <span class="ap-num">16</span>
+                        </div>
+                        <div class="ap-arrow">→</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Horizontal Slider Container -->
+            <div class="s4-slider-section">
+                <div class="slider-controls">
+                    <button class="sc-btn" id="slider-left">&lt;</button>
+                    <button class="sc-btn" id="slider-right">&gt;</button>
+                </div>
+                <div class="s4-slider-container" id="projects-slider">
+                    <!-- Card 1 -->
+                    <a href="#" class="project-card">
+                        <div class="pc-header">Incubation</div>
+                        <div class="pc-body">
+                            <h2>DEMO 1</h2>
+                        </div>
+                        <div class="pc-stats">
+                            <div class="stat-col">
+                                <div class="stat-val">$1.5M</div>
+                                <div class="stat-label">Funds Raised</div>
+                            </div>
+                            <div class="stat-col">
+                                <div class="stat-val">1,200%</div>
+                                <div class="stat-label">Social Growth</div>
+                            </div>
+                            <div class="pc-arrow">→</div>
+                            <div class="stat-col">
+                                <div class="stat-val">2x</div>
+                                <div class="stat-label">ATH ROI</div>
+                            </div>
+                            <div class="stat-col">
+                                <div class="stat-val">15</div>
+                                <div class="stat-label">Partnerships</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Card 2 -->
+                    <a href="#" class="project-card">
+                        <div class="pc-header">Incubation</div>
+                        <div class="pc-body">
+                            <h2>DEMO 2</h2>
+                        </div>
+                        <div class="pc-stats">
+                            <div class="stat-col">
+                                <div class="stat-val">$2.1M</div>
+                                <div class="stat-label">Funds Raised</div>
+                            </div>
+                            <div class="stat-col">
+                                <div class="stat-val">2,500%</div>
+                                <div class="stat-label">Social Growth</div>
+                            </div>
+                            <div class="pc-arrow">→</div>
+                            <div class="stat-col">
+                                <div class="stat-val">TBA</div>
+                                <div class="stat-label">ATH ROI</div>
+                            </div>
+                            <div class="stat-col">
+                                <div class="stat-val">30</div>
+                                <div class="stat-label">Partnerships</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Card 3 -->
+                    <a href="#" class="project-card">
+                        <div class="pc-header">Acceleration</div>
+                        <div class="pc-body">
+                            <h2>DEMO 3</h2>
+                        </div>
+                        <div class="pc-stats">
+                            <div class="stat-col">
+                                <div class="stat-val">$5.0M</div>
+                                <div class="stat-label">Funds Raised</div>
+                            </div>
+                            <div class="stat-col">
+                                <div class="stat-val">4,000%</div>
+                                <div class="stat-label">Social Growth</div>
+                            </div>
+                            <div class="pc-arrow">→</div>
+                            <div class="stat-col">
+                                <div class="stat-val">3x</div>
+                                <div class="stat-label">ATH ROI</div>
+                            </div>
+                            <div class="stat-col">
+                                <div class="stat-val">45</div>
+                                <div class="stat-label">Partnerships</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Card 4 -->
+                    <a href="#" class="project-card">
+                        <div class="pc-header">Investment</div>
+                        <div class="pc-body">
+                            <h2>DEMO 4</h2>
+                        </div>
+                        <div class="pc-stats">
+                            <div class="stat-col">
+                                <div class="stat-val">TBA</div>
+                                <div class="stat-label">Funds Raised</div>
+                            </div>
+                            <div class="stat-col">
+                                <div class="stat-val">TBA</div>
+                                <div class="stat-label">Social Growth</div>
+                            </div>
+                            <div class="pc-arrow">→</div>
+                            <div class="stat-col">
+                                <div class="stat-val">TBA</div>
+                                <div class="stat-label">ATH ROI</div>
+                            </div>
+                            <div class="stat-col">
+                                <div class="stat-val">TBA</div>
+                                <div class="stat-label">Partnerships</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Card 5 -->
+                    <a href="#" class="project-card">
+                        <div class="pc-header">Incubation</div>
+                        <div class="pc-body">
+                            <h2>DEMO 5</h2>
+                        </div>
+                        <div class="pc-stats">
+                            <div class="stat-col">
+                                <div class="stat-val">$8.0M</div>
+                                <div class="stat-label">Funds Raised</div>
+                            </div>
+                            <div class="stat-col">
+                                <div class="stat-val">10,000%</div>
+                                <div class="stat-label">Social Growth</div>
+                            </div>
+                            <div class="pc-arrow">→</div>
+                            <div class="stat-col">
+                                <div class="stat-val">8x</div>
+                                <div class="stat-label">ATH ROI</div>
+                            </div>
+                            <div class="stat-col">
+                                <div class="stat-val">100</div>
+                                <div class="stat-label">Partnerships</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Card 6 -->
+                    <a href="#" class="project-card">
+                        <div class="pc-header">Acceleration</div>
+                        <div class="pc-body">
+                            <h2>DEMO 6</h2>
+                        </div>
+                        <div class="pc-stats">
+                            <div class="stat-col">
+                                <div class="stat-val">$3.5M</div>
+                                <div class="stat-label">Funds Raised</div>
+                            </div>
+                            <div class="stat-col">
+                                <div class="stat-val">5,500%</div>
+                                <div class="stat-label">Social Growth</div>
+                            </div>
+                            <div class="pc-arrow">→</div>
+                            <div class="stat-col">
+                                <div class="stat-val">4x</div>
+                                <div class="stat-label">ATH ROI</div>
+                            </div>
+                            <div class="stat-col">
+                                <div class="stat-val">25</div>
+                                <div class="stat-label">Partnerships</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Five: FAQ -->
+        <section class="section-five">
+            <div class="s5-top-banner">
+                <div class="s5-top-left">
+                    <h2 class="s5-faq-title">FAQ</h2>
+                </div>
+                <div class="s5-top-center">
+                    <div class="faq-3d-box">
+                        <span class="c-marker tl"></span><span class="c-marker tr"></span><span
+                            class="c-marker bl"></span><span class="c-marker br"></span>
+                        <!-- 3D placeholder empty for now -->
+                    </div>
+                </div>
+                <div class="s5-top-right">
+                    <h3 class="s2-heading" style="justify-content: flex-start; padding: 0; margin: 0;"><span
+                            class="sq-bullet">■</span> Most Common Questions</h3>
+                    <p class="s5-subtitle">No worries, here you can find all the answers</p>
+                </div>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Who can join the Sensing and Automation Club (SAC)?</span>
+                        <div class="faq-plus">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        Any student with a passion for robotics, AI, or building hardware can join SAC! We welcome all
+                        skill levels, from beginners looking to learn, to advanced developers ready to lead a project.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do I need prior experience in robotics or AI?</span>
+                        <div class="faq-plus">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        Not at all. SAC provides mentorship, workshops, and team-based learning. As long as you have the
+                        curiosity and dedication to learn, you will quickly pick up the skills you need.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What kind of projects does the club build?</span>
+                        <div class="faq-plus">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        We build everything from autonomous drones and IoT smart-home devices to computer vision systems
+                        and advanced robotics. Our portfolio is shaped by the ideas our members bring to the table.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How do I pitch my own project idea?</span>
+                        <div class="faq-plus">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        Once you become a member, you can submit a project proposal during our bi-weekly incubation
+                        sessions. If approved, the club provides funding, lab space, and team support to help you build
+                        it.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>When and where do we meet?</span>
+                        <div class="faq-plus">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        We will let you know according to the need !
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="footer-top">
+                <div class="footer-col"
+                    style="flex-direction: row; align-items: center; justify-content: flex-start; gap: 1.5rem; padding: 2rem;">
+                    <img src="logo.png" alt="SAC Logo" style="height: 125px; width: auto; object-fit: contain;">
+                    <div style="width: 1px; height: 90px; background-color: var(--border-color);"></div>
+                    <img src="college-logo.png" alt="Institute Logo"
+                        style="height: 120px; width: auto; object-fit: contain;">
+                </div>
+                <div class="footer-col">
+                    <div class="footer-heading">QUICK LINKS</div>
+                    <a href="#" class="footer-link">Home</a>
+
+                    <a href="join.html" class="footer-link">Apply Now</a>
+                    <a href="#" class="footer-link">Help Center</a>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-heading">LEGAL</div>
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Cookie Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                </div>
+                <div class="footer-col" style="gap: 1.2rem;">
+                    <a href="#" class="footer-social-link">TELEGRAM ↗</a>
+                    <a href="#" class="footer-social-link">X/TWITTER ↗</a>
+                    <a href="#" class="footer-social-link">LINKEDIN ↗</a>
+                    <a href="#" class="footer-social-link">MEDIUM ↗</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copy">© 2026</div>
+                <div class="footer-rights">ALL RIGHTS RESERVED BY SENSING AND AUTOMATION CLUB.</div>
+                <div class="footer-creator">Built and maintained by Ashutosh</div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const scrambleBtns = document.querySelectorAll('.scramble-btn');
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
+
+        scrambleBtns.forEach(btn => {
+            const originalText = btn.getAttribute('data-original');
+            let scrambleInterval = null;
+
+            btn.addEventListener('mouseenter', () => {
+                clearInterval(scrambleInterval);
+                let iteration = 0;
+                scrambleInterval = setInterval(() => {
+                    btn.innerText = originalText.split('').map((letter, index) => {
+                        if (letter === ' ') return letter;
+                        if (index < iteration) return originalText[index];
+                        return chars[Math.floor(Math.random() * chars.length)];
+                    }).join('');
+
+                    if (iteration >= originalText.length) {
+                        clearInterval(scrambleInterval);
+                        btn.innerText = originalText;
+                    }
+                    iteration += 1 / 2;
+                }, 30);
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                clearInterval(scrambleInterval);
+                btn.innerText = originalText;
+            });
+        });
+        // Portfolio Slider controls
+        const sliderLeft = document.getElementById('slider-left');
+        const sliderRight = document.getElementById('slider-right');
+        const sliderContainer = document.getElementById('projects-slider');
+
+        if (sliderLeft && sliderRight && sliderContainer) {
+            sliderLeft.addEventListener('click', () => {
+                const scrollAmount = sliderContainer.firstElementChild.offsetWidth;
+                sliderContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            });
+
+            sliderRight.addEventListener('click', () => {
+                const scrollAmount = sliderContainer.firstElementChild.offsetWidth;
+                sliderContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            });
+        }
+
+        // FAQ Accordion Logic
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            if (question) {
+                question.addEventListener('click', () => {
+                    item.classList.toggle('open');
+                });
+            }
+        });
+        
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileNavLinks = document.getElementById('mobile-nav-links');
+        if (mobileBtn && mobileNavLinks) {
+            mobileBtn.addEventListener('click', () => {
+                mobileNavLinks.classList.toggle('menu-open');
+                mobileBtn.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Robot assembly</title>
+    <script>
+      // Opt-in transparent embedding; the standalone preview stays unchanged.
+      if (new URLSearchParams(location.search).get('embed') === '1') {
+        document.documentElement.classList.add('embedded');
+      }
+    </script>
+    <link rel="stylesheet" href="robot.css">
+    <script src="chip-overlay.js" defer></script>
+    <script src="robot.js" defer></script>
+  </head>
+  <body>
+    <main class="robot-stage" aria-label="Robot assembly animation">
+      <video
+        class="robot-assembly"
+        width="880"
+        height="1920"
+        autoplay
+        loop
+        muted
+        playsinline
+        preload="auto"
+        aria-label="White mechanical robot assembling around a glowing orange AI core"
+      >
+        <source src="assets/robot-assembly.webm" type="video/webm">
+        <source src="assets/robot-assembly-safari.mp4" type='video/mp4; codecs="hvc1"'>
+      </video>
+      <!-- Only the small front plate changes; the original video retains the
+           chip thickness, contacts, lighting, robot and mechanical motion. -->
+      <svg class="chip-overlay" viewBox="0 0 880 1920"
+           preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <defs>
+          <clipPath id="chip-front-outline" clipPathUnits="userSpaceOnUse">
+            <rect width="1000" height="1000" rx="125"/>
+          </clipPath>
+          <clipPath id="chip-panel-occlusion" clipPathUnits="userSpaceOnUse">
+            <!-- The foreground shell's slanted top edge, in video pixels. -->
+            <path d="M0 0H880V1270.8L0 1300.7Z"/>
+          </clipPath>
+        </defs>
+        <g clip-path="url(#chip-panel-occlusion)">
+          <g id="chip-front" visibility="hidden">
+            <image href="assets/sac-chip-face.png" width="1000" height="1000"
+                   clip-path="url(#chip-front-outline)"/>
+          </g>
+        </g>
+      </svg>
+      <button class="play-button" type="button" hidden>Play animation</button>
+      <p class="playback-error" role="alert" hidden>Could not load the robot animation. Keep the assets folder beside index.html.</p>
+    </main>
+  </body>
+</html>
