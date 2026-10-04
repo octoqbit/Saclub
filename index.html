@@ -11,9 +11,10 @@
         href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@900&family=Bungee&family=Quantico:wght@700&family=Saira+Stencil+One&family=Space+Mono:wght@400;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="home.css">
 </head>
 
-<body>
+<body class="home-page">
     <div class="page-wrapper">
         <!-- Floating Corner Markers (Orange) -->
         <div class="orange-marker tl-marker"></div>
@@ -34,26 +35,27 @@
             </div>
 
             <!-- 2x2 Dots Mobile Menu Toggle -->
-            <div class="nav-cell mobile-menu-cell" id="mobile-menu-btn">
-                <div class="dots-grid">
+            <button class="nav-cell mobile-menu-cell" id="mobile-menu-btn" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav-links">
+                <span class="dots-grid" aria-hidden="true">
                     <span></span><span></span><span></span><span></span>
-                </div>
-            </div>
+                </span>
+            </button>
 
-            <nav class="nav-cell links-cell" id="mobile-nav-links">
-                <a href="#" class="nav-link"><span>About</span></a>
-                <a href="#" class="nav-link"><span>Projects</span></a>
-                <a href="#" class="nav-link"><span>Events</span></a>
-                <a href="#" class="nav-link"><span>Team</span></a>
+            <nav class="nav-cell links-cell" id="mobile-nav-links" aria-label="Main navigation">
+                <a href="about.html" class="nav-link"><span>About</span></a>
+                <a href="projects.html" class="nav-link"><span>Projects</span></a>
+                <a href="events.html" class="nav-link"><span>Events</span></a>
+                <a href="team.html" class="nav-link"><span>Team</span></a>
             </nav>
 
             <div class="nav-cell cta-cell">
-                <a href="join.html" class="btn-orange scramble-btn" id="join-sac-btn" data-original="JOIN SAC ↗">JOIN SAC ↗</a>
+                <a href="join.html" class="btn-orange home-join-btn" id="join-sac-btn"><span class="home-join-star" aria-hidden="true">✳</span><span>JOIN SAC</span><span class="home-join-arrow" aria-hidden="true">↗</span></a>
             </div>
         </header>
 
         <!-- Main Hero -->
         <main class="hero-main">
+            <div class="home-meta"><span>SENSING & AUTOMATION CLUB</span><span><i aria-hidden="true"></i> CURIOSITY: ALWAYS ON</span></div>
             <!-- Background Giant Text Marquee -->
             <div class="bg-marquee-container">
                 <div class="bg-giant-text">
@@ -71,14 +73,17 @@
             <div class="hero-content">
                 <!-- Left Side Content -->
                 <div class="hero-left">
-                    <div class="mini-label">■ BUILDING TOMORROW</div>
+                    <h1 class="mini-label">[ CURIOUS MINDS. REAL-WORLD MAKERS. ]</h1>
                     <p class="hero-desc">
                         A student community turning<br>
                         curiosity into circuits, robots<br>
                         and intelligent systems.
                     </p>
-                    <a href="#" class="btn-orange scramble-btn desktop-btn" data-original="EXPLORE PROJECTS">EXPLORE PROJECTS</a>
-                    <a href="join.html" class="btn-orange scramble-btn mobile-btn" data-original="JOIN CLUB" style="display: none;">JOIN CLUB</a>
+                    <a href="projects.html" class="btn-orange scramble-btn desktop-btn" data-original="EXPLORE PROJECTS">EXPLORE
+                        PROJECTS</a>
+                    <a href="join.html" class="btn-orange scramble-btn mobile-btn" data-original="JOIN CLUB"
+                        style="display: none;">JOIN CLUB</a>
+                    <a href="about.html" class="home-about-link">MEET THE CLUB <span aria-hidden="true">↗</span></a>
                 </div>
 
                 <!-- Center 3D Component -->
@@ -94,7 +99,7 @@
                         <div class="target-corner t-tr"></div>
                         <div class="target-corner t-bl"></div>
                         <div class="target-corner t-br"></div>
-                        <div class="deco-icon">⚛</div>
+                        <div class="home-maker-stamp"><span aria-hidden="true">✳</span>BUILT<br>TO TRY.</div>
                     </div>
                 </div>
             </div>
@@ -118,10 +123,11 @@
 
         <!-- Section Two -->
         <section class="section-two">
+            <div class="home-section-label"><span>01 / OUR PLAYGROUND</span><span>IDEAS → INPUT → ACTION</span></div>
             <!-- Top Banner Area -->
             <div class="s2-top-banner">
                 <div class="s2-giant-text-container">
-                    <h2 class="s2-giant-text">BEYOND CIRCUITS</h2>
+                    <h2 class="s2-giant-text">BEYOND <span class="home-heading-accent">CIRCUITS</span></h2>
                 </div>
                 <div class="s2-deco-right">
                     <div class="circles-placeholder"></div>
@@ -132,66 +138,66 @@
             <div class="s2-content-grid">
 
                 <!-- Left Column -->
-                <div class="s2-left">
-                    <h3 class="s2-heading"><span class="sq-bullet">■</span> Supercharging Tech Builders</h3>
-
-                    <ul class="s2-list">
-                        <li class="s2-list-item">
-                            <span class="c-marker tl"></span><span class="c-marker tr"></span><span
-                                class="c-marker bl"></span><span class="c-marker br"></span>
-                            <span class="hover-target">Robotics</span>
+                <div class="s2-left home-builders">
+                    <div class="home-builders-heading">
+                        <p class="home-builders-kicker"><span aria-hidden="true">✳</span> FIND YOUR SPARK</p>
+                        <h3>SUPERCHARGING<br><span>TECH BUILDERS.</span></h3>
+                        <p>Four ways to turn “what if” into “it works”.</p>
+                    </div>
+                    <ul class="home-builder-list">
+                        <li class="home-builder-card">
+                            <span class="home-builder-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="14" height="13" rx="2"/><path d="M12 3v4M3 12h2m14 0h2M9 16h6"/><circle cx="9" cy="11" r="1"/><circle cx="15" cy="11" r="1"/></svg></span>
+                            <div><h4>Robotics</h4><p>Give your ideas a little motion.</p></div><span class="home-builder-number" aria-hidden="true">01</span>
                         </li>
-                        <li class="s2-list-item">
-                            <span class="c-marker tl"></span><span class="c-marker tr"></span><span
-                                class="c-marker bl"></span><span class="c-marker br"></span>
-                            <span class="hover-target">AI Systems</span>
+                        <li class="home-builder-card">
+                            <span class="home-builder-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4M10 10h4v4h-4z"/></svg></span>
+                            <div><h4>AI Systems</h4><p>Turn data into decisions.</p></div><span class="home-builder-number" aria-hidden="true">02</span>
                         </li>
-                        <li class="s2-list-item">
-                            <span class="c-marker tl"></span><span class="c-marker tr"></span><span
-                                class="c-marker bl"></span><span class="c-marker br"></span>
-                            <span class="hover-target">IoT Networks</span>
+                        <li class="home-builder-card">
+                            <span class="home-builder-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="18" r="3"/><circle cx="19" cy="18" r="3"/><path d="m10.5 8-4 7m7-7 4 7M8 18h8"/></svg></span>
+                            <div><h4>IoT Networks</h4><p>Connect the physical and digital.</p></div><span class="home-builder-number" aria-hidden="true">03</span>
                         </li>
-                        <li class="s2-list-item">
-                            <span class="c-marker tl"></span><span class="c-marker tr"></span><span
-                                class="c-marker bl"></span><span class="c-marker br"></span>
-                            <span class="hover-target">Automation</span>
+                        <li class="home-builder-card">
+                            <span class="home-builder-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 8a8 8 0 0 0-14-2L3 9m0-6v6h6M4 16a8 8 0 0 0 14 2l3-3m0 6v-6h-6"/></svg></span>
+                            <div><h4>Automation</h4><p>Make everyday things work smarter.</p></div><span class="home-builder-number" aria-hidden="true">04</span>
                         </li>
                     </ul>
-                    <div class="s2-orange-bar"></div>
+                    <a class="home-builders-link" href="about.html#playground-title">EXPLORE OUR PLAYGROUND <span aria-hidden="true">↗</span></a>
                 </div>
 
                 <!-- Center Column -->
                 <div class="s2-center">
-                    <div class="s2-component-wrapper">
+                    <figure class="s2-component-wrapper home-workbench">
                         <video src="videoforthepage2.mp4" autoplay loop muted playsinline
                             style="width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; border-radius: 15px 15px 0 0;"></video>
-                    </div>
+                    </figure>
                 </div>
 
                 <!-- Right Column -->
                 <div class="s2-right">
-                    <h3 class="s2-heading"><span class="sq-bullet">■</span> Smart Resources</h3>
-                    <p class="s2-subtext">Our ecosystem support</p>
+                    <h3 class="s2-heading"><span class="sq-bullet">■</span> What’s Happening</h3>
+                    <p class="s2-subtext">Events for curious minds</p>
 
-                    <div class="s2-cards">
-                        <div class="s2-card">
-                            <div class="card-top">
-                                <span class="sq-bullet">■</span> <span class="card-num">01</span>
-                            </div>
-                            <div class="card-icon-box">
-                                <span class="muted-text">ICON</span>
-                            </div>
-                            <p class="card-title">Incubation & Acceleration Program</p>
-                        </div>
-
-                        <div class="s2-card">
-                            <div class="card-top">
-                                <span class="sq-bullet">■</span> <span class="card-num">02</span>
-                            </div>
-                            <div class="card-icon-box">
-                                <span class="muted-text">ICON</span>
-                            </div>
-                            <p class="card-title">Investment & Funding</p>
+                    <div class="home-event-carousel" role="region" aria-roledescription="carousel" aria-label="What’s Happening events" data-event-carousel>
+                        <div class="home-event-viewport"><div class="home-event-track"><article class="home-event-slide" role="group" aria-roledescription="slide" aria-label="1 of 4">
+                            <img src="about-assets/ai_hackathon.jpg" alt="" loading="lazy" width="640" height="400">
+                            <div class="home-event-copy"><span class="home-event-tag">AI / HACKATHON</span><h4>AI Hackathon: Genesis 2026</h4><p class="home-event-date">Dec 05–07, 2026</p><p>Build the next generation of autonomous intelligence.</p><a href="events.html">VIEW EVENT BOARD <span aria-hidden="true">↗</span></a></div>
+                        </article><article class="home-event-slide" role="group" aria-roledescription="slide" aria-label="2 of 4" inert aria-hidden="true">
+                            <img src="about-assets/robot-workbench-720.webp" alt="" loading="lazy" width="640" height="400">
+                            <div class="home-event-copy"><span class="home-event-tag">ROBOTICS / COMPETITION</span><h4>RoboWars: Steel &amp; Sparks</h4><p class="home-event-date">Nov 15, 2026</p><p>Build, fight, survive. Explore the combat robotics competition.</p><a href="events.html">VIEW EVENT BOARD <span aria-hidden="true">↗</span></a></div>
+                        </article><article class="home-event-slide" role="group" aria-roledescription="slide" aria-label="3 of 4" inert aria-hidden="true">
+                            <img src="about-assets/curious-robot-640.webp" alt="" loading="lazy" width="640" height="400">
+                            <div class="home-event-copy"><span class="home-event-tag">IoT / SHOWCASE</span><h4>IoT Smart Home Summit</h4><p class="home-event-date">Aug 22, 2026 · Past event</p><p>Student-built automation systems and smart sensors.</p><a href="events.html">VIEW EVENT BOARD <span aria-hidden="true">↗</span></a></div>
+                        </article><article class="home-event-slide" role="group" aria-roledescription="slide" aria-label="4 of 4" inert aria-hidden="true">
+                            <img src="about-assets/banner_notext.jpg" alt="" loading="lazy" width="640" height="400">
+                            <div class="home-event-copy"><span class="home-event-tag">MORE FROM SAC</span><h4>Your next “what if”.</h4><p class="home-event-date">EXPLORE THE EVENTS BOARD</p><p>Find competitions, meet fellow makers, and see what’s happening at SAC.</p><a href="events.html">EXPLORE ALL EVENTS <span aria-hidden="true">↗</span></a></div>
+                        </article></div></div>
+                        <div class="home-event-controls">
+                            <button type="button" data-event-prev aria-label="Previous event">←</button>
+                            <div class="home-event-dots" aria-label="Choose an event"><button type="button" data-event-dot="0" aria-label="Show slide 1" aria-current="true"></button><button type="button" data-event-dot="1" aria-label="Show slide 2" aria-current="false"></button><button type="button" data-event-dot="2" aria-label="Show slide 3" aria-current="false"></button><button type="button" data-event-dot="3" aria-label="Show slide 4" aria-current="false"></button></div>
+                            <span class="home-event-count" aria-live="off">01 / 04</span>
+                            <button type="button" data-event-next aria-label="Next event">→</button>
+                            <button type="button" data-event-pause aria-label="Pause automatic slides" aria-pressed="false">Ⅱ</button>
                         </div>
                     </div>
                 </div>
@@ -201,6 +207,7 @@
 
         <!-- Section Three -->
         <section class="section-three">
+            <div class="home-section-label"><span>02 / LEARN BY MAKING</span><span>PROGRESS &gt; PERFECTION</span></div>
             <!-- Top Banner -->
             <div class="s3-top-banner">
                 <div class="s3-top-left">
@@ -214,7 +221,7 @@
                     </div>
                 </div>
                 <div class="s3-top-right">
-                    <h2 class="s3-giant-text">INCUBATION</h2>
+                    <h2 class="s3-giant-text">EXPERIENCE</h2>
                 </div>
             </div>
 
@@ -225,39 +232,41 @@
                 <div class="s3-left">
                     <div class="s3-heading-block">
                         <h3 class="s2-heading" style="justify-content: flex-start; padding: 0 1.5rem;"><span
-                                class="sq-bullet">■</span> End-end Support</h3>
-                        <p class="s2-subtext" style="padding: 0 1.5rem;">From prototyping to GTM</p>
+                                class="sq-bullet">■</span> Learn. Build. Take part.</h3>
+                        <p class="s2-subtext" style="padding: 0 1.5rem;">Meet your next challenge</p>
                     </div>
 
-                    <div class="s3-cards">
-                        <div class="s2-card">
-                            <div class="card-top">
-                                <span class="sq-bullet">■</span> <span class="card-num">06</span>
-                            </div>
-                            <div class="card-icon-box">
-                                <span class="muted-text">ICON</span>
-                            </div>
-                            <p class="card-title">Hardware Strategy & Design</p>
-                        </div>
-
-                        <div class="s2-card">
-                            <div class="card-top">
-                                <span class="sq-bullet">■</span> <span class="card-num">07</span>
-                            </div>
-                            <div class="card-icon-box">
-                                <span class="muted-text">ICON</span>
-                            </div>
-                            <p class="card-title">GTM & Marketing</p>
+                    <div class="home-event-carousel" role="region" aria-roledescription="carousel" aria-label="Experience events" data-event-carousel>
+                        <div class="home-event-viewport"><div class="home-event-track"><article class="home-event-slide" role="group" aria-roledescription="slide" aria-label="1 of 4">
+                            <img src="about-assets/ai_hackathon.jpg" alt="" loading="lazy" width="640" height="400">
+                            <div class="home-event-copy"><span class="home-event-tag">AI / HACKATHON</span><h4>AI Hackathon: Genesis 2026</h4><p class="home-event-date">Dec 05–07, 2026</p><p>Build the next generation of autonomous intelligence.</p><a href="events.html">VIEW EVENT BOARD <span aria-hidden="true">↗</span></a></div>
+                        </article><article class="home-event-slide" role="group" aria-roledescription="slide" aria-label="2 of 4" inert aria-hidden="true">
+                            <img src="about-assets/robot-workbench-720.webp" alt="" loading="lazy" width="640" height="400">
+                            <div class="home-event-copy"><span class="home-event-tag">ROBOTICS / COMPETITION</span><h4>RoboWars: Steel &amp; Sparks</h4><p class="home-event-date">Nov 15, 2026</p><p>Build, fight, survive. Explore the combat robotics competition.</p><a href="events.html">VIEW EVENT BOARD <span aria-hidden="true">↗</span></a></div>
+                        </article><article class="home-event-slide" role="group" aria-roledescription="slide" aria-label="3 of 4" inert aria-hidden="true">
+                            <img src="about-assets/curious-robot-640.webp" alt="" loading="lazy" width="640" height="400">
+                            <div class="home-event-copy"><span class="home-event-tag">IoT / SHOWCASE</span><h4>IoT Smart Home Summit</h4><p class="home-event-date">Aug 22, 2026 · Past event</p><p>Student-built automation systems and smart sensors.</p><a href="events.html">VIEW EVENT BOARD <span aria-hidden="true">↗</span></a></div>
+                        </article><article class="home-event-slide" role="group" aria-roledescription="slide" aria-label="4 of 4" inert aria-hidden="true">
+                            <img src="about-assets/banner_notext.jpg" alt="" loading="lazy" width="640" height="400">
+                            <div class="home-event-copy"><span class="home-event-tag">MORE FROM SAC</span><h4>Your next “what if”.</h4><p class="home-event-date">EXPLORE THE EVENTS BOARD</p><p>Find competitions, meet fellow makers, and see what’s happening at SAC.</p><a href="events.html">EXPLORE ALL EVENTS <span aria-hidden="true">↗</span></a></div>
+                        </article></div></div>
+                        <div class="home-event-controls">
+                            <button type="button" data-event-prev aria-label="Previous event">←</button>
+                            <div class="home-event-dots" aria-label="Choose an event"><button type="button" data-event-dot="0" aria-label="Show slide 1" aria-current="true"></button><button type="button" data-event-dot="1" aria-label="Show slide 2" aria-current="false"></button><button type="button" data-event-dot="2" aria-label="Show slide 3" aria-current="false"></button><button type="button" data-event-dot="3" aria-label="Show slide 4" aria-current="false"></button></div>
+                            <span class="home-event-count" aria-live="off">01 / 04</span>
+                            <button type="button" data-event-next aria-label="Next event">→</button>
+                            <button type="button" data-event-pause aria-label="Pause automatic slides" aria-pressed="false">Ⅱ</button>
                         </div>
                     </div>
                 </div>
 
                 <!-- Center Column -->
                 <div class="s3-center">
-                    <div class="s3-component-wrapper">
+                    <figure class="s3-component-wrapper home-workbench">
                         <video src="videoforpage3.mp4" autoplay loop muted playsinline
                             style="width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; border-radius: 0 0 15px 15px;"></video>
-                    </div>
+                        <figcaption>FIG. 02 / CURIOSITY, ASSEMBLED <span aria-hidden="true">↗</span></figcaption>
+                    </figure>
                 </div>
 
                 <!-- Right Column -->
@@ -278,7 +287,8 @@
         </section>
 
         <!-- Section Four: Portfolio -->
-        <section class="section-four">
+        <section class="section-four" id="projects">
+            <div class="home-section-label"><span>03 / ON THE WORKBENCH</span><span>SMALL IDEAS. REAL POSSIBILITIES.</span></div>
             <div class="s4-top-banner">
                 <div class="s4-top-left">
                     <h3 class="s2-heading" style="justify-content: flex-start; padding: 0; margin-bottom: 0.5rem;"><span
@@ -286,29 +296,28 @@
                     <h2 class="s3-giant-text" style="font-size: clamp(3rem, 5vw, 5rem);">PORTFOLIO</h2>
                 </div>
                 <div class="s4-top-center">
-                    <!-- Placeholder for 3D object -->
-                    <div class="placeholder-3d" style="width: 100%; height: 100%;"></div>
+                    <div class="home-project-note"><span aria-hidden="true">✳</span><p>THINK IT.<br>BUILD IT.<br>MAKE IT BETTER.</p></div>
                 </div>
                 <div class="s4-top-right">
-                    <div class="all-projects-box">
+                    <a href="projects.html" class="all-projects-box">
                         <div class="ap-info">
                             <span class="ap-text">All Projects</span>
-                            <span class="ap-num">16</span>
+                            <span class="ap-num">04</span>
                         </div>
                         <div class="ap-arrow">→</div>
-                    </div>
+                    </a>
                 </div>
             </div>
 
             <!-- Horizontal Slider Container -->
             <div class="s4-slider-section">
                 <div class="slider-controls">
-                    <button class="sc-btn" id="slider-left">&lt;</button>
-                    <button class="sc-btn" id="slider-right">&gt;</button>
+                    <button class="sc-btn" id="slider-left" type="button" aria-label="Previous project">←</button>
+                    <button class="sc-btn" id="slider-right" type="button" aria-label="Next project">→</button>
                 </div>
                 <div class="s4-slider-container" id="projects-slider">
                     <!-- Card 1 -->
-                    <a href="#" class="project-card">
+                    <a href="projects.html#lab-index" class="project-card">
                         <div class="pc-header">Incubation</div>
                         <div class="pc-body">
                             <h2>DEMO 1</h2>
@@ -335,7 +344,7 @@
                     </a>
 
                     <!-- Card 2 -->
-                    <a href="#" class="project-card">
+                    <a href="projects.html#lab-index" class="project-card">
                         <div class="pc-header">Incubation</div>
                         <div class="pc-body">
                             <h2>DEMO 2</h2>
@@ -362,7 +371,7 @@
                     </a>
 
                     <!-- Card 3 -->
-                    <a href="#" class="project-card">
+                    <a href="projects.html#lab-index" class="project-card">
                         <div class="pc-header">Acceleration</div>
                         <div class="pc-body">
                             <h2>DEMO 3</h2>
@@ -389,7 +398,7 @@
                     </a>
 
                     <!-- Card 4 -->
-                    <a href="#" class="project-card">
+                    <a href="projects.html#lab-index" class="project-card">
                         <div class="pc-header">Investment</div>
                         <div class="pc-body">
                             <h2>DEMO 4</h2>
@@ -416,7 +425,7 @@
                     </a>
 
                     <!-- Card 5 -->
-                    <a href="#" class="project-card">
+                    <a href="projects.html#lab-index" class="project-card">
                         <div class="pc-header">Incubation</div>
                         <div class="pc-body">
                             <h2>DEMO 5</h2>
@@ -443,7 +452,7 @@
                     </a>
 
                     <!-- Card 6 -->
-                    <a href="#" class="project-card">
+                    <a href="projects.html#lab-index" class="project-card">
                         <div class="pc-header">Acceleration</div>
                         <div class="pc-body">
                             <h2>DEMO 6</h2>
@@ -474,6 +483,7 @@
 
         <!-- Section Five: FAQ -->
         <section class="section-five">
+            <div class="home-section-label"><span>04 / GOOD QUESTIONS</span><span>BEGINNERS INCLUDED.</span></div>
             <div class="s5-top-banner">
                 <div class="s5-top-left">
                     <h2 class="s5-faq-title">FAQ</h2>
@@ -579,7 +589,7 @@
             <div class="footer-bottom">
                 <div class="footer-copy">© 2026</div>
                 <div class="footer-rights">ALL RIGHTS RESERVED BY SENSING AND AUTOMATION CLUB.</div>
-                <div class="footer-creator">Built and maintained by Ashutosh</div>
+                <div class="footer-creator">Developed by Ashutosh</div>
             </div>
         </footer>
     </div>
@@ -642,17 +652,33 @@
                 });
             }
         });
-        
+
         // Mobile Menu Toggle
         const mobileBtn = document.getElementById('mobile-menu-btn');
         const mobileNavLinks = document.getElementById('mobile-nav-links');
         if (mobileBtn && mobileNavLinks) {
+            const setMenuOpen = (open) => {
+                mobileNavLinks.classList.toggle('menu-open', open);
+                mobileBtn.classList.toggle('active', open);
+                mobileBtn.setAttribute('aria-expanded', String(open));
+                mobileBtn.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+            };
             mobileBtn.addEventListener('click', () => {
-                mobileNavLinks.classList.toggle('menu-open');
-                mobileBtn.classList.toggle('active');
+                setMenuOpen(mobileBtn.getAttribute('aria-expanded') !== 'true');
+            });
+            mobileNavLinks.addEventListener('click', (event) => {
+                if (event.target.closest('a')) setMenuOpen(false);
+            });
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && mobileBtn.getAttribute('aria-expanded') === 'true') {
+                    setMenuOpen(false);
+                    mobileBtn.focus();
+                }
             });
         }
     </script>
+    <script type="module" src="./home.js"></script>
+    <script type="module" src="./cursor-robot/main.js"></script>
 </body>
 
 </html>
