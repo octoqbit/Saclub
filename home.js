@@ -2,12 +2,16 @@ import { initializeHome } from './lib/public-content.js';
 import { configured, currentProfile } from './lib/supabase.js';
 await initializeHome();
 
-const joinButton = document.querySelector('#join-sac-btn');
-if (joinButton && configured) {
+const joinButtons = [...document.querySelectorAll('#join-sac-btn, #mobile-join-btn')];
+if (joinButtons.length && configured) {
     currentProfile().then((profile) => {
         if (!profile || profile.status !== 'approved') return;
-        joinButton.href = '/account';
-        joinButton.querySelector('span:nth-child(2)').textContent = 'ACCOUNT';
+        joinButtons.forEach((button) => {
+            button.href = '/account';
+            button.dataset.original = 'ACCOUNT';
+            const label = button.querySelector('span:nth-child(2)') || button;
+            label.textContent = 'ACCOUNT';
+        });
     }).catch((error) => console.error('Member account status could not be loaded:', error.message));
 }
 
