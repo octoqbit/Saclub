@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join SAC - Sensing and Automation Club</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@900&family=Bungee&family=Quantico:wght@700&family=Saira+Stencil+One&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <!-- Floating Corner Markers (Orange) -->
+        <div class="orange-marker tl-marker"></div>
+        <div class="orange-marker tr-marker"></div>
+        <div class="orange-marker bl-marker"></div>
+        <div class="orange-marker br-marker"></div>
+
+        <div class="grid-bg"></div>
+
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="nav-cell logo-cell">
+                <!-- X icon decoration on the far left -->
+                <div class="logo-x-box">
+                    <span class="cross-icon"></span>
+                </div>
+                <a href="index.html">
+                    <img src="logo.png" alt="SAC Logo" class="nav-logo">
+                </a>
+            </div>
+
+            <!-- 2x2 Dots Mobile Menu Toggle -->
+            <div class="nav-cell mobile-menu-cell" id="mobile-menu-btn">
+                <div class="dots-grid">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+
+            <nav class="nav-cell links-cell" id="mobile-nav-links">
+                <a href="index.html" class="nav-link"><span>Home</span></a>
+                <a href="about.html" class="nav-link"><span>About</span></a>
+                <a href="projects.html" class="nav-link"><span>Projects</span></a>
+                <a href="index.html" class="nav-link"><span>Events</span></a>
+            </nav>
+
+            <div class="nav-cell cta-cell">
+                <a href="join.html" class="btn-orange scramble-btn" data-original="JOIN SAC ↗">JOIN SAC ↗</a>
+            </div>
+        </header>
+
+        <!-- Main Join Form Area -->
+        <main class="join-main">
+            <div class="join-header-banner">
+                <div class="join-giant-text-container">
+                    <h1 class="join-giant-text">APPLY NOW</h1>
+                </div>
+                <div class="join-deco-right">
+                    <div class="deco-box">
+                        <div class="target-corner t-tl"></div>
+                        <div class="target-corner t-tr"></div>
+                        <div class="target-corner t-bl"></div>
+                        <div class="target-corner t-br"></div>
+                        <div class="deco-icon">⚡</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="join-content-grid">
+                <div class="join-left">
+                    <h3 class="s2-heading" style="justify-content: flex-start; padding: 0;"><span
+                            class="sq-bullet">■</span> Membership Details</h3>
+                    <div class="join-info-box">
+                        <p><strong>Status:</strong> Open</p>
+                        <p><strong>Deadline:</strong> Rolling</p>
+                        <p><strong>Requirements:</strong> Curiosity</p>
+                    </div>
+                    <div class="join-perks">
+                        <h4>What you get:</h4>
+                        <ul>
+                            <li><span class="sq-bullet">■</span> 24/7 Lab Access</li>
+                            <li><span class="sq-bullet">■</span> Hardware Funding</li>
+                            <li><span class="sq-bullet">■</span> Mentorship</li>
+                            <li><span class="sq-bullet">■</span> Tech Workshops</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="join-center">
+                    <form class="join-form" action="#" method="POST">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" id="firstName" name="firstName" required placeholder="ABC">
+                                <div class="input-corner i-tl"></div>
+                                <div class="input-corner i-tr"></div>
+                                <div class="input-corner i-bl"></div>
+                                <div class="input-corner i-br"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" id="lastName" name="lastName" required placeholder="XYZ">
+                                <div class="input-corner i-tl"></div>
+                                <div class="input-corner i-tr"></div>
+                                <div class="input-corner i-bl"></div>
+                                <div class="input-corner i-br"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required placeholder="your@gmail.com">
+                            <div class="input-corner i-tl"></div>
+                            <div class="input-corner i-tr"></div>
+                            <div class="input-corner i-bl"></div>
+                            <div class="input-corner i-br"></div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="department">Department</label>
+                                <select id="department" name="department" required>
+                                    <option value="" disabled selected>Select Department</option>
+                                    <option value="cs">Computer Science</option>
+                                    <option value="ee">Electrical Engineering</option>
+                                    <option value="ece">Electronics and Communication Engineering</option>
+                                    <option value="me">Mechanical Engineering</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <div class="input-corner i-tl"></div>
+                                <div class="input-corner i-tr"></div>
+                                <div class="input-corner i-bl"></div>
+                                <div class="input-corner i-br"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="year">Year of Study</label>
+                                <select id="year" name="year" required>
+                                    <option value="" disabled selected>Select Year</option>
+                                    <option value="1">1st Year</option>
+                                    <option value="2">2nd Year</option>
+                                    <option value="3">3rd Year</option>
+                                    <option value="4">4th Year</option>
+                                    <option value="5+">5th Year +</option>
+                                </select>
+                                <div class="input-corner i-tl"></div>
+                                <div class="input-corner i-tr"></div>
+                                <div class="input-corner i-bl"></div>
+                                <div class="input-corner i-br"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="padding-top: 1rem;">
+                            <label>Area of Interest</label>
+                            <div class="checkbox-group">
+                                <label class="custom-checkbox"><input type="checkbox" name="interest" value="robotics">
+                                    <span class="checkmark"></span> Robotics</label>
+                                <label class="custom-checkbox"><input type="checkbox" name="interest" value="ai"> <span
+                                        class="checkmark"></span> AI/ML</label>
+                                <label class="custom-checkbox"><input type="checkbox" name="interest" value="iot"> <span
+                                        class="checkmark"></span> IoT</label>
+                                <label class="custom-checkbox"><input type="checkbox" name="interest" value="hardware">
+                                    <span class="checkmark"></span> Hardware</label>
+                                <label class="custom-checkbox"><input type="checkbox" name="interest" value="software">
+                                    <span class="checkmark"></span> Software</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="padding-top: 1rem;">
+                            <label for="motivation">Why do you want to join SAC?</label>
+                            <textarea id="motivation" name="motivation" rows="4" required
+                                placeholder="Tell us about your passion for tech..."></textarea>
+                            <div class="input-corner i-tl"></div>
+                            <div class="input-corner i-tr"></div>
+                            <div class="input-corner i-bl"></div>
+                            <div class="input-corner i-br"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Choose your password</label>
+                            <input id="password" name="password" type="password" minlength="12" required autocomplete="new-password" placeholder="At least 12 characters">
+                            <p style="font-size:12px;line-height:1.6;margin-top:10px">Your email is your login ID. After admin approval, your member ID and full access appear in your account.</p>
+                        </div>
+                        <fieldset class="robot-avatar-options">
+                            <legend>Choose your robot avatar</legend>
+                            <div class="robot-avatar-choices">
+                                <label class="robot-avatar-choice" data-avatar="boy"><input type="radio" name="avatar" value="boy" required checked><img class="robot-avatar" src="./avatars/blue-robo.svg" alt="" width="96" height="96">Boy</label>
+                                <label class="robot-avatar-choice" data-avatar="girl"><input type="radio" name="avatar" value="girl" required><img class="robot-avatar" src="./avatars/pink-robo.svg" alt="" width="96" height="96">Girl</label>
+                            </div>
+                        </fieldset>
+                        <p style="margin:18px 0;font-size:13px">Already applied? <a href="/account">Sign in to your account ↗</a></p>
+                        <div class="form-submit">
+                            <button type="submit" class="btn-orange scramble-btn"
+                                data-original="SUBMIT APPLICATION">SUBMIT APPLICATION</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="footer-top">
+                <div class="footer-col"
+                    style="flex-direction: row; align-items: center; justify-content: flex-start; gap: 1.5rem; padding: 2rem;">
+                    <img src="logo.png" alt="SAC Logo" style="height: 125px; width: auto; object-fit: contain;">
+                    <div style="width: 1px; height: 90px; background-color: var(--border-color);"></div>
+                    <img src="college-logo.png" alt="Institute Logo"
+                        style="height: 120px; width: auto; object-fit: contain;">
+                </div>
+                <div class="footer-col">
+                    <div class="footer-heading">QUICK LINKS</div>
+                    <a href="index.html" class="footer-link">Home</a>
+                    <a href="join.html" class="footer-link">Apply Now</a>
+                    <a href="#" class="footer-link">Help Center</a>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-heading">LEGAL</div>
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Cookie Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                </div>
+                <div class="footer-col" style="gap: 1.2rem;">
+                    <a href="#" class="footer-social-link">TELEGRAM ↗</a>
+                    <a href="#" class="footer-social-link">X/TWITTER ↗</a>
+                    <a href="#" class="footer-social-link">LINKEDIN ↗</a>
+                    <a href="#" class="footer-social-link">MEDIUM ↗</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copy">© 2026</div>
+                <div class="footer-rights">ALL RIGHTS RESERVED BY SENSING AND AUTOMATION CLUB.</div>
+                <div class="footer-creator">Built and maintained by Ashutosh</div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Scramble button effect
+        const scrambleBtns = document.querySelectorAll('.scramble-btn');
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
+
+        scrambleBtns.forEach(btn => {
+            const originalText = btn.getAttribute('data-original');
+            let scrambleInterval = null;
+
+            btn.addEventListener('mouseenter', () => {
+                clearInterval(scrambleInterval);
+                let iteration = 0;
+                scrambleInterval = setInterval(() => {
+                    btn.innerText = originalText.split('').map((letter, index) => {
+                        if (letter === ' ') return letter;
+                        if (index < iteration) return originalText[index];
+                        return chars[Math.floor(Math.random() * chars.length)];
+                    }).join('');
+
+                    if (iteration >= originalText.length) {
+                        clearInterval(scrambleInterval);
+                        btn.innerText = originalText;
+                    }
+                    iteration += 1 / 2;
+                }, 30);
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                clearInterval(scrambleInterval);
+                btn.innerText = originalText;
+            });
+        });
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileNavLinks = document.getElementById('mobile-nav-links');
+        if (mobileBtn && mobileNavLinks) {
+            mobileBtn.addEventListener('click', () => {
+                mobileNavLinks.classList.toggle('menu-open');
+                mobileBtn.classList.toggle('active');
+            });
+        }
+    </script>
+    <script type="module" src="./join.js"></script>
+    <script type="module" src="./cursor-robot/main.js"></script>
+</body>
+
+</html>

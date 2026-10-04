@@ -1,0 +1,1233 @@
+[
+  {
+    "id": "home-001-0",
+    "selector": "[data-cms=\"home-001\"]",
+    "part": 0,
+    "group": "Home · Welcome",
+    "label": "SENSING & AUTOMATION CLUB",
+    "type": "text",
+    "default": "SENSING & AUTOMATION CLUB"
+  },
+  {
+    "id": "home-002-0",
+    "selector": "[data-cms=\"home-002\"]",
+    "part": 0,
+    "group": "Home · Welcome",
+    "label": "CURIOSITY: ALWAYS ON",
+    "type": "text",
+    "default": "CURIOSITY: ALWAYS ON"
+  },
+  {
+    "id": "home-003-0",
+    "selector": "[data-cms=\"home-003\"]",
+    "part": 0,
+    "group": "Home · Welcome",
+    "label": "INNOVATE BEYOND LIMITS",
+    "type": "text",
+    "default": "INNOVATE BEYOND LIMITS"
+  },
+  {
+    "id": "home-004-0",
+    "selector": "[data-cms=\"home-004\"]",
+    "part": 0,
+    "group": "Home · Welcome",
+    "label": "INNOVATE BEYOND LIMITS",
+    "type": "text",
+    "default": "INNOVATE BEYOND LIMITS"
+  },
+  {
+    "id": "home-005-0",
+    "selector": "[data-cms=\"home-005\"]",
+    "part": 0,
+    "group": "Home · Welcome",
+    "label": "INNOVATE BEYOND LIMITS",
+    "type": "text",
+    "default": "INNOVATE BEYOND LIMITS"
+  },
+  {
+    "id": "home-006-0",
+    "selector": "[data-cms=\"home-006\"]",
+    "part": 0,
+    "group": "Home · Welcome",
+    "label": "INNOVATE BEYOND LIMITS",
+    "type": "text",
+    "default": "INNOVATE BEYOND LIMITS"
+  },
+  {
+    "id": "home-007-0",
+    "selector": "[data-cms=\"home-007\"]",
+    "part": 0,
+    "group": "Home · Welcome",
+    "label": "[ CURIOUS MINDS. REAL-WORLD MAKERS. ]",
+    "type": "text",
+    "default": "[ CURIOUS MINDS. REAL-WORLD MAKERS. ]"
+  },
+  {
+    "id": "home-008-0",
+    "selector": "[data-cms=\"home-008\"]",
+    "part": 0,
+    "group": "Home · Welcome",
+    "label": "A student community turning",
+    "type": "text",
+    "default": "A student community turning"
+  },
+  {
+    "id": "home-008-1",
+    "selector": "[data-cms=\"home-008\"]",
+    "part": 1,
+    "group": "Home · Welcome",
+    "label": "curiosity into circuits, robots",
+    "type": "text",
+    "default": "curiosity into circuits, robots"
+  },
+  {
+    "id": "home-008-2",
+    "selector": "[data-cms=\"home-008\"]",
+    "part": 2,
+    "group": "Home · Welcome",
+    "label": "and intelligent systems.",
+    "type": "text",
+    "default": "and intelligent systems."
+  },
+  {
+    "id": "home-009-0",
+    "selector": "[data-cms=\"home-009\"]",
+    "part": 0,
+    "group": "Home · Welcome",
+    "label": "EXPLORE PROJECTS",
+    "type": "text",
+    "default": "EXPLORE PROJECTS"
+  },
+  {
+    "id": "home-010-0",
+    "selector": "[data-cms=\"home-010\"]",
+    "part": 0,
+    "group": "Home · Welcome",
+    "label": "JOIN CLUB",
+    "type": "text",
+    "default": "JOIN CLUB"
+  },
+  {
+    "id": "home-011-0",
+    "selector": "[data-cms=\"home-011\"]",
+    "part": 0,
+    "group": "Home · Welcome",
+    "label": "MEET THE CLUB",
+    "type": "text",
+    "default": "MEET THE CLUB"
+  },
+  {
+    "id": "home-012-0",
+    "selector": "[data-cms=\"home-012\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "01 / OUR PLAYGROUND",
+    "type": "text",
+    "default": "01 / OUR PLAYGROUND"
+  },
+  {
+    "id": "home-013-0",
+    "selector": "[data-cms=\"home-013\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "IDEAS → INPUT → ACTION",
+    "type": "text",
+    "default": "IDEAS → INPUT → ACTION"
+  },
+  {
+    "id": "home-014-0",
+    "selector": "[data-cms=\"home-014\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "BEYOND",
+    "type": "text",
+    "default": "BEYOND"
+  },
+  {
+    "id": "home-015-0",
+    "selector": "[data-cms=\"home-015\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "CIRCUITS",
+    "type": "text",
+    "default": "CIRCUITS"
+  },
+  {
+    "id": "home-016-0",
+    "selector": "[data-cms=\"home-016\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "FIND YOUR SPARK",
+    "type": "text",
+    "default": "FIND YOUR SPARK"
+  },
+  {
+    "id": "home-017-0",
+    "selector": "[data-cms=\"home-017\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "SUPERCHARGING",
+    "type": "text",
+    "default": "SUPERCHARGING"
+  },
+  {
+    "id": "home-018-0",
+    "selector": "[data-cms=\"home-018\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "TECH BUILDERS.",
+    "type": "text",
+    "default": "TECH BUILDERS."
+  },
+  {
+    "id": "home-019-0",
+    "selector": "[data-cms=\"home-019\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "Four ways to turn “what if” into “it works”.",
+    "type": "text",
+    "default": "Four ways to turn “what if” into “it works”."
+  },
+  {
+    "id": "home-020-0",
+    "selector": "[data-cms=\"home-020\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "Robotics",
+    "type": "text",
+    "default": "Robotics"
+  },
+  {
+    "id": "home-021-0",
+    "selector": "[data-cms=\"home-021\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "Give your ideas a little motion.",
+    "type": "text",
+    "default": "Give your ideas a little motion."
+  },
+  {
+    "id": "home-022-0",
+    "selector": "[data-cms=\"home-022\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "AI Systems",
+    "type": "text",
+    "default": "AI Systems"
+  },
+  {
+    "id": "home-023-0",
+    "selector": "[data-cms=\"home-023\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "Turn data into decisions.",
+    "type": "text",
+    "default": "Turn data into decisions."
+  },
+  {
+    "id": "home-024-0",
+    "selector": "[data-cms=\"home-024\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "IoT Networks",
+    "type": "text",
+    "default": "IoT Networks"
+  },
+  {
+    "id": "home-025-0",
+    "selector": "[data-cms=\"home-025\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "Connect the physical and digital.",
+    "type": "text",
+    "default": "Connect the physical and digital."
+  },
+  {
+    "id": "home-026-0",
+    "selector": "[data-cms=\"home-026\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "Automation",
+    "type": "text",
+    "default": "Automation"
+  },
+  {
+    "id": "home-027-0",
+    "selector": "[data-cms=\"home-027\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "Make everyday things work smarter.",
+    "type": "text",
+    "default": "Make everyday things work smarter."
+  },
+  {
+    "id": "home-028-0",
+    "selector": "[data-cms=\"home-028\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "EXPLORE OUR PLAYGROUND",
+    "type": "text",
+    "default": "EXPLORE OUR PLAYGROUND"
+  },
+  {
+    "id": "home-029-0",
+    "selector": "[data-cms=\"home-029\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "What’s Happening",
+    "type": "text",
+    "default": "What’s Happening"
+  },
+  {
+    "id": "home-030-0",
+    "selector": "[data-cms=\"home-030\"]",
+    "part": 0,
+    "group": "Home · Beyond Circuits",
+    "label": "Events for curious minds",
+    "type": "text",
+    "default": "Events for curious minds"
+  },
+  {
+    "id": "home-031-0",
+    "selector": "[data-cms=\"home-031\"]",
+    "part": 0,
+    "group": "Home · Experience",
+    "label": "02 / LEARN BY MAKING",
+    "type": "text",
+    "default": "02 / LEARN BY MAKING"
+  },
+  {
+    "id": "home-032-0",
+    "selector": "[data-cms=\"home-032\"]",
+    "part": 0,
+    "group": "Home · Experience",
+    "label": "PROGRESS > PERFECTION",
+    "type": "text",
+    "default": "PROGRESS > PERFECTION"
+  },
+  {
+    "id": "home-033-0",
+    "selector": "[data-cms=\"home-033\"]",
+    "part": 0,
+    "group": "Home · Experience",
+    "label": "EXPERIENCE",
+    "type": "text",
+    "default": "EXPERIENCE"
+  },
+  {
+    "id": "home-034-0",
+    "selector": "[data-cms=\"home-034\"]",
+    "part": 0,
+    "group": "Home · Experience",
+    "label": "Learn. Build. Take part.",
+    "type": "text",
+    "default": "Learn. Build. Take part."
+  },
+  {
+    "id": "home-035-0",
+    "selector": "[data-cms=\"home-035\"]",
+    "part": 0,
+    "group": "Home · Experience",
+    "label": "Meet your next challenge",
+    "type": "text",
+    "default": "Meet your next challenge"
+  },
+  {
+    "id": "home-036-0",
+    "selector": "[data-cms=\"home-036\"]",
+    "part": 0,
+    "group": "Home · Experience",
+    "label": "FIG. 02 / CURIOSITY, ASSEMBLED",
+    "type": "text",
+    "default": "FIG. 02 / CURIOSITY, ASSEMBLED"
+  },
+  {
+    "id": "home-037-0",
+    "selector": "[data-cms=\"home-037\"]",
+    "part": 0,
+    "group": "Home · Experience",
+    "label": "Unique Approach",
+    "type": "text",
+    "default": "Unique Approach"
+  },
+  {
+    "id": "home-038-0",
+    "selector": "[data-cms=\"home-038\"]",
+    "part": 0,
+    "group": "Home · Experience",
+    "label": "Beyond Components",
+    "type": "text",
+    "default": "Beyond Components"
+  },
+  {
+    "id": "home-039-0",
+    "selector": "[data-cms=\"home-039\"]",
+    "part": 0,
+    "group": "Home · Experience",
+    "label": "We do the impossible. In robotics, it takes an entire ecosystem to transform ide",
+    "type": "text",
+    "default": "We do the impossible. In robotics, it takes an entire ecosystem to transform ideas into industry leaders. With strategic hardware funding, software support, and top-tier tech partnerships - we set you up for unparalleled growth."
+  },
+  {
+    "id": "home-040-0",
+    "selector": "[data-cms=\"home-040\"]",
+    "part": 0,
+    "group": "Home · Projects",
+    "label": "03 / ON THE WORKBENCH",
+    "type": "text",
+    "default": "03 / ON THE WORKBENCH"
+  },
+  {
+    "id": "home-041-0",
+    "selector": "[data-cms=\"home-041\"]",
+    "part": 0,
+    "group": "Home · Projects",
+    "label": "SMALL IDEAS. REAL POSSIBILITIES.",
+    "type": "text",
+    "default": "SMALL IDEAS. REAL POSSIBILITIES."
+  },
+  {
+    "id": "home-042-0",
+    "selector": "[data-cms=\"home-042\"]",
+    "part": 0,
+    "group": "Home · Projects",
+    "label": "Our Incubations",
+    "type": "text",
+    "default": "Our Incubations"
+  },
+  {
+    "id": "home-043-0",
+    "selector": "[data-cms=\"home-043\"]",
+    "part": 0,
+    "group": "Home · Projects",
+    "label": "PORTFOLIO",
+    "type": "text",
+    "default": "PORTFOLIO"
+  },
+  {
+    "id": "home-044-0",
+    "selector": "[data-cms=\"home-044\"]",
+    "part": 0,
+    "group": "Home · Projects",
+    "label": "THINK IT.",
+    "type": "text",
+    "default": "THINK IT."
+  },
+  {
+    "id": "home-044-1",
+    "selector": "[data-cms=\"home-044\"]",
+    "part": 1,
+    "group": "Home · Projects",
+    "label": "BUILD IT.",
+    "type": "text",
+    "default": "BUILD IT."
+  },
+  {
+    "id": "home-044-2",
+    "selector": "[data-cms=\"home-044\"]",
+    "part": 2,
+    "group": "Home · Projects",
+    "label": "MAKE IT BETTER.",
+    "type": "text",
+    "default": "MAKE IT BETTER."
+  },
+  {
+    "id": "home-045-0",
+    "selector": "[data-cms=\"home-045\"]",
+    "part": 0,
+    "group": "Home · Projects",
+    "label": "All Projects",
+    "type": "text",
+    "default": "All Projects"
+  },
+  {
+    "id": "home-047-0",
+    "selector": "[data-cms=\"home-047\"]",
+    "part": 0,
+    "group": "Home · FAQ",
+    "label": "04 / GOOD QUESTIONS",
+    "type": "text",
+    "default": "04 / GOOD QUESTIONS"
+  },
+  {
+    "id": "home-048-0",
+    "selector": "[data-cms=\"home-048\"]",
+    "part": 0,
+    "group": "Home · FAQ",
+    "label": "BEGINNERS INCLUDED.",
+    "type": "text",
+    "default": "BEGINNERS INCLUDED."
+  },
+  {
+    "id": "home-049-0",
+    "selector": "[data-cms=\"home-049\"]",
+    "part": 0,
+    "group": "Home · FAQ",
+    "label": "FAQ",
+    "type": "text",
+    "default": "FAQ"
+  },
+  {
+    "id": "home-050-0",
+    "selector": "[data-cms=\"home-050\"]",
+    "part": 0,
+    "group": "Home · FAQ",
+    "label": "Most Common Questions",
+    "type": "text",
+    "default": "Most Common Questions"
+  },
+  {
+    "id": "home-051-0",
+    "selector": "[data-cms=\"home-051\"]",
+    "part": 0,
+    "group": "Home · FAQ",
+    "label": "No worries, here you can find all the answers",
+    "type": "text",
+    "default": "No worries, here you can find all the answers"
+  },
+  {
+    "id": "home-052-0",
+    "selector": "[data-cms=\"home-052\"]",
+    "part": 0,
+    "group": "Home · FAQ",
+    "label": "Who can join the Sensing and Automation Club (SAC)?",
+    "type": "text",
+    "default": "Who can join the Sensing and Automation Club (SAC)?"
+  },
+  {
+    "id": "home-053-0",
+    "selector": "[data-cms=\"home-053\"]",
+    "part": 0,
+    "group": "Home · FAQ",
+    "label": "Any student with a passion for robotics, AI, or building hardware can join SAC! ",
+    "type": "text",
+    "default": "Any student with a passion for robotics, AI, or building hardware can join SAC! We welcome all skill levels, from beginners looking to learn, to advanced developers ready to lead a project."
+  },
+  {
+    "id": "home-054-0",
+    "selector": "[data-cms=\"home-054\"]",
+    "part": 0,
+    "group": "Home · FAQ",
+    "label": "Do I need prior experience in robotics or AI?",
+    "type": "text",
+    "default": "Do I need prior experience in robotics or AI?"
+  },
+  {
+    "id": "home-055-0",
+    "selector": "[data-cms=\"home-055\"]",
+    "part": 0,
+    "group": "Home · FAQ",
+    "label": "Not at all. SAC provides mentorship, workshops, and team-based learning. As long",
+    "type": "text",
+    "default": "Not at all. SAC provides mentorship, workshops, and team-based learning. As long as you have the curiosity and dedication to learn, you will quickly pick up the skills you need."
+  },
+  {
+    "id": "home-056-0",
+    "selector": "[data-cms=\"home-056\"]",
+    "part": 0,
+    "group": "Home · FAQ",
+    "label": "What kind of projects does the club build?",
+    "type": "text",
+    "default": "What kind of projects does the club build?"
+  },
+  {
+    "id": "home-057-0",
+    "selector": "[data-cms=\"home-057\"]",
+    "part": 0,
+    "group": "Home · FAQ",
+    "label": "We build everything from autonomous drones and IoT smart-home devices to compute",
+    "type": "text",
+    "default": "We build everything from autonomous drones and IoT smart-home devices to computer vision systems and advanced robotics. Our portfolio is shaped by the ideas our members bring to the table."
+  },
+  {
+    "id": "home-058-0",
+    "selector": "[data-cms=\"home-058\"]",
+    "part": 0,
+    "group": "Home · FAQ",
+    "label": "How do I pitch my own project idea?",
+    "type": "text",
+    "default": "How do I pitch my own project idea?"
+  },
+  {
+    "id": "home-059-0",
+    "selector": "[data-cms=\"home-059\"]",
+    "part": 0,
+    "group": "Home · FAQ",
+    "label": "Once you become a member, you can submit a project proposal during our bi-weekly",
+    "type": "text",
+    "default": "Once you become a member, you can submit a project proposal during our bi-weekly incubation sessions. If approved, the club provides funding, lab space, and team support to help you build it."
+  },
+  {
+    "id": "home-060-0",
+    "selector": "[data-cms=\"home-060\"]",
+    "part": 0,
+    "group": "Home · FAQ",
+    "label": "When and where do we meet?",
+    "type": "text",
+    "default": "When and where do we meet?"
+  },
+  {
+    "id": "home-061-0",
+    "selector": "[data-cms=\"home-061\"]",
+    "part": 0,
+    "group": "Home · FAQ",
+    "label": "We will let you know according to the need !",
+    "type": "text",
+    "default": "We will let you know according to the need !"
+  },
+  {
+    "id": "projects-001-0",
+    "selector": "[data-cms=\"projects-001\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "SAC / PROJECT LAB",
+    "type": "text",
+    "default": "SAC / PROJECT LAB"
+  },
+  {
+    "id": "projects-002-0",
+    "selector": "[data-cms=\"projects-002\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "IMAGINATION → ITERATION",
+    "type": "text",
+    "default": "IMAGINATION → ITERATION"
+  },
+  {
+    "id": "projects-003-0",
+    "selector": "[data-cms=\"projects-003\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "A LITTLE UNREASONABLE. A LOT OF POSSIBILITY.",
+    "type": "text",
+    "default": "A LITTLE UNREASONABLE. A LOT OF POSSIBILITY."
+  },
+  {
+    "id": "projects-004-0",
+    "selector": "[data-cms=\"projects-004\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "IDEAS",
+    "type": "text",
+    "default": "IDEAS"
+  },
+  {
+    "id": "projects-004-1",
+    "selector": "[data-cms=\"projects-004\"]",
+    "part": 1,
+    "group": "Projects · Page",
+    "label": "OFF THE",
+    "type": "text",
+    "default": "OFF THE"
+  },
+  {
+    "id": "projects-005-0",
+    "selector": "[data-cms=\"projects-005\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "LEASH.",
+    "type": "text",
+    "default": "LEASH."
+  },
+  {
+    "id": "projects-006-0",
+    "selector": "[data-cms=\"projects-006\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "Code meets matter.",
+    "type": "text",
+    "default": "Code meets matter."
+  },
+  {
+    "id": "projects-006-1",
+    "selector": "[data-cms=\"projects-006\"]",
+    "part": 1,
+    "group": "Projects · Page",
+    "label": "Curiosity makes a beautiful mess.",
+    "type": "text",
+    "default": "Curiosity makes a beautiful mess."
+  },
+  {
+    "id": "projects-007-0",
+    "selector": "[data-cms=\"projects-007\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "ENTER THE LAB",
+    "type": "text",
+    "default": "ENTER THE LAB"
+  },
+  {
+    "id": "projects-008-0",
+    "selector": "[data-cms=\"projects-008\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "ASSEMBLY / 001",
+    "type": "text",
+    "default": "ASSEMBLY / 001"
+  },
+  {
+    "id": "projects-009-0",
+    "selector": "[data-cms=\"projects-009\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "CONCEPT RENDER",
+    "type": "text",
+    "default": "CONCEPT RENDER"
+  },
+  {
+    "id": "projects-010-0",
+    "selector": "[data-cms=\"projects-010\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "WITH A",
+    "type": "text",
+    "default": "WITH A"
+  },
+  {
+    "id": "projects-010-1",
+    "selector": "[data-cms=\"projects-010\"]",
+    "part": 1,
+    "group": "Projects · Page",
+    "label": "WHAT IF.",
+    "type": "text",
+    "default": "WHAT IF."
+  },
+  {
+    "id": "projects-011-0",
+    "selector": "[data-cms=\"projects-011\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "SCROLL TO BREAK THE ORDINARY",
+    "type": "text",
+    "default": "SCROLL TO BREAK THE ORDINARY"
+  },
+  {
+    "id": "projects-012-0",
+    "selector": "[data-cms=\"projects-012\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "ROBOTICS / AI / CONNECTED SYSTEMS",
+    "type": "text",
+    "default": "ROBOTICS / AI / CONNECTED SYSTEMS"
+  },
+  {
+    "id": "projects-013-0",
+    "selector": "[data-cms=\"projects-013\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "01 / THE CONCEPT COLLECTION",
+    "type": "text",
+    "default": "01 / THE CONCEPT COLLECTION"
+  },
+  {
+    "id": "projects-014-0",
+    "selector": "[data-cms=\"projects-014\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "SELECT. INSPECT. IMAGINE.",
+    "type": "text",
+    "default": "SELECT. INSPECT. IMAGINE."
+  },
+  {
+    "id": "projects-015-0",
+    "selector": "[data-cms=\"projects-015\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "BIG WHAT IFS.",
+    "type": "text",
+    "default": "BIG WHAT IFS."
+  },
+  {
+    "id": "projects-016-0",
+    "selector": "[data-cms=\"projects-016\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "SMALL FIRST STEPS.",
+    "type": "text",
+    "default": "SMALL FIRST STEPS."
+  },
+  {
+    "id": "projects-017-0",
+    "selector": "[data-cms=\"projects-017\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "Four starting points for things we could build. These are concept studies, ready",
+    "type": "text",
+    "default": "Four starting points for things we could build. These are concept studies, ready for a curious team to take further."
+  },
+  {
+    "id": "projects-018-0",
+    "selector": "[data-cms=\"projects-018\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "02 / NO MAGIC. JUST ITERATION.",
+    "type": "text",
+    "default": "02 / NO MAGIC. JUST ITERATION."
+  },
+  {
+    "id": "projects-019-0",
+    "selector": "[data-cms=\"projects-019\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "REPEAT UNTIL IT WORKS ↺",
+    "type": "text",
+    "default": "REPEAT UNTIL IT WORKS ↺"
+  },
+  {
+    "id": "projects-020-0",
+    "selector": "[data-cms=\"projects-020\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "THE MESS",
+    "type": "text",
+    "default": "THE MESS"
+  },
+  {
+    "id": "projects-020-1",
+    "selector": "[data-cms=\"projects-020\"]",
+    "part": 1,
+    "group": "Projects · Page",
+    "label": "IS",
+    "type": "text",
+    "default": "IS"
+  },
+  {
+    "id": "projects-021-0",
+    "selector": "[data-cms=\"projects-021\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "THE METHOD.",
+    "type": "text",
+    "default": "THE METHOD."
+  },
+  {
+    "id": "projects-022-0",
+    "selector": "[data-cms=\"projects-022\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "01",
+    "type": "text",
+    "default": "01"
+  },
+  {
+    "id": "projects-023-0",
+    "selector": "[data-cms=\"projects-023\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "Question it.",
+    "type": "text",
+    "default": "Question it."
+  },
+  {
+    "id": "projects-024-0",
+    "selector": "[data-cms=\"projects-024\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "Find a small problem worth getting obsessed with.",
+    "type": "text",
+    "default": "Find a small problem worth getting obsessed with."
+  },
+  {
+    "id": "projects-025-0",
+    "selector": "[data-cms=\"projects-025\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "02",
+    "type": "text",
+    "default": "02"
+  },
+  {
+    "id": "projects-026-0",
+    "selector": "[data-cms=\"projects-026\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "Make it real.",
+    "type": "text",
+    "default": "Make it real."
+  },
+  {
+    "id": "projects-027-0",
+    "selector": "[data-cms=\"projects-027\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "Wire it, code it, and see what the first version teaches you.",
+    "type": "text",
+    "default": "Wire it, code it, and see what the first version teaches you."
+  },
+  {
+    "id": "projects-028-0",
+    "selector": "[data-cms=\"projects-028\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "03",
+    "type": "text",
+    "default": "03"
+  },
+  {
+    "id": "projects-029-0",
+    "selector": "[data-cms=\"projects-029\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "Go again.",
+    "type": "text",
+    "default": "Go again."
+  },
+  {
+    "id": "projects-030-0",
+    "selector": "[data-cms=\"projects-030\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "Keep the good parts. Fix the strange parts. Share the process.",
+    "type": "text",
+    "default": "Keep the good parts. Fix the strange parts. Share the process."
+  },
+  {
+    "id": "projects-031-0",
+    "selector": "[data-cms=\"projects-031\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "YOUR IDEA COULD BE NEXT.",
+    "type": "text",
+    "default": "YOUR IDEA COULD BE NEXT."
+  },
+  {
+    "id": "projects-032-0",
+    "selector": "[data-cms=\"projects-032\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "LET’S MAKE",
+    "type": "text",
+    "default": "LET’S MAKE"
+  },
+  {
+    "id": "projects-033-0",
+    "selector": "[data-cms=\"projects-033\"]",
+    "part": 0,
+    "group": "Projects · Page",
+    "label": "A LITTLE TROUBLE.",
+    "type": "text",
+    "default": "A LITTLE TROUBLE."
+  },
+  {
+    "id": "events-001",
+    "group": "Events · Page",
+    "label": "SAC / LIVE TRANSMISSIONS & ARCHIVES",
+    "type": "text",
+    "default": "SAC / LIVE TRANSMISSIONS & ARCHIVES"
+  },
+  {
+    "id": "events-002",
+    "group": "Events · Page",
+    "label": "LESS SPECTATING. MORE PARTICIPATING.",
+    "type": "text",
+    "default": "LESS SPECTATING. MORE PARTICIPATING."
+  },
+  {
+    "id": "events-003",
+    "group": "Events · Page",
+    "label": "MAKE SOME",
+    "type": "text",
+    "default": "MAKE SOME"
+  },
+  {
+    "id": "events-004",
+    "group": "Events · Page",
+    "label": "NOISE.",
+    "type": "text",
+    "default": "NOISE."
+  },
+  {
+    "id": "events-005",
+    "group": "Events · Page",
+    "label": "YOUR NEXT GOOD STORY STARTS HERE.",
+    "type": "text",
+    "default": "YOUR NEXT GOOD STORY STARTS HERE."
+  },
+  {
+    "id": "events-006",
+    "group": "Events · Page",
+    "label": "EVENTS THAT",
+    "type": "text",
+    "default": "EVENTS THAT"
+  },
+  {
+    "id": "events-007",
+    "group": "Events · Page",
+    "label": "HIT",
+    "type": "text",
+    "default": "HIT "
+  },
+  {
+    "id": "events-008",
+    "group": "Events · Page",
+    "label": "DIFFERENT.",
+    "type": "text",
+    "default": "DIFFERENT."
+  },
+  {
+    "id": "events-009",
+    "group": "Events · Page",
+    "label": "Hack it. Build it. Battle it out.",
+    "type": "text",
+    "default": "Hack it. Build it. Battle it out."
+  },
+  {
+    "id": "events-010",
+    "group": "Events · Page",
+    "label": "Bring your people. Leave with a story.",
+    "type": "text",
+    "default": "Bring your people. Leave with a story."
+  },
+  {
+    "id": "events-011",
+    "group": "Events · Page",
+    "label": "FIND YOUR NEXT THING",
+    "type": "text",
+    "default": "FIND YOUR NEXT THING "
+  },
+  {
+    "id": "events-012",
+    "group": "Events · Page",
+    "label": "CURIOSITY / AT FULL VOLUME",
+    "type": "text",
+    "default": "CURIOSITY / AT FULL VOLUME"
+  },
+  {
+    "id": "events-013",
+    "group": "Events · Page",
+    "label": "SIGNAL: STRONG",
+    "type": "text",
+    "default": "SIGNAL: STRONG "
+  },
+  {
+    "id": "events-014",
+    "group": "Events · Page",
+    "label": "ENERGY: UNREASONABLE",
+    "type": "text",
+    "default": " ENERGY: UNREASONABLE"
+  },
+  {
+    "id": "events-015",
+    "group": "Events · Page",
+    "label": "GOOD IDEAS. LOUD ENERGY.",
+    "type": "text",
+    "default": "GOOD IDEAS. LOUD ENERGY. "
+  },
+  {
+    "id": "events-016",
+    "group": "Events · Page",
+    "label": "BUILD SOMETHING WORTH TALKING ABOUT.",
+    "type": "text",
+    "default": " BUILD SOMETHING WORTH TALKING ABOUT. "
+  },
+  {
+    "id": "events-017",
+    "group": "Events · Page",
+    "label": "01 / PICK YOUR FREQUENCY",
+    "type": "text",
+    "default": "01 / PICK YOUR FREQUENCY"
+  },
+  {
+    "id": "events-018",
+    "group": "Events · Page",
+    "label": "THE EVENT",
+    "type": "text",
+    "default": "THE EVENT"
+  },
+  {
+    "id": "events-019",
+    "group": "Events · Page",
+    "label": "PLAYGROUND.",
+    "type": "text",
+    "default": "PLAYGROUND."
+  },
+  {
+    "id": "events-020",
+    "group": "Events · Page",
+    "label": "TRANSMISSIONS",
+    "type": "text",
+    "default": " TRANSMISSIONS"
+  },
+  {
+    "id": "events-021",
+    "group": "Events · Page",
+    "label": "UPCOMING / LIVE",
+    "type": "text",
+    "default": " UPCOMING / LIVE"
+  },
+  {
+    "id": "events-022",
+    "group": "Events · Page",
+    "label": "Different ways to get a little",
+    "type": "text",
+    "default": "Different ways to get a little"
+  },
+  {
+    "id": "events-023",
+    "group": "Events · Page",
+    "label": "out of your comfort zone.",
+    "type": "text",
+    "default": "out of your comfort zone."
+  },
+  {
+    "id": "events-024",
+    "group": "Events · Page",
+    "label": "Search events by name, topic, or venue",
+    "type": "text",
+    "default": "Search events by name, topic, or venue"
+  },
+  {
+    "id": "events-025",
+    "group": "Events · Page",
+    "label": "NO SIGNAL. YET.",
+    "type": "text",
+    "default": "NO SIGNAL. YET."
+  },
+  {
+    "id": "events-026",
+    "group": "Events · Page",
+    "label": "Try another name, topic, or event filter.",
+    "type": "text",
+    "default": "Try another name, topic, or event filter."
+  },
+  {
+    "id": "events-027",
+    "group": "Events · Page",
+    "label": "RESET THE FREQUENCY",
+    "type": "text",
+    "default": "RESET THE FREQUENCY "
+  },
+  {
+    "id": "events-028",
+    "group": "Events · Page",
+    "label": "Promotional and concept artwork. Event details are shown as listed.",
+    "type": "text",
+    "default": "Promotional and concept artwork. Event details are shown as listed."
+  },
+  {
+    "id": "events-029",
+    "group": "Events · Page",
+    "label": "02 / YOUR ONLY ASSIGNMENT",
+    "type": "text",
+    "default": "02 / YOUR ONLY ASSIGNMENT"
+  },
+  {
+    "id": "events-030",
+    "group": "Events · Page",
+    "label": "SHOW UP.",
+    "type": "text",
+    "default": "SHOW UP."
+  },
+  {
+    "id": "events-031",
+    "group": "Events · Page",
+    "label": "GEEK OUT.",
+    "type": "text",
+    "default": "GEEK OUT."
+  },
+  {
+    "id": "events-032",
+    "group": "Events · Page",
+    "label": "You don’t have to know everything.",
+    "type": "text",
+    "default": "You don’t have to know everything."
+  },
+  {
+    "id": "events-033",
+    "group": "Events · Page",
+    "label": "You just have to be curious about something.",
+    "type": "text",
+    "default": "You just have to be curious about something."
+  },
+  {
+    "id": "events-034",
+    "group": "Events · Page",
+    "label": "Pick your rabbit hole.",
+    "type": "text",
+    "default": "Pick your rabbit hole."
+  },
+  {
+    "id": "events-035",
+    "group": "Events · Page",
+    "label": "Code, circuits, or a robot with an attitude. Follow the thing that pulls you in.",
+    "type": "text",
+    "default": "Code, circuits, or a robot with an attitude. Follow the thing that pulls you in."
+  },
+  {
+    "id": "events-036",
+    "group": "Events · Page",
+    "label": "Find your accomplices.",
+    "type": "text",
+    "default": "Find your accomplices."
+  },
+  {
+    "id": "events-037",
+    "group": "Events · Page",
+    "label": "Bring a friend, or meet someone who asks the same strange questions.",
+    "type": "text",
+    "default": "Bring a friend, or meet someone who asks the same strange questions."
+  },
+  {
+    "id": "events-038",
+    "group": "Events · Page",
+    "label": "Make a little noise.",
+    "type": "text",
+    "default": "Make a little noise."
+  },
+  {
+    "id": "events-039",
+    "group": "Events · Page",
+    "label": "Try something. Share the messy version. Give someone else an idea.",
+    "type": "text",
+    "default": "Try something. Share the messy version. Give someone else an idea."
+  },
+  {
+    "id": "events-040",
+    "group": "Events · Page",
+    "label": "THE BEST PART IS WHO YOU MEET.",
+    "type": "text",
+    "default": "THE BEST PART IS WHO YOU MEET."
+  },
+  {
+    "id": "events-041",
+    "group": "Events · Page",
+    "label": "COME FOR THE TECH.",
+    "type": "text",
+    "default": "COME FOR THE TECH."
+  },
+  {
+    "id": "events-042",
+    "group": "Events · Page",
+    "label": "STAY FOR THE PEOPLE.",
+    "type": "text",
+    "default": "STAY FOR THE PEOPLE."
+  },
+  {
+    "id": "events-043",
+    "group": "Events · Page",
+    "label": "SAC / SENSING & AUTOMATION CLUB",
+    "type": "text",
+    "default": "SAC / SENSING & AUTOMATION CLUB"
+  },
+  {
+    "id": "events-044",
+    "group": "Events · Page",
+    "label": "PROJECTS ↗",
+    "type": "text",
+    "default": "PROJECTS ↗"
+  },
+  {
+    "id": "events-045",
+    "group": "Events · Page",
+    "label": "THE CREW ↗",
+    "type": "text",
+    "default": "THE CREW ↗"
+  },
+  {
+    "id": "events-046",
+    "group": "Events · Page",
+    "label": "© 2026 SAC",
+    "type": "text",
+    "default": "© 2026 SAC"
+  }
+]
