@@ -8,6 +8,7 @@ const root = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   build: {
+    chunkSizeWarningLimit: 1000,
     rolldownOptions: {
       input: {
         admin: resolve(root, 'admin.html'),
