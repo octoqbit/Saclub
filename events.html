@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - SAC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@900&family=Bungee&family=Quantico:wght@700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="events.css">
+    <meta name="description" content="Hackathons, robot battles, and tech summits at SAC. Find your next event, explore the archive, and save event dates.">
+    <meta name="theme-color" content="#07090c">
+</head>
+
+<body class="events-page">
+    <a href="#events-root" class="ev-skip">Skip to events</a>
+    <div class="page-wrapper">
+        <!-- Floating Corner Markers -->
+        <div class="orange-marker tl-marker"></div>
+        <div class="orange-marker tr-marker"></div>
+        <div class="orange-marker bl-marker"></div>
+        <div class="orange-marker br-marker"></div>
+
+        <div class="grid-bg"></div>
+
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="nav-cell logo-cell">
+                <div class="logo-x-box">
+                    <span class="cross-icon"></span>
+                </div>
+                <a href="index.html">
+                    <img src="logo.png" alt="SAC Logo" class="nav-logo">
+                </a>
+            </div>
+
+            <button class="nav-cell mobile-menu-cell" id="mobile-menu-btn" type="button" aria-expanded="false" aria-controls="mobile-nav-links" aria-label="Open navigation">
+                <span class="dots-grid" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span>
+                </span>
+            </button>
+
+            <nav class="nav-cell links-cell" id="mobile-nav-links" aria-label="Main navigation">
+                <a href="about.html" class="nav-link"><span>About</span></a>
+                <a href="projects.html" class="nav-link"><span>Projects</span></a>
+                <a href="events.html" class="nav-link active" aria-current="page"><span>Events</span></a>
+                <a href="team.html" class="nav-link"><span>Team</span></a>
+            </nav>
+
+            <div class="nav-cell cta-cell">
+                <a href="join.html" class="btn-orange">JOIN SAC ↗</a>
+            </div>
+        </header>
+
+        <main id="events-root"></main>
+    </div>
+    <script type="module" src="./events.jsx"></script>
+</body>
+</html>

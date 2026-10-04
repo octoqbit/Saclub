@@ -2,6 +2,7 @@ import { cpSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 const root = dirname(fileURLToPath(import.meta.url));
 
@@ -11,10 +12,16 @@ export default defineConfig({
       input: {
         main: resolve(root, 'index.html'),
         join: resolve(root, 'join.html'),
+        about: resolve(root, 'about.html'),
+        events: resolve(root, 'events.html'),
+        projects: resolve(root, 'projects.html'),
+        team: resolve(root, 'team.html'),
       },
     },
   },
-  plugins: [{
+  plugins: [
+    react(),
+    {
     name: 'include-robot-player',
     apply: 'build',
     writeBundle(outputOptions) {

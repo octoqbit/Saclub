@@ -1,0 +1,48 @@
+.cursor-robo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 144px;
+    height: 144px;
+    z-index: 90;
+    pointer-events: none;
+    user-select: none;
+    contain: strict;
+    will-change: transform;
+}
+
+.cursor-robo canvas { display: block; width: 100%; height: 100%; }
+.cursor-robo[hidden], .cursor-robo-toggle[hidden] { display: none; }
+
+.cursor-robo-toggle {
+    position: fixed;
+    bottom: 12px;
+    right: 12px;
+    z-index: 101;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 36px;
+    padding: 8px 12px;
+    border: 1px solid #8c9ca8;
+    border-radius: 6px;
+    background: #f8f9fa;
+    color: #111;
+    font: 700 10px 'Space Mono', monospace;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #11111112;
+}
+
+.cursor-robo-toggle::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ff981f;
+}
+.cursor-robo-toggle[aria-pressed="false"]::before { background: #8c9ca8; }
+.cursor-robo-toggle:focus-visible { outline: 2px solid #ff6a13; outline-offset: 3px; }
+
+@media (max-width: 900px), (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+    .cursor-robo, .cursor-robo-toggle { display: none !important; }
+}
