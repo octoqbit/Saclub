@@ -1,3 +1,6 @@
+import { initializeMemberCta } from './lib/member-cta.js';
+initializeMemberCta();
+
 const menuButton = document.getElementById('mobile-menu-btn');
 const menu = document.getElementById('mobile-nav-links');
 const mobile = matchMedia('(max-width: 900px)');

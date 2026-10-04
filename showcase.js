@@ -1,5 +1,7 @@
 import { initializeProjects } from './lib/public-content.js';
 import { supabase, checked, requireMember } from './lib/supabase.js';
+import { initializeMemberCta } from './lib/member-cta.js';
+initializeMemberCta();
 const projectItems = await initializeProjects();
 const body = document.body;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');

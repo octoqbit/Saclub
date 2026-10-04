@@ -5,6 +5,8 @@ import { ArrowUpRight, ArrowDown, Calendar, MapPin, Search, Radio, Zap, Cpu, Mov
 import { localDay, eventStatus, filterEvents, nextEvent, daysUntil, calendarFile } from './events-data.mjs';
 import { loadContent, asEvent, imageURL } from './lib/content.js';
 import { supabase, checked, requireMember } from './lib/supabase.js';
+import { initializeMemberCta } from './lib/member-cta.js';
+initializeMemberCta();
 import { loadSiteValues } from './lib/site-content.js';
 import bannerImage from './about-assets/banner_notext.jpg';
 
