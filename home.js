@@ -1,5 +1,16 @@
 import { initializeHome } from './lib/public-content.js';
+import { configured, currentProfile } from './lib/supabase.js';
 await initializeHome();
+
+const joinButton = document.querySelector('#join-sac-btn');
+if (joinButton && configured) {
+    currentProfile().then((profile) => {
+        if (!profile || profile.status !== 'approved') return;
+        joinButton.href = '/account';
+        joinButton.querySelector('span:nth-child(2)').textContent = 'ACCOUNT';
+    }).catch((error) => console.error('Member account status could not be loaded:', error.message));
+}
+
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 document.querySelectorAll('[data-event-carousel]').forEach((carousel) => {
