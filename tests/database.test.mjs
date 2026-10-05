@@ -71,7 +71,7 @@ test('registrations enforce ownership, event type, availability and uniqueness',
 test('admins approve members and IDs remain stable across suspension and reapproval',async()=>{
   await as('authenticated',admin,async()=>{
     await db.query("select public.review_member($1,'approved')",[pending]);
-    const first=(await db.query('select member_id from public.profiles where id=$1',[pending])).rows[0].member_id;assert.match(first,/^SAC-\d+$/);
+    const first=(await db.query('select member_id from public.profiles where id=$1',[pending])).rows[0].member_id;assert.equal(first,'SAC-CS-001');
     await db.query("select public.review_member($1,'suspended')",[pending]);
     await db.query("select public.review_member($1,'approved')",[pending]);
     assert.equal((await db.query('select member_id from public.profiles where id=$1',[pending])).rows[0].member_id,first);
@@ -91,3 +91,18 @@ test('admin save is atomic; published content and deletion respect foreign keys'
   await db.query("insert into public.site_content(id,value) values('home-title','Updated heading')");
   await db.query("insert into storage.objects(bucket_id,name) values('content-images','admin.png')");
 }));
+
+ test('department migration repairs legacy IDs, preserves issued IDs and is repeatable',async()=>{
+  await db.query("update public.profiles set member_id='sac1001',department='ece' where id=$1",[member]);
+  const migration=readFileSync('supabase/migrations/20261004_department_member_ids.sql','utf8');
+  await db.exec(migration);
+  const ids=(await db.query('select id,member_id from public.profiles order by id')).rows;
+  assert.equal(ids.find(p=>p.id===member).member_id,'SAC-EC-001');
+  assert.equal(ids.find(p=>p.id===pending).member_id,'SAC-CS-001');
+  await db.exec(migration);
+  assert.deepEqual((await db.query('select id,member_id from public.profiles order by id')).rows,ids);
+  assert.equal((await db.query("select public.allocate_member_id('Electronics and Communication Engineering') as id")).rows[0].id,'SAC-EC-002');
+  assert.equal((await db.query("select public.allocate_member_id('Mechanical') as id")).rows[0].id,'SAC-ME-001');
+  await db.query("update public.member_id_counters set last_number=999 where department_code='EC'");
+  assert.equal((await db.query("select public.allocate_member_id('ece') as id")).rows[0].id,'SAC-EC-1000');
+ });

@@ -239,3 +239,5 @@
     .ab-reveal-ready [data-reveal] { opacity: 1; transform: none; }
     .ab-hero-art { transform: rotate(3deg); }
 }
+
+.ab-footer nav{flex-wrap:wrap}

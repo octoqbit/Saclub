@@ -1,0 +1,48 @@
+button.help-center-trigger {
+  appearance: none;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  padding: 0;
+  cursor: pointer;
+}
+button.help-center-trigger.footer-link { font-size: .9rem; font-weight: 700; }
+.ab-footer button.help-center-trigger { font-size: 11px; padding: 12px 0; }
+button.help-center-trigger:hover { text-decoration: underline; text-underline-offset: 4px; }
+button.help-center-trigger:focus-visible,
+.sac-help-email:focus-visible,
+.sac-help-close:focus-visible { outline: 2px solid #ce491f; outline-offset: 5px; }
+dialog.sac-help-banner {
+  box-sizing: border-box;
+  position: fixed;
+  inset: auto 24px 24px auto;
+  width: min(410px, calc(100vw - 32px));
+  max-width: none;
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  margin: 0;
+  padding: 30px;
+  border: 1px solid #d3d5c9;
+  border-top: 4px solid #ec592a;
+  border-radius: 16px;
+  background: #f8f7f0;
+  color: #18251e;
+  box-shadow: 0 16px 60px #0003;
+  font: 15px/1.6 system-ui, sans-serif;
+  text-align: left;
+  letter-spacing: normal;
+}
+.sac-help-banner::backdrop { background: #0003; }
+.sac-help-banner p { margin: 0; }
+.sac-help-banner .sac-help-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: #984121; }
+.sac-help-banner h2 { margin: 12px 0; font: 700 26px/1.2 system-ui, sans-serif; letter-spacing: -.5px; }
+.sac-help-banner .sac-help-email { display: block; margin: 20px 0 16px; padding: 12px 16px; background: #e9eddf; border-radius: 8px; color: inherit; font-size: 20px; font-weight: 700; overflow-wrap: anywhere; text-decoration: underline; text-underline-offset: 4px; }
+.sac-help-banner .sac-help-email:hover { background: #dfe5d1; }
+.sac-help-banner .sac-help-signature { color: #596154; font-size: 11px; }
+.sac-help-banner .sac-help-close { position: absolute; top: 10px; right: 10px; display: grid; place-items: center; width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent; color: inherit; font: 26px/1 system-ui, sans-serif; cursor: pointer; }
+.sac-help-close:hover { background: #e9eddf; }
+@media (max-width: 480px) { dialog.sac-help-banner { right: 16px; bottom: 16px; padding: 26px 24px; } }

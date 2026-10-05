@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /robot-3d/
+
+Sitemap: https://saclub.tech/sitemap.xml

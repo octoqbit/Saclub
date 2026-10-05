@@ -336,3 +336,5 @@
     .home-join-arrow { transition: none; }
     .home-builder-card, .home-builder-icon, .home-builders-link > span { transition: none; }
 }
+
+.club-identity{padding:48px 6%;background:#f4f3eb;color:#18251e;border-top:1px solid #bac3b6}.club-identity h2{font:700 clamp(24px,4vw,40px)/1.2 system-ui,sans-serif;margin-bottom:16px}.club-identity p{max-width:850px;font:16px/1.7 system-ui,sans-serif;margin-bottom:20px}.club-identity a{color:inherit}
