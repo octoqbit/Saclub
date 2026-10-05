@@ -1,0 +1,102 @@
+/* Global Loader Styles */
+#sac-global-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--text-color, #111111);
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1), opacity 0.8s ease-in-out;
+    color: var(--accent-orange, #ff6a13);
+    font-family: var(--font-mono, 'Space Mono', monospace);
+    overflow: hidden;
+}
+
+.sac-loader-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(255, 106, 19, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 106, 19, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0.5;
+}
+
+.sac-loader-content {
+    position: relative;
+    z-index: 2;
+    width: 80%;
+    max-width: 600px;
+    border: 1px solid var(--accent-orange, #ff6a13);
+    padding: 2rem;
+    background: rgba(17, 17, 17, 0.9);
+    box-shadow: 0 0 20px rgba(255, 106, 19, 0.2);
+}
+
+.sac-loader-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--accent-orange, #ff6a13);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.sac-loader-terminal {
+    font-size: 1.2rem;
+    min-height: 2em;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+.sac-loader-terminal::after {
+    content: '_';
+    animation: sac-blink 1s infinite;
+}
+
+.sac-loader-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 106, 19, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.sac-loader-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: var(--accent-orange, #ff6a13);
+    box-shadow: 0 0 10px var(--accent-orange, #ff6a13);
+    transition: width 0.3s ease;
+}
+
+#sac-global-loader.loader-hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+@keyframes sac-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+@keyframes glitch-in {
+    0% { transform: translate(-5px, 5px); text-shadow: -2px 0 red, 2px 0 blue; opacity: 0; }
+    20% { transform: translate(5px, -5px); text-shadow: 2px 0 red, -2px 0 blue; }
+    40% { transform: translate(-5px, 5px); text-shadow: -2px 0 red, 2px 0 blue; }
+    60% { transform: translate(5px, -5px); text-shadow: 2px 0 red, -2px 0 blue; }
+    80% { transform: translate(-2px, 2px); text-shadow: -1px 0 red, 1px 0 blue; }
+    100% { transform: translate(0, 0); text-shadow: none; opacity: 1; }
+}
