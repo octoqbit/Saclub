@@ -1,5 +1,5 @@
 import { initializeProjects } from './lib/public-content.js';
-import { supabase, checked, requireMember } from './lib/supabase.js';
+import { projectHref } from './lib/project-data.mjs';
 import { initializeMemberCta } from './lib/member-cta.js';
 initializeMemberCta();
 const projectItems = await initializeProjects();
@@ -95,20 +95,6 @@ const dialog = document.querySelector('.detail-dialog');
 let opener;
 document.querySelectorAll('[data-detail]').forEach(button => button.addEventListener('click', async () => {
     let detail = details[button.dataset.detail];
-    const project = projectItems.find(p => p.slug === button.dataset.detail);
-    if (project) {
-        button.disabled = true;
-        try {
-            const profile = await requireMember();
-            if (!profile) return;
-            const privateDetail = checked(await supabase.from('content_details').select('body').eq('content_id', project.id).maybeSingle());
-            detail = { kicker: project.data.subtitle, title: project.title, description: project.summary, tags: project.tags, subtitle: 'Inside the project', text: privateDetail?.body || 'More details will be shared by the club.' };
-        } catch (error) {
-            const message = document.querySelector('.filter-count');
-            message.textContent = 'Could not open project: ' + error.message;
-            return;
-        } finally { button.disabled = false; }
-    }
     if (!detail) return;
     opener = button;
     document.querySelector('#detail-kicker').textContent = detail.kicker;
@@ -120,13 +106,13 @@ document.querySelectorAll('[data-detail]').forEach(button => button.addEventList
     tags.replaceChildren(...detail.tags.map(text => { const tag = document.createElement('span'); tag.textContent = text; return tag; }));
     dialog.showModal(); body.classList.add('has-dialog');
 }));
-dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
-dialog.addEventListener('click', e => {
+dialog?.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
+dialog?.addEventListener('click', e => {
     if (e.target !== dialog) return;
     const box = dialog.getBoundingClientRect();
     if (e.clientX < box.left || e.clientX > box.right || e.clientY < box.top || e.clientY > box.bottom) dialog.close();
 });
-dialog.addEventListener('close', () => { body.classList.remove('has-dialog'); opener?.focus(); });
+dialog?.addEventListener('close', () => { body.classList.remove('has-dialog'); opener?.focus(); });
 
 const requestedProject = new URLSearchParams(location.search).get('project');
-if (requestedProject) [...document.querySelectorAll('[data-detail]')].find(el => el.dataset.detail === requestedProject)?.click();
+if (requestedProject && body.classList.contains('project-world')) location.replace(projectHref(requestedProject));

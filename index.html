@@ -37,10 +37,9 @@
         <!-- Navbar -->
         <header class="navbar">
             <div class="nav-cell logo-cell">
-                <!-- X icon decoration on the far left -->
-                <div class="logo-x-box">
-                    <span class="cross-icon"></span>
-                </div>
+                <button class="logo-x-box" type="button" data-page-repair aria-label="Break the page and let the robot repair it" title="What could possibly go wrong?">
+                    <span class="cross-icon" aria-hidden="true"></span>
+                </button>
                 <img src="logo.png" alt="SAC Logo" class="nav-logo">
             </div>
 
@@ -689,6 +688,7 @@
     </script>
     <script type="module" src="./home.js"></script>
     <script type="module" src="./cursor-robot/main.js"></script>
+    <script type="module" src="./page-repair.js"></script>
 <script type="module" src="/lib/help-center.js"></script>
 </body>
 

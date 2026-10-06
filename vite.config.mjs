@@ -18,6 +18,7 @@ export default defineConfig({
         about: resolve(root, 'about.html'),
         events: resolve(root, 'events.html'),
         projects: resolve(root, 'projects.html'),
+        project: resolve(root, 'project.html'),
         team: resolve(root, 'team.html'),
         privacy: resolve(root, 'privacy.html'),
         cookies: resolve(root, 'cookies.html'),

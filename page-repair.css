@@ -1,0 +1,168 @@
+.home-page .logo-x-box {
+    display: flex;
+    appearance: none;
+    background: transparent;
+    border: 0;
+    border-right: 1px solid var(--border-color);
+    border-radius: 0;
+    padding: 0;
+    flex-shrink: 0;
+    align-self: stretch;
+    height: auto;
+}
+.home-page .logo-x-box:focus-visible { outline: 3px solid var(--accent-orange); outline-offset: -5px; }
+.repair-stage {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    color: #f3f1e9;
+    background: #141b20;
+    font-family: var(--font-mono);
+    isolation: isolate;
+}
+.repair-stage::backdrop { background: #141b20; }
+.repair-stage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 45%, #31404b88, transparent 70%),
+        linear-gradient(#c5d6de0b 1px, transparent 1px), linear-gradient(90deg, #c5d6de0b 1px, transparent 1px);
+    background-size: auto, 40px 40px, 40px 40px;
+}
+.repair-shards { position: absolute; inset: 0; pointer-events: none; }
+.repair-blueprints { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.repair-blueprints path { fill: none; stroke: #84b9cd; stroke-width: 1; stroke-dasharray: 4 8; opacity: .23; transition: opacity .6s; }
+.repair-stage[data-phase="breaking"] .repair-blueprints path { stroke: #ffb15e; opacity: .8; }
+.repair-shard {
+    position: absolute;
+    background: var(--bg-color);
+    will-change: transform;
+    overflow: hidden;
+}
+.repair-snapshot { position: absolute; pointer-events: none; }
+.repair-snapshot *, .repair-snapshot *::before, .repair-snapshot *::after {
+    animation-play-state: paused !important;
+    transition: none !important;
+    caret-color: transparent !important;
+}
+.repair-shard::after { content: ''; position: absolute; inset: 0; pointer-events: none; transition: background .3s; }
+.repair-shard[data-fixed="false"]::after { background: #18252d3b; }
+.repair-shard.is-welding::after { background: #ff8a283d; box-shadow: inset 0 0 50px #ff9e44; }
+.repair-shard.is-aligning::after { background: #99dfff30; box-shadow: inset 0 0 35px #a5ebff; }
+.repair-heading {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    width: min(560px, calc(100% - 32px));
+    transform: translateX(-50%);
+    padding: 20px 28px;
+    border: 1px solid #566069;
+    background: #151d23f5;
+    box-shadow: 0 12px 50px #0003;
+    text-align: center;
+    z-index: 7;
+    transition: opacity .3s;
+}
+.repair-eyebrow { font-size: 10px; letter-spacing: .2em; color: #ffac69; }
+.repair-heading h2 { margin: 9px 0 8px; font: 700 clamp(24px, 3.2vw, 42px)/1.1 var(--font-heading); letter-spacing: -.04em; }
+.repair-heading p { font-size: 11px; line-height: 1.7; color: #b6c3ca; }
+.repair-stage[data-phase="breaking"] .repair-heading { opacity: 0; }
+.repair-stage[data-phase="complete"] .repair-heading { border-color: #91d8a8; }
+.repair-stage[data-phase="repairing"] .repair-heading { padding: 13px 22px; }
+.repair-stage[data-phase="repairing"] .repair-heading h2 { font-size: 25px; margin: 6px 0; }
+.repair-robo {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--robot-size);
+    height: var(--robot-size);
+    z-index: 5;
+    filter: drop-shadow(0 12px 18px #0005);
+    will-change: transform;
+}
+.repair-robo canvas, .repair-fallback { position: absolute; inset: 0; width: 100%; height: 100%; }
+.repair-robo[data-moving="true"] .repair-thought { opacity: 0; }
+.repair-fallback[hidden] { display: none; }
+.repair-thought {
+    position: absolute;
+    left: 80%;
+    bottom: 86%;
+    width: 238px;
+    padding: 15px 18px;
+    background: #faf8ef;
+    color: #17242c;
+    border: 1px solid #fff;
+    border-radius: 14px 14px 14px 3px;
+    box-shadow: 0 6px 25px #0002;
+    font-size: 13px;
+    line-height: 1.6;
+    transition: opacity .18s;
+}
+.repair-thought::after { content: ''; position: absolute; left: -8px; bottom: -13px; width: 8px; height: 8px; border-radius: 50%; background: #faf8ef; }
+.repair-thought small { display: block; color: #9f4a0a; font-size: 9px; letter-spacing: .14em; margin-bottom: 5px; }
+.repair-robo[data-side="left"] .repair-thought { left: auto; right: 80%; border-radius: 14px 14px 3px 14px; }
+.repair-robo[data-side="left"] .repair-thought::after { left: auto; right: -8px; }
+.repair-effects { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; }
+.repair-beam { stroke: #fff6ce; stroke-width: 2; stroke-dasharray: 7 5; filter: drop-shadow(0 0 5px #ff9e42); }
+.repair-seam { fill: none; stroke: #ffe5b0; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 5px #ff8b25); }
+.repair-reticle { fill: none; stroke: #8fdbed; stroke-width: 1; opacity: .85; }
+.repair-reticle text { fill: #d4f6ff; stroke: none; font: 9px var(--font-mono); letter-spacing: .1em; paint-order: stroke; stroke: #16212a; stroke-width: 3px; }
+.repair-sparks { color: #ffc276; }
+.repair-sparks line { stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.repair-footer {
+    position: absolute;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(650px, calc(100% - 32px));
+    padding: 16px 20px;
+    background: #151d23f5;
+    border: 1px solid #566069;
+    z-index: 6;
+    box-shadow: 0 10px 40px #0003;
+}
+.repair-status { display: flex; justify-content: space-between; gap: 12px; font-size: 10px; letter-spacing: .07em; }
+.repair-chapters { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 16px; font-size: 9px; letter-spacing: .04em; color: #8d9ba5; }
+.repair-chapters span { border-top: 2px solid #4b5860; padding-top: 7px; }
+.repair-chapters span[data-current="true"] { color: #ffb47b; border-color: #ff9c50; }
+.repair-count { color: #ffac69; white-space: nowrap; }
+.repair-progress { height: 3px; margin: 12px 0; background: #ffffff1c; }
+.repair-progress span { display: block; height: 100%; width: 0; background: #ff9c50; transition: width .3s; }
+.repair-controls { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.repair-controls > span { color: #aab6bd; font-size: 9px; }
+.repair-controls button { border: 1px solid #647078; background: transparent; color: #f3f1e9; padding: 8px 12px; font: 10px var(--font-mono); cursor: pointer; }
+.repair-controls button:hover { background: #ffffff15; border-color: #ffac69; }
+.repair-controls button:focus-visible { outline: 2px solid #ffac69; outline-offset: 3px; }
+body.page-is-repairing > .page-wrapper { visibility: hidden; }
+body.page-is-repairing > .cursor-robo, body.page-is-repairing > .cursor-robo-toggle { visibility: hidden; }
+@media (max-width: 700px) {
+    .home-page .logo-x-box { display: flex; width: 44px; margin-right: 12px; }
+    .home-page .logo-x-box .cross-icon { width: 24px; height: 24px; }
+    .repair-heading { top: 16px; padding: 16px; }
+    .repair-heading p { font-size: 10px; }
+    .repair-stage[data-phase="repairing"] .repair-heading p { display: none; }
+    .repair-stage[data-phase="repairing"] .repair-heading h2 { font-size: 21px; }
+    .repair-thought { width: 180px; padding: 12px; font-size: 11px; left: 70%; }
+    .repair-robo[data-side="left"] .repair-thought { right: 70%; }
+    .repair-footer { padding: 12px; bottom: max(12px, env(safe-area-inset-bottom)); }
+    .repair-controls > span { display: none; }
+    .repair-chapters { font-size: 8px; margin-bottom: 12px; }
+    .repair-status { font-size: 9px; }
+}
+@media (max-height: 550px) {
+    .repair-heading { top: 10px; padding: 10px; width: min(420px, calc(100% - 24px)); }
+    .repair-heading h2 { font-size: 22px; }
+    .repair-heading p, .repair-chapters { display: none; }
+    .repair-footer { bottom: 8px; padding: 10px; }
+    .repair-thought { font-size: 10px; padding: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .repair-stage *, .repair-stage *::after { transition: none !important; }
+}

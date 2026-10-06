@@ -11,15 +11,26 @@
         href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@900&family=Bungee&family=Quantico:wght@700&family=Saira+Stencil+One&family=Space+Mono:wght@400;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-<meta name="description" content="Apply to join SAC, the Sensing and Automation Club at BTKIT Dwarahat. Build projects, learn robotics and automation, and take part in club events.">
-<link rel="canonical" href="https://saclub.tech/join.html">
-<meta property="og:type" content="website"><meta property="og:site_name" content="Sensing and Automation Club, Dwarahat"><meta property="og:locale" content="en_IN">
-<meta property="og:title" content="Join Us | Sensing and Automation Club, Dwarahat"><meta property="og:description" content="Apply to join SAC, the Sensing and Automation Club at BTKIT Dwarahat. Build projects, learn robotics and automation, and take part in club events."><meta property="og:url" content="https://saclub.tech/join.html">
-<meta property="og:image" content="https://saclub.tech/social-logo.png"><meta property="og:image:alt" content="Sensing and Automation Club, BTKIT Dwarahat">
-<meta name="twitter:card" content="summary"><meta name="twitter:title" content="Join Us | Sensing and Automation Club, Dwarahat"><meta name="twitter:description" content="Apply to join SAC, the Sensing and Automation Club at BTKIT Dwarahat. Build projects, learn robotics and automation, and take part in club events."><meta name="twitter:image" content="https://saclub.tech/social-logo.png">
-<link rel="icon" type="image/png" sizes="64x64" href="/favicon-round.png?v=b16adb9d">
-<link rel="stylesheet" href="/loader.css">
-<script type="module" src="/page-animator.js"></script>
+    <meta name="description"
+        content="Apply to join SAC, the Sensing and Automation Club at BTKIT Dwarahat. Build projects, learn robotics and automation, and take part in club events.">
+    <link rel="canonical" href="https://saclub.tech/join.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Sensing and Automation Club, Dwarahat">
+    <meta property="og:locale" content="en_IN">
+    <meta property="og:title" content="Join Us | Sensing and Automation Club, Dwarahat">
+    <meta property="og:description"
+        content="Apply to join SAC, the Sensing and Automation Club at BTKIT Dwarahat. Build projects, learn robotics and automation, and take part in club events.">
+    <meta property="og:url" content="https://saclub.tech/join.html">
+    <meta property="og:image" content="https://saclub.tech/social-logo.png">
+    <meta property="og:image:alt" content="Sensing and Automation Club, BTKIT Dwarahat">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Join Us | Sensing and Automation Club, Dwarahat">
+    <meta name="twitter:description"
+        content="Apply to join SAC, the Sensing and Automation Club at BTKIT Dwarahat. Build projects, learn robotics and automation, and take part in club events.">
+    <meta name="twitter:image" content="https://saclub.tech/social-logo.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/favicon-round.png?v=b16adb9d">
+    <link rel="stylesheet" href="/loader.css">
+    <script type="module" src="/page-animator.js"></script>
 </head>
 
 <body>
@@ -154,7 +165,7 @@
                                     <option value="2">2nd Year</option>
                                     <option value="3">3rd Year</option>
                                     <option value="4">4th Year</option>
-                                    <option value="5+">5th Year +</option>
+
                                 </select>
                                 <div class="input-corner i-tl"></div>
                                 <div class="input-corner i-tr"></div>
@@ -191,17 +202,24 @@
 
                         <div class="form-group">
                             <label for="password">Choose your password</label>
-                            <input id="password" name="password" type="password" minlength="12" required autocomplete="new-password" placeholder="At least 12 characters">
-                            <p style="font-size:12px;line-height:1.6;margin-top:10px">Your email is your login ID. After admin approval, your member ID and full access appear in your account.</p>
+                            <input id="password" name="password" type="password" minlength="12" required
+                                autocomplete="new-password" placeholder="At least 12 characters">
+                            <p style="font-size:12px;line-height:1.6;margin-top:10px">Your email is your login ID. After
+                                admin approval, your member ID and full access appear in your account.</p>
                         </div>
-                        <fieldset class="robot-avatar-options">
-                            <legend>Choose your robot avatar</legend>
-                            <div class="robot-avatar-choices">
-                                <label class="robot-avatar-choice" data-avatar="boy"><input type="radio" name="avatar" value="boy" required checked><img class="robot-avatar" src="./avatars/blue-robo.svg" alt="" width="96" height="96">Boy</label>
-                                <label class="robot-avatar-choice" data-avatar="girl"><input type="radio" name="avatar" value="girl" required><img class="robot-avatar" src="./avatars/pink-robo.svg" alt="" width="96" height="96">Girl</label>
-                            </div>
+                        <fieldset class="pronoun-picker" id="join-pronouns">
+                            <legend>Your pronouns</legend>
+                            <label><input type="radio" name="pronouns" value="he/him" required>He/Him</label>
+                            <label><input type="radio" name="pronouns" value="she/her" required>She/Her</label>
+                            <p class="choice-note">Your selection is fixed after you submit your application.</p>
                         </fieldset>
-                        <p style="margin:18px 0;font-size:13px">Already applied? <a href="/account">Sign in to your account ↗</a></p>
+                        <fieldset class="emoji-picker">
+                            <legend>Your tech emoji</legend>
+                            <div class="emoji-choices" id="join-emojis"></div>
+                            <p class="choice-note">Change your emoji later from your profile.</p>
+                        </fieldset>
+                        <p style="margin:18px 0;font-size:13px">Already applied? <a href="/account">Sign in to your
+                                account ↗</a></p>
                         <div class="form-submit">
                             <button type="submit" class="btn-orange scramble-btn"
                                 data-original="SUBMIT APPLICATION">SUBMIT APPLICATION</button>
@@ -225,7 +243,8 @@
                     <div class="footer-heading">QUICK LINKS</div>
                     <a href="index.html" class="footer-link">Home</a>
                     <a href="join.html" class="footer-link">Apply Now</a>
-                    <button type="button" data-help-center="" aria-haspopup="dialog" aria-controls="sac-help-center" aria-expanded="false" class="help-center-trigger footer-link">Help Center</button>
+                    <button type="button" data-help-center="" aria-haspopup="dialog" aria-controls="sac-help-center"
+                        aria-expanded="false" class="help-center-trigger footer-link">Help Center</button>
                 </div>
                 <div class="footer-col">
                     <div class="footer-heading">LEGAL</div>
@@ -234,7 +253,10 @@
                     <a href="terms.html" class="footer-link">Terms of Service</a>
                 </div>
                 <div class="footer-col" style="gap: 1.2rem;">
-                    <a href="mailto:info@saclub.tech" class="footer-link">info@saclub.tech ↗</a><a href="events.html" class="footer-social-link">EVENTS ↗</a><a href="projects.html" class="footer-social-link">PROJECTS ↗</a><a href="team.html" class="footer-social-link">THE TEAM ↗</a>
+                    <a href="mailto:info@saclub.tech" class="footer-link">info@saclub.tech ↗</a><a href="events.html"
+                        class="footer-social-link">EVENTS ↗</a><a href="projects.html"
+                        class="footer-social-link">PROJECTS ↗</a><a href="team.html" class="footer-social-link">THE TEAM
+                        ↗</a>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -290,7 +312,7 @@
     </script>
     <script type="module" src="./join.js"></script>
     <script type="module" src="./cursor-robot/main.js"></script>
-<script type="module" src="/lib/help-center.js"></script>
+    <script type="module" src="/lib/help-center.js"></script>
 </body>
 
 </html>

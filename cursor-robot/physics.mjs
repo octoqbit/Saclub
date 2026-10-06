@@ -21,6 +21,16 @@ export class RobotPhysics {
         this.cooldown = 0;
         this.hopCooldown = 1;
         this.impacts = 0;
+        this.jumpAttempts = 0;
+        this.waiting = false;
+        this.targetWasActive = false;
+        this.blockedTime = 0;
+    }
+
+    resetPursuit() {
+        this.jumpAttempts = 0;
+        this.waiting = false;
+        this.blockedTime = 0;
     }
 
     overlaps(x, y, box) {
@@ -74,6 +84,17 @@ export class RobotPhysics {
 
     step(dt, target) {
         if (!this.visible) return;
+        const returned = target.active && !this.targetWasActive;
+        const pathBlocked = this.obstacles.some(box =>
+            Math.min(this.x, target.x) - HALF < box.right + GAP
+            && Math.max(this.x, target.x) + HALF > box.left - GAP
+            && this.y + HALF > box.top - GAP && this.y - HALF < box.bottom + GAP);
+        const reachable = target.active && this.grounded
+            && target.y >= this.y - 100 && !pathBlocked;
+        if (returned || reachable) this.resetPursuit();
+        if (!target.active && this.targetWasActive) this.waiting = true;
+        this.targetWasActive = Boolean(target.active);
+        if (this.jumpAttempts >= 2 && this.grounded && !this.crash) this.waiting = true;
         // Substeps prevent tunneling even when a rendering frame is delayed.
         const frames = Math.ceil(Math.min(dt, 0.05) / (1 / 120));
         for (let i = 0; i < frames; i++) this.advance(Math.min(dt, 0.05) / frames, target);
@@ -84,11 +105,13 @@ export class RobotPhysics {
         this.cooldown = Math.max(0, this.cooldown - dt);
         this.hopCooldown = Math.max(0, this.hopCooldown - dt);
         const dx = target.x - this.x;
-        const desiredSpeed = this.crash > 0 || Math.abs(dx) < 42 ? 0 : clamp(dx * 3.5, -300, 300);
+        const desiredSpeed = this.waiting || !target.active || this.crash > 0 || Math.abs(dx) < 42 ? 0 : clamp(dx * 3.5, -300, 300);
         this.vx += (desiredSpeed - this.vx) * Math.min(1, dt * 7);
-        if (this.grounded && !this.crash && !this.hopCooldown
-            && target.active && target.y < this.y - 100) {
+        if (this.grounded && !this.crash && !this.hopCooldown && !this.waiting && this.jumpAttempts < 2
+            && target.active && (target.y < this.y - 100 || this.blockedTime > .65)) {
             this.vy = -570;
+            this.jumpAttempts++;
+            this.blockedTime = 0;
             this.hopCooldown = 1.7;
             this.grounded = false;
         }
@@ -108,6 +131,8 @@ export class RobotPhysics {
                 ? box.left - HALF - GAP : box.right + HALF + GAP;
             this.vx *= -0.35;
         }
+        if (target.active && Math.abs(dx) > 110 && Math.abs(this.x - oldX) < dt * 20) this.blockedTime += dt;
+        else this.blockedTime = Math.max(0, this.blockedTime - dt * .5);
 
         const oldY = this.y;
         this.vy += 1150 * dt;

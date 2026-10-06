@@ -112,6 +112,12 @@ export function createRobot(canvas, size) {
     }
     let yaw = 0;
     let gait = 0;
+    // The repair easter egg uses this same rig, with a torch in its right hand.
+    const torch = new THREE.Group();
+    arms[1].add(torch);
+    box(torch, 0.18, 0.48, 0.2, 0.04, materials.orange, 0, -1.32, 0.08);
+    const torchTip = ball(torch, 0.09, materials.eye, 0, -1.62, 0.08);
+    torch.visible = false;
     return {
         render(body, target, dt, elapsed) {
             const running = body.grounded && !body.crash ? Math.min(Math.abs(body.vx) / 200, 1) : 0;
@@ -127,6 +133,14 @@ export function createRobot(canvas, size) {
                 legs[i].rotation.x = stride * 0.85;
                 arms[i].rotation.x = -stride * 0.8;
                 arms[i].rotation.z = (i ? 1 : -1) * (0.16 + (body.grounded ? 0 : 0.55));
+            }
+            torch.visible = Boolean(body.repair);
+            if (body.repair) {
+                robot.rotation.y = 0.08;
+                head.rotation.z = -0.12 + Math.sin(elapsed * 3) * 0.035;
+                arms[1].rotation.set(0, 0, 2.05 + Math.sin(elapsed * 24) * 0.045);
+                arms[0].rotation.z = -0.35;
+                torchTip.scale.setScalar(0.85 + Math.sin(elapsed * 38) * 0.15);
             }
             const progress = body.crash ? 1 - body.crash / 0.85 : 0;
             rig.rotation.z = body.crash ? body.crashDirection * Math.sin(progress * Math.PI) * 1.35 : 0;

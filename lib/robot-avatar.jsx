@@ -1,15 +1,14 @@
 import React from 'react';
-import blueRobot from '../avatars/blue-robo.svg';
-import pinkRobot from '../avatars/pink-robo.svg';
+import { techEmojis, memberEmoji } from './profile-options.mjs';
 
-export function RobotAvatar({ variant = 'boy', decorative = false }) {
-  const isPink = variant === 'girl';
-  return <img
-    className="robot-avatar"
-    src={isPink ? pinkRobot : blueRobot}
-    alt={decorative ? '' : `${isPink ? 'Pink' : 'Blue'} robot avatar`}
-    width="96"
-    height="96"
-    draggable="false"
-  />;
+export function RobotAvatar({ variant = 'robot', role = 'member', pronouns, decorative = false }) {
+  const isAdmin = role === 'admin';
+  const isSheHer = pronouns === 'she/her' || (!pronouns && variant === 'girl');
+  const [, emoji, label] = techEmojis.find(([id]) => id === memberEmoji(variant));
+  return <span
+    className="tech-emoji"
+    role={decorative ? undefined : 'img'}
+    aria-hidden={decorative ? true : undefined}
+    aria-label={decorative ? undefined : isAdmin ? 'Administrator technologist' : label}
+  >{isAdmin ? (isSheHer ? '👩‍💻' : '👨‍💻') : emoji}</span>;
 }

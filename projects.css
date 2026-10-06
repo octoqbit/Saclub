@@ -5,3 +5,31 @@
 
 /* Member documentation keeps the line breaks entered in the editor. */
 #detail-body { white-space: pre-wrap; }
+
+/* A calm collection of distinct project images replaces the exploded hero. */
+.project-art-clean { transform: none; will-change: auto; padding-left: 30px; }
+.project-art-board { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.project-hero-tile { min-width: 0; background: #e8e6e0; border-radius: 10px; overflow: hidden; color: #172015; border: 1px solid #ffffff26; }
+.project-hero-tile.featured { grid-column: 1 / -1; }
+.project-hero-tile img { width: 100%; aspect-ratio: 1.65; object-fit: cover; transition: transform .4s; }
+.project-hero-tile.featured img { aspect-ratio: 2; }
+.project-hero-tile:hover img { transform: scale(1.025); }
+.project-hero-tile > span { display: block; padding: 11px 14px; border-top: 1px solid #17201520; font-size: 9px; }
+.art-note { display: flex; justify-content: space-between; color: var(--muted); }
+.art-note > span { display: flex; gap: 5px; }.art-note br { display: none; }
+.experiment-image { aspect-ratio: 1.5; background: #e8e6e0; }
+.experiment-image > img { object-fit: contain; }
+.experiment-open:hover .experiment-image > img { transform: scale(1.025); }
+@media (max-width: 900px) { .project-art-clean { padding-left: 10px; } }
+@media (max-width: 620px) { .project-art-clean { margin: 0; padding: 0; }.project-art-board { gap: 10px; }.project-hero-tile > span { font-size: 8px; padding: 10px; } }
+
+.project-publishing { background: #13221b; border-top: 1px solid #35483a; }
+.project-publishing h2 { font-size: clamp(38px, 6vw, 84px); line-height: 1; letter-spacing: -.045em; margin: 28px 0; }
+.project-publishing h2 em { color: #c5ec9a; font-style: normal; }
+.project-publishing p { max-width: 760px; font-size: 17px; line-height: 1.8; color: #dae4d7; }
+.project-publishing p a { text-decoration: underline; text-underline-offset: 4px; }
+.project-publishing .publishing-note { color: #a9b8ab; font-size: 14px; }
+.project-publishing .pill-button { margin-top: 18px; }
+
+/* Keep the angled ticker inside the page without widening the viewport. */
+.project-world #main { overflow-x: clip; }

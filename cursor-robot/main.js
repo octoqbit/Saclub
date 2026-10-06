@@ -16,6 +16,7 @@ let loading = false;
 let generation = 0;
 let hasPointer = false;
 let unavailable = false;
+let returnPosition = null;
 const lifecycle = new AbortController();
 const pointer = { x: innerWidth * 0.7, y: innerHeight * 0.65, active: false };
 
@@ -48,7 +49,11 @@ function mount(createRobot) {
     host.setAttribute('aria-hidden', 'true');
     host.hidden = true;
     const canvas = document.createElement('canvas');
-    host.append(canvas);
+    const thought = document.createElement('span');
+    thought.className = 'cursor-robo-thought';
+    thought.textContent = '!!!';
+    thought.hidden = true;
+    host.append(canvas, thought);
     const model = createRobot(canvas, SIZE);
     const toggle = document.createElement('button');
     toggle.className = 'cursor-robo-toggle';
@@ -58,6 +63,7 @@ function mount(createRobot) {
     const body = new RobotPhysics();
     body.x = Math.max(HALF + 6, innerWidth - SIZE - 36);
     body.y = innerHeight - HALF - 70;
+    if (returnPosition) { Object.assign(body, returnPosition); returnPosition = null; }
     let enabled = true;
     try { enabled = sessionStorage.getItem('sac-cursor-robot') !== 'paused'; } catch { /* Storage is optional. */ }
     let dirty = true;
@@ -91,6 +97,11 @@ function mount(createRobot) {
     function tick(now) {
         frame = 0;
         if (!enabled || document.hidden) return;
+        if (document.body.classList.contains('page-is-repairing')) {
+            previousTime = 0;
+            frame = requestAnimationFrame(tick);
+            return;
+        }
         const dt = previousTime ? Math.min((now - previousTime) / 1000, 0.05) : 1 / 60;
         previousTime = now;
         elapsed += dt;
@@ -100,7 +111,8 @@ function mount(createRobot) {
         host.hidden = !body.visible;
         if (body.visible) {
             host.style.transform = `translate3d(${body.x - HALF}px, ${body.y - HALF}px, 0)`;
-            host.dataset.state = body.crash ? 'tumbling' : !body.grounded ? 'falling' : Math.abs(body.vx) > 15 ? 'running' : 'idle';
+            host.dataset.state = body.waiting && body.grounded ? 'waiting' : body.crash ? 'tumbling' : !body.grounded ? 'falling' : Math.abs(body.vx) > 15 ? 'running' : 'idle';
+            thought.hidden = !body.waiting || !body.grounded;
             model.render(body, target, dt, elapsed);
         }
         frame = requestAnimationFrame(tick);
@@ -125,10 +137,16 @@ function mount(createRobot) {
 
     toggle.addEventListener('click', () => setEnabled(!enabled), { signal });
     window.addEventListener('keydown', event => {
-        if (event.key === 'Escape' && enabled) setEnabled(false);
+        if (event.key === 'Escape' && enabled && !document.querySelector('.repair-stage')) setEnabled(false);
     }, { signal });
     window.addEventListener('scroll', markDirty, { passive: true, capture: true, signal });
     window.addEventListener('resize', markDirty, { passive: true, signal });
+    window.addEventListener('sac:repair-complete', event => {
+        Object.assign(body, event.detail, { vx: 0, vy: 0, crash: 0 });
+        body.resetPursuit();
+        returnPosition = null;
+        schedule();
+    }, { signal });
     document.addEventListener('visibilitychange', schedule, { signal });
     const onContextLost = event => {
         event.preventDefault();
@@ -158,6 +176,11 @@ window.addEventListener('pointermove', event => {
 }, { passive: true, signal: lifecycle.signal });
 document.documentElement.addEventListener('pointerleave', () => { pointer.active = false; }, { signal: lifecycle.signal });
 window.addEventListener('blur', () => { pointer.active = false; }, { signal: lifecycle.signal });
+window.addEventListener('sac:repair-complete', event => {
+    if (!cleanup) returnPosition = event.detail;
+    hasPointer = true;
+    void sync();
+}, { signal: lifecycle.signal });
 desktop.addEventListener('change', sync, { signal: lifecycle.signal });
 reducedMotion.addEventListener('change', sync, { signal: lifecycle.signal });
 

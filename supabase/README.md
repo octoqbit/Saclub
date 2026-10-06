@@ -12,6 +12,7 @@ Copy `.env.example` to `.env.local` in the project root. Set:
 VITE_SUPABASE_URL=https://YOUR_PROJECT.supabase.co
 VITE_SUPABASE_ANON_KEY=YOUR_PUBLISHABLE_OR_ANON_KEY
 VITE_GOOGLE_AUTH_ENABLED=false
+VITE_SITE_URL=https://saclub.tech
 ```
 
 Use the project URL and **publishable key** (or legacy anon key) from the Supabase dashboard. Never use a secret/service-role key in a `VITE_` variable. Add these same variables to Vercel and redeploy. Restart Vite after local changes.
@@ -21,11 +22,11 @@ Use the project URL and **publishable key** (or legacy anon key) from the Supaba
 In Authentication settings:
 
 - Enable email/password sign-in and email confirmation. Set the minimum password length to 12.
-- Set Site URL to your deployed website origin.
+- Set Site URL to `https://saclub.tech/account`. See [the existing-project upgrade guide](UPGRADE.md) for the complete redirect allowlist and confirmation template.
 - Add redirect URLs for `https://YOUR_SITE/account`, `https://YOUR_SITE/account?mode=reset`, and local equivalents such as `http://localhost:5173/account` and `http://localhost:5173/account?mode=reset`. If using member return links, allow the account URL's query-string variants too.
 - Configure custom SMTP for production confirmation and password-reset emails; the default development mail service is limited. Set appropriate auth rate limits and enable Supabase's bot protection if the public application form is abused.
 
-Applicants choose a password and one of two robot avatars. Their **email is their login ID**. A department-based membership number, such as `SAC-EC-001`, is assigned when an admin approves them. Codes are `EC` (Electronics and Communication), `ME` (Mechanical), `CS` (Computer Science), `EE` (Electrical), and `OT` (Other). Each department starts at `001`, then `002`, and so on. Numbers expand beyond three digits after `999`. Reapproval keeps the same ID. Passwords are managed by Supabase Auth; administrators cannot view passwords.
+Applicants choose a password, their fixed pronouns (He/Him or She/Her), and one of eight editable tech emojis. Admins retain the laptop-person emoji. The existing-project upgrade moves the old `boy` and `girl` choices to a separate `pronouns` column before replacing member avatars. Pronouns cannot be changed after selection; the database enforces this rule. Their **email is their login ID**. A department-based membership number, such as `SAC-EC-001`, is assigned when an admin approves them. Codes are `EC` (Electronics and Communication), `ME` (Mechanical), `CS` (Computer Science), `EE` (Electrical), and `OT` (Other). Each department starts at `001`, then `002`, and so on. Numbers expand beyond three digits after `999`. Reapproval keeps the same ID. Passwords are managed by Supabase Auth; administrators cannot view passwords.
 
 Approval status is visible in the account and refreshes every 30 seconds. This implementation does not send approval emails. Email confirmation and password reset messages are sent by Supabase.
 
@@ -78,3 +79,7 @@ References: [Supabase Auth](https://supabase.com/docs/guides/auth), [row-level s
 ## Upgrade existing projects to department-based IDs
 
 If you already ran the original schema, run `migrations/20261004_department_member_ids.sql` in the Supabase SQL editor. Do not rerun `schema.sql`. The migration converts old assigned membership numbers, assigns IDs to approved members without one, and preserves existing department IDs. It is safe to rerun. It does not change passwords, user UUIDs, registrations, or approval status. Blank or unrecognized departments use `OT`; review the department values before applying if you need a specific code. New applications use the same department dropdown in both signup flows.
+
+## October 2026 profile and project upgrade
+
+For an existing database, follow [UPGRADE.md](UPGRADE.md) and run `upgrade-existing.sql` once in the SQL editor. This combines department IDs, fixed pronouns with editable emojis, and persistent public project briefs in one transaction. Do not rerun the fresh-install schema or seed on an existing site.

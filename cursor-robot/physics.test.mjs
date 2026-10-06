@@ -80,3 +80,47 @@ test('irregular frame times, overlapping obstacles, scrolling, and resize stay s
         }
     }
 });
+
+test('gives up after two unreachable jumps and resumes when the pointer returns', () => {
+    const body = new RobotPhysics();
+    body.x = 450;
+    body.y = 822;
+    body.setWorld(1000, 900, []);
+    run(body, { x: 450, y: 100, active: true }, 12);
+    assert.equal(body.jumpAttempts, 2);
+    assert.equal(body.waiting, true);
+    assert.equal(body.grounded, true);
+    const restingY = body.y;
+    run(body, { x: 480, y: 80, active: true }, 8);
+    assert.equal(body.y, restingY);
+    assert.equal(body.jumpAttempts, 2, 'small unreachable pointer movements cannot restart jumping');
+    run(body, { x: 900, y: 800, active: true }, 2);
+    assert.equal(body.waiting, false);
+    assert.equal(body.jumpAttempts, 0);
+    assert.ok(body.x > 500);
+});
+
+test('pointer leaving shows the waiting state and re-entry restarts pursuit', () => {
+    const body = new RobotPhysics();
+    body.setWorld(1200, 900, []);
+    run(body, { x: 800, y: 820, active: true }, 3);
+    run(body, { x: body.x, y: body.y, active: false }, 2);
+    assert.equal(body.waiting, true);
+    const stoppedX = body.x;
+    run(body, { x: 100, y: 820, active: true }, 2);
+    assert.equal(body.waiting, false);
+    assert.ok(body.x < stoppedX - 100);
+});
+
+test('a nearby cursor behind a barrier does not cause endless retries', () => {
+    const body = new RobotPhysics();
+    body.x = 450;
+    body.y = 822;
+    body.setWorld(1000, 900, [{ left: 600, top: 500, right: 700, bottom: 900 }]);
+    run(body, { x: 680, y: 820, active: true }, 15);
+    assert.equal(body.jumpAttempts, 2);
+    assert.equal(body.waiting, true);
+    run(body, { x: 100, y: 820, active: true }, 2);
+    assert.equal(body.waiting, false);
+    assert.ok(body.x < 400);
+});

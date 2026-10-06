@@ -37,7 +37,7 @@ async function as(role,id,fn){
 }
 test('signup metadata cannot grant approval or administrator privileges',async()=>{
   const p=(await db.query('select * from public.profiles where id=$1',[pending])).rows[0];
-  assert.equal(p.role,'member');assert.equal(p.status,'pending');assert.equal(p.avatar,'girl');assert(p.submitted_at);assert.equal(p.member_id,null);
+  assert.equal(p.role,'member');assert.equal(p.status,'pending');assert.equal(p.avatar,'robot');assert.equal(p.pronouns,'she/her');assert(p.submitted_at);assert.equal(p.member_id,null);
 });
 test('anonymous visitors get published previews only',async()=>as('anon',null,async()=>{
   assert.equal((await db.query('select * from public.content')).rows.length,7);
@@ -81,9 +81,10 @@ test('admins approve members and IDs remain stable across suspension and reappro
   await as('authenticated',pending,async()=>assert.equal((await db.query('select * from public.content_details')).rows.length,0));
 });
 test('admin save is atomic; published content and deletion respect foreign keys',async()=>as('authenticated',admin,async()=>{
-  const item={kind:'project',slug:'test-project',title:'Test project',summary:'Public preview',image:'',image_alt:'',tags:['AI'],data:{category:'ai'},published:true,sort_order:10};
+  const item={kind:'project',slug:'test-project',title:'Test project',summary:'Public preview',image:'',image_alt:'',tags:['AI'],data:{category:'ai',overview:'Public build brief',githubUrl:'https://github.com/example/robot',features:'Sensing\nControl',milestones:'Plan\nBuild',heroFeatured:true},published:true,sort_order:10};
   const id=(await db.query('select public.save_content($1,$2) as id',[JSON.stringify(item),'Secret documentation'])).rows[0].id;
   assert.equal((await db.query('select body from public.content_details where content_id=$1',[id])).rows[0].body,'Secret documentation');
+  assert.deepEqual((await db.query('select data from public.content where id=$1',[id])).rows[0].data,item.data);
   await assert.rejects(db.query('select public.save_content($1,$2)',[JSON.stringify({...item,slug:'rollback-test'}),null]),/not-null constraint/);
   assert.equal((await db.query("select * from public.content where slug='rollback-test'")).rows.length,0);
   await db.query('delete from public.content where id=$1',[id]);
@@ -106,3 +107,78 @@ test('admin save is atomic; published content and deletion respect foreign keys'
   await db.query("update public.member_id_counters set last_number=999 where department_code='EC'");
   assert.equal((await db.query("select public.allocate_member_id('ece') as id")).rows[0].id,'SAC-EC-1000');
  });
+
+
+test('members can change all eight emojis while pronouns stay fixed',async()=>{
+  await as('authenticated',member,async()=>{
+    for(const emoji of ['robot','rocket','satellite','gear','brain','battery','microscope','bulb']){
+      await db.query('select public.save_profile($1,$2)',['Maker',emoji]);
+      const p=(await db.query('select avatar,pronouns from public.profiles where id=$1',[member])).rows[0];
+      assert.equal(p.avatar,emoji);assert.equal(p.pronouns,'she/her');
+    }
+    await assert.rejects(db.query("select public.save_profile('Maker','technologist')"),/reserved for administrators/);
+    await assert.rejects(db.query("select public.save_profile('Maker','invalid')"),/Invalid profile/);
+    await assert.rejects(db.query("select public.save_profile('Maker',null)"),/Invalid profile/);
+    await assert.rejects(db.query("update public.profiles set pronouns='he/him' where id=$1",[member]),/permission denied/);
+  });
+  await assert.rejects(db.query("update public.profiles set pronouns='he/him' where id=$1",[member]),/cannot be changed/);
+  await assert.rejects(db.query("update public.profiles set pronouns=null where id=$1",[member]),/cannot be changed/);
+  await as('authenticated',admin,()=>db.query("select public.save_profile('Admin','rocket')"));
+  assert.equal((await db.query('select avatar from public.profiles where id=$1',[admin])).rows[0].avatar,'technologist');
+});
+
+test('OAuth applications choose pronouns once and cannot resubmit or reserve the admin emoji',async()=>{
+  const id='00000000-0000-4000-8000-000000000020';
+  await db.query("insert into auth.users(id,email) values($1,'oauth@example.test')",[id]);
+  await as('authenticated',id,async()=>{
+    await assert.rejects(db.query("select public.submit_application('New Maker','robot','ece','2','{}','Build robots')"),/Complete all application fields/);
+    await db.query("select public.submit_application('New Maker','satellite','ece','2','{}','Build robots','he/him')");
+    const p=(await db.query('select * from public.profiles where id=$1',[id])).rows[0];
+    assert.equal(p.pronouns,'he/him');assert.equal(p.avatar,'satellite');assert(p.submitted_at);
+    await assert.rejects(db.query("select public.submit_application('New Maker','robot','ece','2','{}','Build robots','she/her')"),/already been submitted/);
+  });
+});
+
+test('profile migration preserves legacy selections and is repeatable',async()=>{
+  await db.exec('drop trigger profile_choices_locked on public.profiles; alter table public.profiles drop constraint profiles_avatar_check');
+  await db.query("update public.profiles set avatar='girl',pronouns=null where id=$1",[member]);
+  await db.query("update public.profiles set avatar='boy',pronouns=null where id=$1",[admin]);
+  const sql=readFileSync('supabase/migrations/20261006_profile_choices.sql','utf8');
+  await db.exec(sql);
+  let rows=(await db.query('select id,avatar,pronouns from public.profiles order by id')).rows;
+  assert.equal(rows.find(p=>p.id===member).pronouns,'she/her');
+  assert.equal(rows.find(p=>p.id===member).avatar,'robot');
+  assert.equal(rows.find(p=>p.id===admin).pronouns,'he/him');
+  assert.equal(rows.find(p=>p.id===admin).avatar,'technologist');
+  await db.exec(sql);
+  assert.deepEqual((await db.query('select id,avatar,pronouns from public.profiles order by id')).rows,rows);
+});
+
+test('project migration persists briefs, preserves edits and private notes, and never resurrects projects',async()=>{
+  await db.query(`update public.content set data='{"overview":"My custom brief","features":"","githubUrl":"https://github.com/SAclub/custom"}',image='/my-custom.jpg' where slug='rover'`);
+  await db.query(`update public.content set data='{}',image='/showcase-assets/vision.jpg' where slug='vision'`);
+  const privateBefore=(await db.query('select * from public.content_details order by content_id')).rows;
+  const sql=readFileSync('supabase/migrations/20261006_project_briefs.sql','utf8');
+  await db.exec(sql);
+  const rows=(await db.query("select * from public.content where kind='project' order by id")).rows;
+  const rover=rows.find(p=>p.slug==='rover'),vision=rows.find(p=>p.slug==='vision');
+  assert.equal(rover.image,'/my-custom.jpg');assert.equal(rover.data.overview,'My custom brief');assert.equal(rover.data.features,'');assert.equal(rover.data.githubUrl,'https://github.com/SAclub/custom');
+  assert.match(vision.data.overview,/Iris/);assert.match(vision.image,/project-iris/);
+  assert.deepEqual((await db.query('select * from public.content_details order by content_id')).rows,privateBefore);
+  await db.exec(sql);
+  assert.deepEqual((await db.query("select * from public.content where kind='project' order by id")).rows,rows);
+  await db.query("delete from public.content where slug='arm'");
+  await db.exec(sql);
+  assert.equal((await db.query("select * from public.content where slug='arm'")).rows.length,0);
+});
+
+
+test('the combined existing-database upgrade is repeatable',async()=>{
+  const sql=readFileSync('supabase/upgrade-existing.sql','utf8');
+  await db.exec(sql);
+  const profiles=(await db.query('select * from public.profiles order by id')).rows;
+  const content=(await db.query('select * from public.content order by id')).rows;
+  await db.exec(sql);
+  assert.deepEqual((await db.query('select * from public.profiles order by id')).rows,profiles);
+  assert.deepEqual((await db.query('select * from public.content order by id')).rows,content);
+});

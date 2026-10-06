@@ -3,7 +3,7 @@ import slots from '../content-slots.json' with {type:'json'};
 
 const adminId='00000000-0000-4000-8000-000000000001',memberId='00000000-0000-4000-8000-000000000002',eventId='00000000-0000-4000-8000-000000000003',projectId='00000000-0000-4000-8000-000000000004';
 async function mock(page,{role='admin',signedIn=false,status='approved',empty=false}={}){
-  const profile={id:role==='admin'?adminId:memberId,email:`${role}@example.test`,name:role==='admin'?'Alex Admin':'Jamie Member',avatar:'boy',role,status,member_id:'SAC-CS-001',department:'CS',study_year:'2',interests:['Robotics'],motivation:'I want to build robots.',submitted_at:'2026-01-01',created_at:'2026-01-01'};
+  const profile={id:role==='admin'?adminId:memberId,email:`${role}@example.test`,name:role==='admin'?'Alex Admin':'Jamie Member',avatar:role==='admin'?'technologist':'robot',pronouns:'he/him',role,status,member_id:'SAC-CS-001',department:'CS',study_year:'2',interests:['Robotics'],motivation:'I want to build robots.',submitted_at:'2026-01-01',created_at:'2026-01-01'};
   const applicant={...profile,id:'00000000-0000-4000-8000-000000000005',name:'New Maker',email:'maker@example.test',role:'member',status:'pending',member_id:null};
   const user={id:profile.id,email:profile.email,aud:'authenticated',role:'authenticated',app_metadata:{provider:'email'},user_metadata:{},created_at:'2026-01-01'};
   const session={access_token:'test-access-token',refresh_token:'test-refresh-token',expires_in:3600,expires_at:Math.floor(Date.now()/1000)+3600,token_type:'bearer',user};
@@ -11,7 +11,7 @@ async function mock(page,{role='admin',signedIn=false,status='approved',empty=fa
   if(signedIn)await page.addInitScript(session=>localStorage.setItem('sb-sac-test-auth-token',JSON.stringify(session)),session);
   await page.route('https://sac-test.supabase.co/**',async route=>{
     const req=route.request(),url=new URL(req.url()),path=url.pathname,method=req.method(),body=req.headers()['content-type']?.includes('application/json')?req.postDataJSON():null;
-    state.calls.push({path,method,body});
+    state.calls.push({path,method,body,url:req.url()});
     let data=[];
     if(method==='OPTIONS')return route.fulfill({status:200,headers:{'access-control-allow-origin':'*','access-control-allow-headers':'*'}});
     if(path.includes('/auth/v1/token'))data=session;
@@ -62,15 +62,98 @@ test('admin can add and delete an event, edit website text, and review an applic
   await page.goto('/');await expect(page.locator('.s2-giant-text')).toContainText('BEYOND TOMORROW');await expect(page.locator('.section-two .home-event-slide')).toHaveCount(2);
   await page.goto('/admin');await page.getByRole('button',{name:'Events',exact:true}).click();await page.getByRole('row').filter({hasText:'Circuit Jam'}).getByRole('button',{name:'Edit'}).click();page.once('dialog',d=>d.accept());await page.getByRole('button',{name:'Delete event'}).click();await expect.poll(()=>state.items.some(i=>i.slug==='circuit-jam')).toBe(false);
 });
-test('public previews remain public but full project and event details require login',async({page})=>{
+test('project pages are public while member notes and event details require login',async({page})=>{
   const state=await mock(page);await page.goto('/projects.html');await expect(page.getByText('Public rover preview.')).toBeVisible();
-  await page.getByRole('button',{name:'Explore Atlas Rover'}).click();await expect(page).toHaveURL(/\/account\?next=/);expect(state.calls.filter(c=>c.path.endsWith('/content_details')).length).toBe(0);
+  await page.getByRole('link',{name:'Explore Atlas Rover'}).click();await expect(page).toHaveURL(/\/project.html\?project=atlas/);
+  await expect(page.getByRole('heading',{name:'Atlas Rover'})).toBeVisible();
+  expect(state.calls.filter(c=>c.path.endsWith('/content_details')).length).toBe(0);
+  await page.getByRole('button',{name:'Open member notes'}).click();await expect(page).toHaveURL(/\/account\?next=/);expect(state.calls.filter(c=>c.path.endsWith('/content_details')).length).toBe(0);
   await page.goto('/events.html');await expect(page.locator('.ev-ticket')).toHaveCount(1);await page.getByRole('button',{name:'View details for Future Build'}).click();await expect(page).toHaveURL(/\/account\?next=/);
+});
+
+test('admin project edits persist in the detail page, card, and hero',async({page},info)=>{
+  await page.addInitScript(()=>sessionStorage.setItem('sac_booted','true'));
+  const state=await mock(page,{signedIn:true});await page.goto('/admin');
+  await page.getByRole('button',{name:'Projects',exact:true}).click();
+  await page.getByRole('row').filter({hasText:'Atlas Rover'}).getByRole('button',{name:'Edit'}).click();
+  await page.getByLabel('Project overview',{exact:true}).fill('An editable rover brief for a supervised navigation experiment.');
+  await page.getByLabel('Problem to solve').fill('Detect obstacles and stop predictably.');
+  await page.getByLabel('Build approach').fill('Start with sensing, then validate navigation.');
+  await page.getByLabel('Features · one per line').fill('Obstacle detection\nManual stop');
+  await page.getByLabel('Components and technologies').fill('Microcontroller\nDistance sensor');
+  await page.getByLabel('Milestones · one per line').fill('Assemble base\nTest movement');
+  await page.getByLabel('Next steps').fill('Prepare a supervised trial.');
+  await page.getByLabel('GitHub repository URL').fill('https://github.com/example/atlas');
+  await page.getByLabel('Image URL',{exact:true}).fill('/showcase-assets/project-atlas.jpg');
+  await page.getByLabel('Image caption',{exact:true}).fill('Rover concept illustration');
+  await page.getByLabel('Feature near the start').check();
+  await page.screenshot({path:info.outputPath('project-admin.png'),fullPage:true});
+  await page.getByRole('button',{name:'Save changes',exact:true}).click();
+  await expect(page.getByRole('heading',{name:'Projects',exact:true})).toBeVisible();
+  expect(state.items.find(i=>i.kind==='project').data.githubUrl).toBe('https://github.com/example/atlas');
+  await page.goto('/projects.html');
+  await expect(page.locator('[data-project-hero] img')).toHaveAttribute('src','/showcase-assets/project-atlas.jpg');
+  await expect(page.locator('.experiment-image img')).toHaveAttribute('src','/showcase-assets/project-atlas.jpg');
+  await page.getByRole('link',{name:'Explore Atlas Rover'}).click();
+  await expect(page.getByText('An editable rover brief for a supervised navigation experiment.')).toBeVisible();
+  await expect(page.getByRole('link',{name:'VIEW ON GITHUB'})).toHaveAttribute('href','https://github.com/example/atlas');
+  await expect(page.locator('#project-features li')).toHaveCount(2);
+  await expect(page.locator('#project-milestones li')).toHaveCount(2);
+  await page.getByRole('button',{name:'Open member notes'}).click();
+  await expect(page.locator('#member-notes-body')).toHaveText(state.privateBody);
+  await page.screenshot({path:info.outputPath('project-detail-desktop.png'),fullPage:true});
+  await page.setViewportSize({width:390,height:844});
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await page.screenshot({path:info.outputPath('project-detail-mobile.png'),fullPage:true});
+  await page.goto('/projects.html?project=atlas');
+  await expect(page).toHaveURL(/\/project.html\?project=atlas/);
+});
+
+test('all original concepts have distinct artwork and expanded shareable briefs',async({page},info)=>{
+  await page.addInitScript(()=>sessionStorage.setItem('sac_booted','true'));
+  const state=await mock(page);
+  const {projectDefaults}=await import('../lib/project-data.mjs');
+  state.items=Object.keys(projectDefaults).map((slug,i)=>({id:`project-${i}`,slug,kind:'project',title:['ATLAS / ROVER','IRIS / VISION','PULSE / NETWORK','DEXTER / ARM'][i],summary:'A proposed SAC build.',image:i%2?'/showcase-assets/vision.jpg':'/showcase-assets/rover.jpg',image_alt:'Concept',tags:['Robotics'],published:true,sort_order:i,data:{category:'robotics',status:'Concept',homeProject:true}}));
+  await page.goto('/projects.html');
+  await expect(page.locator('.experiment-card')).toHaveCount(4);
+  const images=await page.locator('.experiment-image img').evaluateAll(nodes=>nodes.map(n=>n.src));
+  expect(new Set(images).size).toBe(4);
+  await expect(page.locator('[data-project-hero] a')).toHaveCount(3);
+  await page.screenshot({path:info.outputPath('project-collection.png'),fullPage:true});
+  for(const item of state.items){
+    await page.goto(`/project.html?project=${item.slug}`);
+    await expect(page.getByRole('heading',{level:1})).toHaveText(item.title);
+    await expect(page.locator('#project-brief .project-section')).toHaveCount(7);
+    await expect(page.locator('#project-github')).toBeHidden();
+    await expect(page.getByText('Repository link coming soon.')).toBeVisible();
+    await expect(page.locator('#project-image')).toHaveJSProperty('naturalWidth',1400);
+  }
+  await page.setViewportSize({width:390,height:844});await page.goto('/projects.html');
+  await expect(page.locator('[data-project-hero] a')).toHaveCount(3);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await page.screenshot({path:info.outputPath('project-collection-mobile.png'),fullPage:true});
+  await page.goto('/project.html?project=missing');
+  await expect(page.getByRole('heading',{name:'Project not found.'})).toBeVisible();
+  expect(state.calls.filter(c=>c.path.endsWith('/content_details')).length).toBe(0);
+});
+
+test('unsafe repository links cannot be saved or rendered',async({page})=>{
+  const state=await mock(page,{signedIn:true});await page.goto('/admin');
+  await page.getByRole('button',{name:'Projects',exact:true}).click();
+  await page.getByRole('row').filter({hasText:'Atlas Rover'}).getByRole('button',{name:'Edit'}).click();
+  await page.getByLabel('GitHub repository URL').fill('https://github.com.evil.test/owner/repo');
+  await page.getByRole('button',{name:'Save changes',exact:true}).click();
+  await expect(page.getByRole('alert')).toContainText('Use a GitHub repository URL');
+  expect(state.calls.some(c=>c.path.endsWith('/rpc/save_content'))).toBe(false);
+  state.items.find(i=>i.kind==='project').data.githubUrl='javascript:alert(1)';
+  await page.goto('/project.html?project=atlas');
+  await expect(page.getByRole('heading',{name:'Atlas Rover'})).toBeVisible();
+  await expect(page.locator('#project-github')).toBeHidden();
 });
 test('approved member can read details, register once, update emoji, and cancel',async({page},info)=>{
   const state=await mock(page,{role:'member',signedIn:true});await page.goto('/events.html');await page.getByRole('button',{name:'View details for Future Build'}).click();await expect(page.getByText('Members-only instructions. Bring your robot kit.')).toBeVisible();
   await page.getByRole('button',{name:'REGISTER FOR EVENT',exact:true}).click();await expect(page.getByRole('button',{name:'YOU’RE REGISTERED'})).toBeDisabled();expect(state.registrations.length).toBe(1);
-  await page.goto('/account');await page.getByRole('radio',{name:'Girl',exact:true}).check();await page.getByRole('button',{name:'Save profile',exact:true}).click();await expect.poll(()=>state.profile.avatar).toBe('girl');await expect(page.getByRole('img',{name:'Pink robot avatar'})).toBeVisible();await page.screenshot({path:info.outputPath('robot-profile.png'),fullPage:true});
+  await page.goto('/account');await expect(page.getByLabel('Pronouns (fixed)')).toHaveValue('He/Him');await expect(page.getByLabel('Pronouns (fixed)')).toHaveAttribute('readonly','');await expect(page.getByRole('group',{name:'Your tech emoji'}).getByRole('radio')).toHaveCount(8);await page.getByRole('radio',{name:'Rocket',exact:true}).check();await page.getByRole('button',{name:'Save profile',exact:true}).click();await expect.poll(()=>state.profile.avatar).toBe('rocket');expect(state.profile.pronouns).toBe('he/him');await expect(page.getByRole('img',{name:'Rocket',exact:true})).toBeVisible();await page.screenshot({path:info.outputPath('robot-profile.png'),fullPage:true});
   page.once('dialog',d=>d.accept());await page.getByRole('button',{name:'Cancel',exact:true}).click();await expect.poll(()=>state.registrations.length).toBe(0);
 });
 test('empty database never resurrects deleted items and mobile admin has no overflow',async({page},info)=>{
@@ -88,10 +171,10 @@ test('CMS text hooks resolve to the intended text without replacing child markup
 
 test('applications collect a chosen password and emoji without requesting admin privileges',async({page})=>{
   const state=await mock(page);await page.goto('/join.html');
-  await page.getByLabel('First Name').fill('Sam');await page.getByLabel('Last Name').fill('Maker');await page.getByLabel('Email',{exact:true}).fill('sam@example.test');await page.getByLabel('Department',{exact:true}).selectOption('cs');await page.getByLabel('Year of Study').selectOption('2');await page.getByLabel('Why do you want to join SAC?').fill('I want to learn robotics.');await page.getByLabel('Choose your password').fill('a-long-test-password');await page.getByRole('radio',{name:'Girl',exact:true}).check();await page.getByRole('button',{name:'SUBMIT APPLICATION'}).click();
+  await page.getByLabel('First Name').fill('Sam');await page.getByLabel('Last Name').fill('Maker');await page.getByLabel('Email',{exact:true}).fill('sam@example.test');await page.getByLabel('Department',{exact:true}).selectOption('cs');await page.getByLabel('Year of Study').selectOption('2');await page.getByLabel('Why do you want to join SAC?').fill('I want to learn robotics.');await page.getByLabel('Choose your password').fill('a-long-test-password');await page.getByRole('radio',{name:'She/Her',exact:true}).check();await page.getByRole('radio',{name:'Satellite',exact:true}).check();await page.getByRole('button',{name:'SUBMIT APPLICATION'}).click();
   await expect(page.getByRole('status')).toContainText('Check your email');
   const signup=state.calls.find(c=>c.path.endsWith('/signup')).body;
-  expect(signup.data.avatar).toBe('girl');expect(signup.data.name).toBe('Sam Maker');expect(signup.data.role).toBeUndefined();expect(signup.data.status).toBeUndefined();
+  expect(signup.data.avatar).toBe('satellite');expect(signup.data.pronouns).toBe('she/her');expect(state.calls.find(c=>c.path.endsWith('/signup')).url).toContain('redirect_to=https%3A%2F%2Fsaclub.tech%2Faccount%3Fmode%3Dlogin%26confirmed%3D1');expect(signup.data.name).toBe('Sam Maker');expect(signup.data.role).toBeUndefined();expect(signup.data.status).toBeUndefined();
 });
 
 test('pending member cannot open protected details and gets a useful status',async({page})=>{
@@ -101,4 +184,47 @@ test('pending member cannot open protected details and gets a useful status',asy
 test('edited event banner words and home button words persist without changing banner artwork',async({page})=>{
   const state=await mock(page);state.values['events-006']='BUILD YOUR NEXT';state.values['home-009-0']='DISCOVER THE LAB';await page.goto('/events.html');await expect(page.locator('#ev-title')).toContainText('BUILD YOUR NEXT');await expect(page.locator('.ev-hero-image')).toHaveAttribute('src',/banner_notext/);
   await page.goto('/');const button=page.locator('[data-cms="home-009"]');await expect(button).toHaveText('DISCOVER THE LAB');await button.hover();await page.mouse.move(0,0);await expect(button).toHaveText('DISCOVER THE LAB');
+});
+
+
+test('admin keeps the laptop-person emoji and cannot select a member emoji',async({page})=>{
+  await mock(page,{signedIn:true});await page.goto('/account');
+  await expect(page.getByRole('img',{name:'Administrator technologist'})).toBeVisible();
+  await expect(page.getByRole('group',{name:'Your tech emoji'})).toHaveCount(0);
+  await expect(page.getByLabel('Pronouns (fixed)')).toHaveAttribute('readonly','');
+  await page.goto('/admin');
+  await expect(page.locator('.admin-user').getByRole('img',{name:'Administrator technologist'})).toBeVisible();
+});
+
+test('confirmed email lands on login and failed links do not claim success',async({page})=>{
+  const state=await mock(page,{role:'member',signedIn:true});
+  await page.goto('/account?mode=login&confirmed=1');
+  await expect(page.getByRole('heading',{name:'Good to see you.'})).toBeVisible();
+  await expect(page.getByRole('status')).toContainText('Email confirmed. Sign in');
+  expect(state.calls.some(c=>c.path.includes('/logout')&&c.url.includes('scope=local'))).toBe(true);
+  await expect(page).toHaveURL(/account\?mode=login$/);
+  await page.goto('/account?mode=login&confirmed=1#error=access_denied&error_description=Email+link+expired');
+  await expect(page.getByRole('alert')).toContainText('Email link expired');
+  await expect(page.getByText('Email confirmed. Sign in to your account.')).toHaveCount(0);
+});
+
+test('publishing requirement and emoji choices fit mobile and each page theme',async({page},info)=>{
+  await mock(page,{role:'member',signedIn:true,status:'pending'});
+  await page.addInitScript(()=>sessionStorage.setItem('sac_booted','true'));
+  for(const width of [1440,390]){
+    await page.setViewportSize({width,height:1000});
+    for(const path of ['/account','/projects.html','/about.html','/terms.html','/privacy.html']){
+      await page.goto(path);
+      await expect(page.getByText(/All projects developed under SAC must be published/)).toBeVisible();
+      await expect(page.getByRole('link',{name:'club’s official GitHub organization'})).toHaveAttribute('href','https://github.com/SAclub');
+      await expect.poll(()=>page.evaluate(()=>({width:innerWidth,scrollWidth:document.documentElement.scrollWidth,overflow:[...document.querySelectorAll('main > section')].filter(el=>el.getBoundingClientRect().right>innerWidth).map(el=>el.className)})),{message:`Layout at ${path}, ${width}px`}).toEqual({width,scrollWidth:width,overflow:[]});
+      await page.getByText(/All projects developed under SAC must be published/).scrollIntoViewIfNeeded();
+      await page.screenshot({path:info.outputPath(`${path.replaceAll('/','')}-${width}.png`)});
+    }
+  }
+  await page.goto('/join.html');
+  await expect(page.getByRole('group',{name:'Your tech emoji'}).getByRole('radio')).toHaveCount(8);
+  await expect(page.getByRole('radio',{name:'He/Him',exact:true})).toBeDisabled();
+  await page.getByRole('group',{name:'Your tech emoji'}).scrollIntoViewIfNeeded();
+  await page.screenshot({path:info.outputPath('join-choices-mobile.png')});
 });

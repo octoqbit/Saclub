@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#090c0b">
+  <title>Project detail | SAC BTKIT</title>
+  <meta name="description" content="Explore a SAC project: its purpose, proposed build, components, milestones and repository.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="showcase.css"><link rel="stylesheet" href="project-detail.css">
+  <link rel="icon" type="image/png" href="/favicon-round.png?v=b16adb9d">
+</head>
+<body class="project-detail-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="world-nav"><a class="world-brand" href="index.html" aria-label="SAC home">SAC<span>®</span></a><span class="world-edition">THE EXPERIMENTAL DIVISION</span><button class="world-menu" aria-expanded="false" aria-controls="world-links" aria-label="Open navigation">☰</button><nav id="world-links" aria-label="Main navigation"><a href="index.html">Home</a><a href="projects.html" aria-current="page">Projects</a><a href="team.html">Team</a><a href="events.html">Events</a><a href="join.html" class="nav-join" data-member-cta><span data-cta-label>Join the lab ↗</span></a></nav></header>
+  <main id="main" class="project-detail-main">
+    <a class="project-back mono" href="projects.html#lab-index">← ALL PROJECTS</a>
+    <div id="project-message" role="status"><h1>Loading project…</h1></div>
+    <article id="project-detail" hidden>
+      <div class="project-detail-topline mono"><span id="project-subtitle"></span><span id="project-status"></span></div>
+      <div class="project-detail-hero">
+        <div><h1 id="project-title"></h1><p id="project-summary"></p><div id="project-tags" class="detail-tags"></div><div class="project-actions"><a id="project-github" class="pill-button" target="_blank" rel="noopener noreferrer" hidden>VIEW ON GITHUB <span aria-hidden="true">↗</span></a><a class="project-text-link" href="join.html">Build with SAC ↗</a></div><p id="project-repo-status" class="project-repo-status" hidden>Repository link coming soon.</p></div>
+        <figure><img id="project-image" width="1400" height="933" alt=""><figcaption id="project-image-caption" class="mono"></figcaption></figure>
+      </div>
+      <div class="project-document">
+        <aside class="project-toc"><span class="eyebrow">INSIDE THIS PROJECT</span><nav id="project-sections" aria-label="Project sections"></nav><a href="#member-notes">Member notes ↓</a></aside>
+        <div><div id="project-brief"></div><section id="member-notes" class="project-section member-notes"><span class="eyebrow">THE WORKBENCH</span><h2>Member notes</h2><p>Build documentation and internal instructions are available to approved SAC members.</p><button id="load-member-notes" type="button" class="project-outline-button">Open member notes ↗</button><p id="member-notes-status" role="status"></p><div id="member-notes-body" hidden></div></section></div>
+      </div>
+      <section class="project-next"><span class="eyebrow">KEEP EXPLORING</span><a id="next-project"></a><a class="project-text-link" href="projects.html#lab-index">Back to the collection ↗</a></section>
+    </article>
+  </main>
+  <footer class="world-footer"><a class="world-brand" href="index.html">SAC<span>®</span></a><p>SENSING & AUTOMATION CLUB<br>Curiosity is a team sport.</p><nav aria-label="Footer navigation"><a href="projects.html">Projects ↗</a><button type="button" data-help-center aria-haspopup="dialog" aria-controls="sac-help-center" aria-expanded="false" class="help-center-trigger">Help Center</button><a href="privacy.html">Privacy Policy</a></nav><span>© 2026 SAC</span></footer>
+  <script type="module" src="project-detail.js"></script><script type="module" src="/lib/help-center.js"></script>
+</body>
+</html>
