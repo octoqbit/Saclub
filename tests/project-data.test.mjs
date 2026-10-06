@@ -5,7 +5,8 @@ import { prepareProject, githubRepositoryURL } from '../lib/project-data.mjs';
 test('project defaults preserve edits, cleared sections, and custom images',()=>{
   const original={kind:'project',slug:'rover',image:'/showcase-assets/rover.jpg',data:{}};
   assert.match(prepareProject(original).image,/project-atlas/);
-  assert.match(prepareProject(original).data.overview,/Atlas/);
+  assert.equal(prepareProject(original).data.overview,undefined);
+  assert.equal(prepareProject(original).data.githubUrl,undefined);
   const edited={...original,image:'https://images.example.test/my-photo.jpg',data:{overview:'My build',features:'',githubUrl:'https://github.com/example/robot'}};
   assert.equal(prepareProject(edited).image,edited.image);
   assert.equal(prepareProject(edited).data.overview,'My build');

@@ -26,7 +26,7 @@ before(async()=>{
   await db.query(`update public.profiles set status='approved' where id=$1`,[member]);
   eventId=(await db.query(`update public.content set data=data||'{"startDate":"2099-01-01","endDate":"2099-01-02","registrationOpen":true}' where slug='genesis' returning id`)).rows[0].id;
   draftId=(await db.query(`insert into public.content(kind,slug,title,published) values('project','secret-draft','Secret draft',false) returning id`)).rows[0].id;
-  await db.query(`insert into public.content_details values($1,'Private draft text')`,[draftId]);
+  await db.query(`insert into public.content_details(content_id,body) values($1,'Private draft text')`,[draftId]);
   projectId=(await db.query(`select id from public.content where slug='rover'`)).rows[0].id;
 });
 after(()=>db.close());
@@ -84,7 +84,8 @@ test('admin save is atomic; published content and deletion respect foreign keys'
   const item={kind:'project',slug:'test-project',title:'Test project',summary:'Public preview',image:'',image_alt:'',tags:['AI'],data:{category:'ai',overview:'Public build brief',githubUrl:'https://github.com/example/robot',features:'Sensing\nControl',milestones:'Plan\nBuild',heroFeatured:true},published:true,sort_order:10};
   const id=(await db.query('select public.save_content($1,$2) as id',[JSON.stringify(item),'Secret documentation'])).rows[0].id;
   assert.equal((await db.query('select body from public.content_details where content_id=$1',[id])).rows[0].body,'Secret documentation');
-  assert.deepEqual((await db.query('select data from public.content where id=$1',[id])).rows[0].data,item.data);
+  assert.deepEqual((await db.query('select data from public.content where id=$1',[id])).rows[0].data,{category:'ai',heroFeatured:true});
+  assert.equal((await db.query('select data from public.content_details where content_id=$1',[id])).rows[0].data.overview,item.data.overview);
   await assert.rejects(db.query('select public.save_content($1,$2)',[JSON.stringify({...item,slug:'rollback-test'}),null]),/not-null constraint/);
   assert.equal((await db.query("select * from public.content where slug='rollback-test'")).rows.length,0);
   await db.query('delete from public.content where id=$1',[id]);
@@ -157,16 +158,22 @@ test('profile migration preserves legacy selections and is repeatable',async()=>
 test('project migration persists briefs, preserves edits and private notes, and never resurrects projects',async()=>{
   await db.query(`update public.content set data='{"overview":"My custom brief","features":"","githubUrl":"https://github.com/SAclub/custom"}',image='/my-custom.jpg' where slug='rover'`);
   await db.query(`update public.content set data='{}',image='/showcase-assets/vision.jpg' where slug='vision'`);
-  const privateBefore=(await db.query('select * from public.content_details order by content_id')).rows;
+  const privateBefore=(await db.query('select content_id,body from public.content_details order by content_id')).rows;
   const sql=readFileSync('supabase/migrations/20261006_project_briefs.sql','utf8');
   await db.exec(sql);
   const rows=(await db.query("select * from public.content where kind='project' order by id")).rows;
   const rover=rows.find(p=>p.slug==='rover'),vision=rows.find(p=>p.slug==='vision');
+  assert.equal(rover.data.overview,undefined);assert.equal(vision.data.overview,undefined);
+  rover.data=(await db.query('select data from public.content_details where content_id=$1',[rover.id])).rows[0].data;
+  vision.data=(await db.query('select data from public.content_details where content_id=$1',[vision.id])).rows[0].data;
   assert.equal(rover.image,'/my-custom.jpg');assert.equal(rover.data.overview,'My custom brief');assert.equal(rover.data.features,'');assert.equal(rover.data.githubUrl,'https://github.com/SAclub/custom');
   assert.match(vision.data.overview,/Iris/);assert.match(vision.image,/project-iris/);
-  assert.deepEqual((await db.query('select * from public.content_details order by content_id')).rows,privateBefore);
+  assert.deepEqual((await db.query('select content_id,body from public.content_details order by content_id')).rows,privateBefore);
+  const publicBefore=(await db.query("select * from public.content where kind='project' order by id")).rows;
+  const detailsBefore=(await db.query('select * from public.content_details order by content_id')).rows;
   await db.exec(sql);
-  assert.deepEqual((await db.query("select * from public.content where kind='project' order by id")).rows,rows);
+  assert.deepEqual((await db.query("select * from public.content where kind='project' order by id")).rows,publicBefore);
+  assert.deepEqual((await db.query('select * from public.content_details order by content_id')).rows,detailsBefore);
   await db.query("delete from public.content where slug='arm'");
   await db.exec(sql);
   assert.equal((await db.query("select * from public.content where slug='arm'")).rows.length,0);
@@ -181,4 +188,39 @@ test('the combined existing-database upgrade is repeatable',async()=>{
   await db.exec(sql);
   assert.deepEqual((await db.query('select * from public.profiles order by id')).rows,profiles);
   assert.deepEqual((await db.query('select * from public.content order by id')).rows,content);
+});
+
+
+test('project access migration removes existing public details and enforces membership for direct API reads',async()=>{
+  await db.exec('drop trigger project_details_private on public.content');
+  await db.query(`update public.content set data=data || '{"overview":"Migrated private brief","features":"","githubUrl":"https://github.com/SAclub/private","futureField":"Private by default"}' where id=$1`,[projectId]);
+  const notes=(await db.query('select body from public.content_details where content_id=$1',[projectId])).rows[0].body;
+  const sql=readFileSync('supabase/migrations/20261006_project_member_access.sql','utf8');
+  await db.exec(sql);
+  const details=(await db.query('select * from public.content_details where content_id=$1',[projectId])).rows[0];
+  assert.equal(details.body,notes);
+  assert.equal(details.data.overview,'Migrated private brief');
+  assert.equal(details.data.features,'');
+  assert.equal(details.data.futureField,'Private by default');
+  await db.exec(sql);
+  assert.deepEqual((await db.query('select * from public.content_details where content_id=$1',[projectId])).rows[0],details);
+  await as('anon',null,async()=>{
+    const preview=(await db.query('select * from public.content where id=$1',[projectId])).rows[0];
+    assert(preview.title);assert(preview.image);
+    for(const key of ['overview','features','githubUrl','futureField'])assert.equal(preview.data[key],undefined);
+    await assert.rejects(db.query('select data from public.content_details where content_id=$1',[projectId]),/permission denied/);
+  });
+  for(const status of ['pending','rejected','suspended']){
+    await db.query('update public.profiles set status=$1 where id=$2',[status,pending]);
+    await as('authenticated',pending,async()=>{
+      assert.equal((await db.query('select data from public.content_details where content_id=$1',[projectId])).rows.length,0);
+      assert.equal((await db.query('select data from public.content where id=$1',[projectId])).rows[0].data.overview,undefined);
+    });
+  }
+  await as('authenticated',member,async()=>assert.equal((await db.query('select data from public.content_details where content_id=$1',[projectId])).rows[0].data.overview,'Migrated private brief'));
+  await as('authenticated',admin,async()=>{
+    await db.query(`update public.content set data=data || '{"overview":"","newDetail":"Only members"}' where id=$1`,[projectId]);
+    assert.equal((await db.query('select data from public.content_details where content_id=$1',[projectId])).rows[0].data.overview,'');
+    assert.equal((await db.query('select data from public.content where id=$1',[projectId])).rows[0].data.newDetail,undefined);
+  });
 });

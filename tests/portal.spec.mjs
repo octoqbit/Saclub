@@ -7,7 +7,7 @@ async function mock(page,{role='admin',signedIn=false,status='approved',empty=fa
   const applicant={...profile,id:'00000000-0000-4000-8000-000000000005',name:'New Maker',email:'maker@example.test',role:'member',status:'pending',member_id:null};
   const user={id:profile.id,email:profile.email,aud:'authenticated',role:'authenticated',app_metadata:{provider:'email'},user_metadata:{},created_at:'2026-01-01'};
   const session={access_token:'test-access-token',refresh_token:'test-refresh-token',expires_in:3600,expires_at:Math.floor(Date.now()/1000)+3600,token_type:'bearer',user};
-  const state={profile,items:empty?[]:[{id:eventId,kind:'event',slug:'future-build',title:'Future Build',summary:'Build something together.',image:'/about-assets/ai_hackathon.jpg',image_alt:'Robotics workshop',tags:['Robotics'],published:true,sort_order:1,data:{shortTitle:'FUTURE BUILD',subtitle:'A HANDS-ON WORKSHOP',startDate:'2099-01-01',endDate:'2099-01-02',location:'The lab',prizePool:'1,000',symbol:'01',accentColor:'#00e5ff',homeBeyond:true,homeExperience:true,registrationOpen:true}},{id:projectId,kind:'project',slug:'atlas',title:'Atlas Rover',summary:'Public rover preview.',image:'/showcase-assets/rover.jpg',image_alt:'Rover',tags:['Robotics'],published:true,sort_order:1,data:{category:'robotics',subtitle:'AUTONOMOUS EXPLORATION',status:'Concept',homeProject:true}}],values:{},registrations:[],calls:[],applicant,privateBody:'Members-only instructions. Bring your robot kit.'};
+  const state={profile,items:empty?[]:[{id:eventId,kind:'event',slug:'future-build',title:'Future Build',summary:'Build something together.',image:'/about-assets/ai_hackathon.jpg',image_alt:'Robotics workshop',tags:['Robotics'],published:true,sort_order:1,data:{shortTitle:'FUTURE BUILD',subtitle:'A HANDS-ON WORKSHOP',startDate:'2099-01-01',endDate:'2099-01-02',location:'The lab',prizePool:'1,000',symbol:'01',accentColor:'#00e5ff',homeBeyond:true,homeExperience:true,registrationOpen:true}},{id:projectId,kind:'project',slug:'atlas',title:'Atlas Rover',summary:'Public rover preview.',image:'/showcase-assets/rover.jpg',image_alt:'Rover',tags:['Robotics'],published:true,sort_order:1,data:{category:'robotics',subtitle:'AUTONOMOUS EXPLORATION',status:'Concept',homeProject:true}}],projectDetails:{},values:{},registrations:[],calls:[],applicant,privateBody:'Members-only instructions. Bring your robot kit.'};
   if(signedIn)await page.addInitScript(session=>localStorage.setItem('sb-sac-test-auth-token',JSON.stringify(session)),session);
   await page.route('https://sac-test.supabase.co/**',async route=>{
     const req=route.request(),url=new URL(req.url()),path=url.pathname,method=req.method(),body=req.headers()['content-type']?.includes('application/json')?req.postDataJSON():null;
@@ -22,8 +22,8 @@ async function mock(page,{role='admin',signedIn=false,status='approved',empty=fa
     else if(path.endsWith('/profiles'))data=url.searchParams.has('id')?state.profile:[state.profile,state.applicant];
     else if(path.endsWith('/rpc/review_member')){state.applicant.status=body.decision;state.applicant.member_id='SAC-CS-002';data=null;}
     else if(path.endsWith('/rpc/save_profile')){state.profile.name=body.display_name;state.profile.avatar=body.emoji;data=null;}
-    else if(path.endsWith('/rpc/save_content')){const item={...body.item,id:body.item.id||crypto.randomUUID()};state.items=state.items.filter(i=>i.id!==item.id).concat(item);state.privateBody=body.private_body;data=item.id;}
-    else if(path.endsWith('/content_details'))data={body:state.privateBody};
+    else if(path.endsWith('/rpc/save_content')){const item={...body.item,id:body.item.id||crypto.randomUUID()};if(item.kind==='project'){const keys=['category','subtitle','status','homeProject','heroFeatured','imageCaption'];state.projectDetails[item.id]=Object.fromEntries(Object.entries(item.data).filter(([key])=>!keys.includes(key)));item.data=Object.fromEntries(Object.entries(item.data).filter(([key])=>keys.includes(key)));}state.items=state.items.filter(i=>i.id!==item.id).concat(item);state.privateBody=body.private_body;data=item.id;}
+    else if(path.endsWith('/content_details'))data={body:state.privateBody,data:state.projectDetails[url.searchParams.get('content_id')?.replace('eq.','')]||{}};
     else if(path.endsWith('/site_content')){if(method==='POST'){for(const row of body)state.values[row.id]=row.value;}data=Object.entries(state.values).map(([id,value])=>({id,value}));}
     else if(path.endsWith('/content')){
       if(method==='DELETE'){state.items=state.items.filter(i=>`eq.${i.id}`!==url.searchParams.get('id'));data=null;}
@@ -62,13 +62,44 @@ test('admin can add and delete an event, edit website text, and review an applic
   await page.goto('/');await expect(page.locator('.s2-giant-text')).toContainText('BEYOND TOMORROW');await expect(page.locator('.section-two .home-event-slide')).toHaveCount(2);
   await page.goto('/admin');await page.getByRole('button',{name:'Events',exact:true}).click();await page.getByRole('row').filter({hasText:'Circuit Jam'}).getByRole('button',{name:'Edit'}).click();page.once('dialog',d=>d.accept());await page.getByRole('button',{name:'Delete event'}).click();await expect.poll(()=>state.items.some(i=>i.slug==='circuit-jam')).toBe(false);
 });
-test('project pages are public while member notes and event details require login',async({page})=>{
+test('public project cards and banners remain visible, but opening details requires login',async({page})=>{
   const state=await mock(page);await page.goto('/projects.html');await expect(page.getByText('Public rover preview.')).toBeVisible();
-  await page.getByRole('link',{name:'Explore Atlas Rover'}).click();await expect(page).toHaveURL(/\/project.html\?project=atlas/);
-  await expect(page.getByRole('heading',{name:'Atlas Rover'})).toBeVisible();
+  await expect(page.locator('[data-project-hero] img')).toBeVisible();
+  await page.getByRole('link',{name:'Explore Atlas Rover'}).click();await expect(page).toHaveURL(/\/account\?next=/);
+  expect(new URL(page.url()).searchParams.get('next')).toBe('/project.html?project=atlas');
   expect(state.calls.filter(c=>c.path.endsWith('/content_details')).length).toBe(0);
-  await page.getByRole('button',{name:'Open member notes'}).click();await expect(page).toHaveURL(/\/account\?next=/);expect(state.calls.filter(c=>c.path.endsWith('/content_details')).length).toBe(0);
+  await page.goto('/project.html?project=atlas');await expect(page).toHaveURL(/\/account\?next=/);
+  expect(state.calls.filter(c=>c.path.endsWith('/content_details')).length).toBe(0);
   await page.goto('/events.html');await expect(page.locator('.ev-ticket')).toHaveCount(1);await page.getByRole('button',{name:'View details for Future Build'}).click();await expect(page).toHaveURL(/\/account\?next=/);
+});
+
+for(const status of ['pending','rejected','suspended'])test(`${status} users cannot open project details even with a cached member flag`,async({page})=>{
+  const state=await mock(page,{role:'member',signedIn:true,status});
+  await page.addInitScript(id=>localStorage.setItem('sac-approved-member',JSON.stringify({userId:id,approved:true})),memberId);
+  await page.goto('/project.html?project=atlas');
+  await expect(page).toHaveURL(/\/account\?next=/);
+  expect(state.calls.filter(c=>c.path.endsWith('/content_details')).length).toBe(0);
+  await expect(page.getByText('Members-only instructions. Bring your robot kit.')).toHaveCount(0);
+});
+
+test('approved members can open a project directly and read protected briefs',async({page})=>{
+  const state=await mock(page,{role:'member',signedIn:true});
+  state.projectDetails[projectId]={overview:'A protected build brief.',githubUrl:'https://github.com/SAclub/atlas'};
+  await page.goto('/project.html?project=atlas');
+  await expect(page.getByText('A protected build brief.')).toBeVisible();
+  await expect(page.getByRole('link',{name:'VIEW ON GITHUB'})).toHaveAttribute('href','https://github.com/SAclub/atlas');
+  await page.getByRole('button',{name:'Open member notes'}).click();
+  await expect(page.locator('#member-notes-body')).toHaveText(state.privateBody);
+});
+
+test('failed protected project requests do not reveal legacy public detail fields',async({page})=>{
+  const state=await mock(page,{role:'member',signedIn:true});
+  state.items.find(item=>item.kind==='project').data.overview='Legacy exposed brief';
+  await page.route('**/rest/v1/content_details?**',route=>route.fulfill({status:403,contentType:'application/json',body:JSON.stringify({message:'Access denied'})}));
+  await page.goto('/project.html?project=atlas');
+  await expect(page.getByRole('heading',{name:'Could not load this project.'})).toBeVisible();
+  await expect(page.locator('#project-detail')).toBeHidden();
+  await expect(page.getByText('Legacy exposed brief')).toHaveCount(0);
 });
 
 test('admin project edits persist in the detail page, card, and hero',async({page},info)=>{
@@ -90,7 +121,10 @@ test('admin project edits persist in the detail page, card, and hero',async({pag
   await page.screenshot({path:info.outputPath('project-admin.png'),fullPage:true});
   await page.getByRole('button',{name:'Save changes',exact:true}).click();
   await expect(page.getByRole('heading',{name:'Projects',exact:true})).toBeVisible();
-  expect(state.items.find(i=>i.kind==='project').data.githubUrl).toBe('https://github.com/example/atlas');
+  expect(state.items.find(i=>i.kind==='project').data.githubUrl).toBeUndefined();
+  expect(state.projectDetails[projectId].githubUrl).toBe('https://github.com/example/atlas');
+  await page.getByRole('row').filter({hasText:'Atlas Rover'}).getByRole('button',{name:'Edit'}).click();
+  await expect(page.getByRole('textbox',{name:'Project overview',exact:true})).toHaveValue('An editable rover brief for a supervised navigation experiment.');
   await page.goto('/projects.html');
   await expect(page.locator('[data-project-hero] img')).toHaveAttribute('src','/showcase-assets/project-atlas.jpg');
   await expect(page.locator('.experiment-image img')).toHaveAttribute('src','/showcase-assets/project-atlas.jpg');
@@ -109,11 +143,12 @@ test('admin project edits persist in the detail page, card, and hero',async({pag
   await expect(page).toHaveURL(/\/project.html\?project=atlas/);
 });
 
-test('all original concepts have distinct artwork and expanded shareable briefs',async({page},info)=>{
+test('all original concepts have public artwork and protected member briefs',async({page},info)=>{
   await page.addInitScript(()=>sessionStorage.setItem('sac_booted','true'));
-  const state=await mock(page);
+  const state=await mock(page,{role:'member',signedIn:true});
   const {projectDefaults}=await import('../lib/project-data.mjs');
   state.items=Object.keys(projectDefaults).map((slug,i)=>({id:`project-${i}`,slug,kind:'project',title:['ATLAS / ROVER','IRIS / VISION','PULSE / NETWORK','DEXTER / ARM'][i],summary:'A proposed SAC build.',image:i%2?'/showcase-assets/vision.jpg':'/showcase-assets/rover.jpg',image_alt:'Concept',tags:['Robotics'],published:true,sort_order:i,data:{category:'robotics',status:'Concept',homeProject:true}}));
+  for(const item of state.items)state.projectDetails[item.id]=Object.fromEntries(['overview','challenge','approach','features','techStack','milestones','nextSteps'].map(key=>[key,`Member-only ${key} for ${item.title}`]));
   await page.goto('/projects.html');
   await expect(page.locator('.experiment-card')).toHaveCount(4);
   const images=await page.locator('.experiment-image img').evaluateAll(nodes=>nodes.map(n=>n.src));
@@ -132,9 +167,10 @@ test('all original concepts have distinct artwork and expanded shareable briefs'
   await expect(page.locator('[data-project-hero] a')).toHaveCount(3);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.screenshot({path:info.outputPath('project-collection-mobile.png'),fullPage:true});
+  const detailCalls=state.calls.filter(c=>c.path.endsWith('/content_details')).length;
   await page.goto('/project.html?project=missing');
   await expect(page.getByRole('heading',{name:'Project not found.'})).toBeVisible();
-  expect(state.calls.filter(c=>c.path.endsWith('/content_details')).length).toBe(0);
+  expect(state.calls.filter(c=>c.path.endsWith('/content_details')).length).toBe(detailCalls);
 });
 
 test('unsafe repository links cannot be saved or rendered',async({page})=>{
@@ -145,7 +181,7 @@ test('unsafe repository links cannot be saved or rendered',async({page})=>{
   await page.getByRole('button',{name:'Save changes',exact:true}).click();
   await expect(page.getByRole('alert')).toContainText('Use a GitHub repository URL');
   expect(state.calls.some(c=>c.path.endsWith('/rpc/save_content'))).toBe(false);
-  state.items.find(i=>i.kind==='project').data.githubUrl='javascript:alert(1)';
+  state.projectDetails[projectId]={githubUrl:'javascript:alert(1)'};
   await page.goto('/project.html?project=atlas');
   await expect(page.getByRole('heading',{name:'Atlas Rover'})).toBeVisible();
   await expect(page.locator('#project-github')).toBeHidden();

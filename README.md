@@ -2,11 +2,14 @@
 
 ### Project pages and admin editing
 
-Project cards and homepage project slides link to `/project.html?project=<slug>`. The public brief contains an overview, challenge, approach, features, components, milestones, and next steps. Member notes still load only after the existing approved-member check and database policy permit access.
+The projects page, cards, summaries, and banners are public. Opening a project requires a signed-in, approved member; visitors go to sign-in with a return link. Pending, rejected, and suspended accounts cannot open full details.
 
-In **Admin → Projects → Edit**, update the image, caption, GitHub repository URL, and public brief. List fields use one entry per line. “Feature near the start of the projects hero” prioritizes that project in the three-image hero collection. These fields save through the existing `save_content` function into `content.data`; the JSON column already supports these fields. Run `supabase/upgrade-existing.sql` to persist the new briefs for older concept rows without overwriting edits; see `supabase/UPGRADE.md` for the profile, member ID, and email redirect setup. Empty GitHub fields display “Repository link coming soon” rather than an invented repository. Public links accept HTTPS URLs on `github.com` with an owner and repository.
+Briefs, features, components, milestones, next steps, repository links, and member notes are stored in `content_details`, protected by database row-level security. Only preview fields remain in `content.data`. The database moves other project fields to protected storage automatically, including when admins save through `save_content`. The public JavaScript bundle contains artwork defaults only.
 
-The original four concepts receive expanded proposed-build briefs and distinct artwork from `lib/project-data.mjs` when those fields are absent. Explicit admin values, including cleared fields, take precedence. Custom image URLs remain unchanged; only original shared rover/vision artwork is replaced for the four known concepts. Generated concept assets and their prompts are documented in `docs/project-artwork.md`.
+**Existing database:** run [the project-access migration](supabase/migrations/20261006_project_member_access.sql) in Supabase SQL Editor **before deploying the frontend**. It preserves existing notes and edited fields and is safe to rerun. This is also included in `upgrade-existing.sql`; new installations use `schema.sql` then `seed.sql`. A frontend deployment alone does not update database access.
+
+In **Admin → Projects → Edit**, update public artwork and introductions separately from member-only details. List fields use one entry per line. Project repository links accept GitHub HTTPS URLs. Generated artwork is documented in `docs/project-artwork.md`.
+
 ### Search visibility and support
 
 Public metadata, organization structured data, `public/robots.txt`, and `public/sitemap.xml` currently use `https://saclub.tech` as the production domain, with `https://saclub.tech/index.html` as the canonical homepage. If the production domain changes, update the absolute URLs in the public HTML files and these two crawler files together. Help Center opens a contact banner on the current page with Team SAC information and `info@saclub.tech`; privacy, cookies, and terms are standalone static pages included in the Vite build.

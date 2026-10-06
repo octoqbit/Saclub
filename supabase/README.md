@@ -82,4 +82,8 @@ If you already ran the original schema, run `migrations/20261004_department_memb
 
 ## October 2026 profile and project upgrade
 
-For an existing database, follow [UPGRADE.md](UPGRADE.md) and run `upgrade-existing.sql` once in the SQL editor. This combines department IDs, fixed pronouns with editable emojis, and persistent public project briefs in one transaction. Do not rerun the fresh-install schema or seed on an existing site.
+For an existing database, follow [UPGRADE.md](UPGRADE.md) and run `upgrade-existing.sql` once in the SQL editor. This combines department IDs, fixed pronouns with editable emojis, and member-only project briefs in one transaction. Do not rerun the fresh-install schema or seed on an existing site.
+
+## Member-only project details
+
+For a database that is already set up, run [migrations/20261006_project_member_access.sql](migrations/20261006_project_member_access.sql) before deploying the updated frontend. It moves existing project briefs and repository links out of public `content.data` into protected `content_details.data`, preserves notes and edits, and applies the same separation to future writes. The combined upgrade includes this migration. Public project listings, introductions, and artwork remain available to everyone; full details require approved membership.

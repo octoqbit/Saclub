@@ -33,3 +33,5 @@
 
 /* Keep the angled ticker inside the page without widening the viewport. */
 .project-world #main { overflow-x: clip; }
+
+.project-access-note { color: var(--muted); font-size: 14px; line-height: 1.7; margin: 0 0 24px; }
