@@ -2,7 +2,7 @@ import { initializeProjects } from './lib/public-content.js';
 import { projectHref } from './lib/project-data.mjs';
 import { initializeMemberCta } from './lib/member-cta.js';
 initializeMemberCta();
-const projectItems = await initializeProjects();
+const projectItemsReady = initializeProjects();
 const body = document.body;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const motionButton = document.querySelector('.motion-toggle');
@@ -72,11 +72,11 @@ document.querySelectorAll('[data-parallax]').forEach(el => {
 });
 
 const filters = [...document.querySelectorAll('[data-filter]')];
-const projects = [...document.querySelectorAll('[data-category]')];
+
 filters.forEach(button => button.addEventListener('click', () => {
     filters.forEach(filter => filter.setAttribute('aria-pressed', String(filter === button)));
     let shown = 0;
-    projects.forEach(card => {
+    document.querySelectorAll('[data-category]').forEach(card => {
         card.hidden = button.dataset.filter !== 'all' && button.dataset.filter !== card.dataset.category;
         if (!card.hidden) { shown++; card.classList.add('revealed'); }
     });
@@ -116,3 +116,8 @@ dialog?.addEventListener('close', () => { body.classList.remove('has-dialog'); o
 
 const requestedProject = new URLSearchParams(location.search).get('project');
 if (requestedProject && body.classList.contains('project-world')) location.replace(projectHref(requestedProject));
+
+projectItemsReady.then(() => {
+    document.querySelectorAll('.experiment-card[data-reveal]').forEach(card => card.classList.add('revealed'));
+    document.querySelector('[data-filter][aria-pressed="true"]')?.click();
+});

@@ -41,7 +41,7 @@ test('signup metadata cannot grant approval or administrator privileges',async()
 });
 test('anonymous visitors get published previews only',async()=>as('anon',null,async()=>{
   assert.equal((await db.query('select * from public.content')).rows.length,7);
-  await assert.rejects(db.query('select * from public.content_details'),/permission denied/);
+  assert.equal((await db.query('select * from public.content_details')).rows.length,0);
   await assert.rejects(db.query('select * from public.profiles'),/permission denied/);
   await assert.rejects(db.query("insert into public.site_content values('x','bad',now())"),/permission denied/);
 }));
@@ -208,7 +208,7 @@ test('project access migration removes existing public details and enforces memb
     const preview=(await db.query('select * from public.content where id=$1',[projectId])).rows[0];
     assert(preview.title);assert(preview.image);
     for(const key of ['overview','features','githubUrl','futureField'])assert.equal(preview.data[key],undefined);
-    await assert.rejects(db.query('select data from public.content_details where content_id=$1',[projectId]),/permission denied/);
+    assert.equal((await db.query('select data from public.content_details where content_id=$1',[projectId])).rows.length,0);
   });
   for(const status of ['pending','rejected','suspended']){
     await db.query('update public.profiles set status=$1 where id=$2',[status,pending]);
@@ -223,4 +223,31 @@ test('project access migration removes existing public details and enforces memb
     assert.equal((await db.query('select data from public.content_details where content_id=$1',[projectId])).rows[0].data.overview,'');
     assert.equal((await db.query('select data from public.content where id=$1',[projectId])).rows[0].data.newDetail,undefined);
   });
+});
+
+test('event access can open and close details without exposing projects or drafts',async()=>{
+  const migration=readFileSync('supabase/migrations/20261006_event_access.sql','utf8');
+  await db.exec(migration);await db.exec(migration);
+  const existing=(await db.query('select * from public.content where id=$1',[eventId])).rows[0];
+  async function saveAccess(access,published=true){
+    await as('authenticated',admin,()=>db.query('select public.save_content($1,$2)',[JSON.stringify({...existing,published,data:{...existing.data,access}}),'Event schedule for visitors']));
+  }
+  await saveAccess('public');
+  for(const [role,id] of [['anon',null],['authenticated',pending],['authenticated',member]]){
+    await as(role,id,async()=>{
+      assert.equal((await db.query('select body from public.content_details where content_id=$1',[eventId])).rows[0].body,'Event schedule for visitors');
+      assert.equal((await db.query('select * from public.content_details where content_id=$1',[draftId])).rows.length,0);
+      if(id!==member)assert.equal((await db.query('select * from public.content_details where content_id=$1',[projectId])).rows.length,0);
+    });
+  }
+  await as('anon',null,()=>assert.rejects(db.query("update public.content set data=data || '{\"access\":\"public\"}' where id=$1",[eventId]),/permission denied/));
+  await as('authenticated',pending,async()=>{
+    await assert.rejects(db.query('insert into public.registrations(user_id,event_id) values($1,$2)',[pending,eventId]),/row-level security/);
+    await assert.rejects(db.query('select public.save_content($1,$2)',[JSON.stringify(existing),'Unauthorized']),/Administrator access required/);
+  });
+  await saveAccess('public',false);
+  await as('anon',null,async()=>assert.equal((await db.query('select * from public.content_details where content_id=$1',[eventId])).rows.length,0));
+  await saveAccess('members');
+  for(const [role,id] of [['anon',null],['authenticated',pending]])await as(role,id,async()=>assert.equal((await db.query('select * from public.content_details where content_id=$1',[eventId])).rows.length,0));
+  await as('authenticated',member,async()=>assert.equal((await db.query('select * from public.content_details where content_id=$1',[eventId])).rows.length,1));
 });

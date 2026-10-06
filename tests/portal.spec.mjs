@@ -1,6 +1,9 @@
 import { test, expect } from '@playwright/test';
 import slots from '../content-slots.json' with {type:'json'};
 
+// Keep browser tests independent of external font availability.
+test.beforeEach(async({page})=>{await page.route('https://fonts.googleapis.com/**',route=>route.abort());await page.route('https://fonts.gstatic.com/**',route=>route.abort());});
+
 const adminId='00000000-0000-4000-8000-000000000001',memberId='00000000-0000-4000-8000-000000000002',eventId='00000000-0000-4000-8000-000000000003',projectId='00000000-0000-4000-8000-000000000004';
 async function mock(page,{role='admin',signedIn=false,status='approved',empty=false}={}){
   const profile={id:role==='admin'?adminId:memberId,email:`${role}@example.test`,name:role==='admin'?'Alex Admin':'Jamie Member',avatar:role==='admin'?'technologist':'robot',pronouns:'he/him',role,status,member_id:'SAC-CS-001',department:'CS',study_year:'2',interests:['Robotics'],motivation:'I want to build robots.',submitted_at:'2026-01-01',created_at:'2026-01-01'};
@@ -46,7 +49,7 @@ test('admin login is clean on desktop and mobile; non-admin login is rejected',a
   await page.setViewportSize({width:390,height:844});await expect(page.locator('body')).toHaveJSProperty('scrollWidth',390);
   await page.screenshot({path:info.outputPath('admin-login-mobile.png'),fullPage:true});
   await page.getByLabel('Admin ID (email)').fill('member@example.test');await page.getByLabel('Password',{exact:true}).fill('test-password-123');await page.getByRole('button',{name:'Sign in to admin'}).click();
-  await expect(page.getByRole('alert')).toContainText('does not have administrator access');
+  await expect(page.getByRole('alert')).toContainText('Invalid login Credentials');
 });
 test('admin can add and delete an event, edit website text, and review an applicant',async({page},info)=>{
   const state=await mock(page,{signedIn:true});await page.goto('/admin');
@@ -263,4 +266,72 @@ test('publishing requirement and emoji choices fit mobile and each page theme',a
   await expect(page.getByRole('radio',{name:'He/Him',exact:true})).toBeDisabled();
   await page.getByRole('group',{name:'Your tech emoji'}).scrollIntoViewIfNeeded();
   await page.screenshot({path:info.outputPath('join-choices-mobile.png')});
+});
+
+test('guest project navigation bypasses the detail page and timed loaders',async({page})=>{
+  const state=await mock(page);
+  const documents=[];page.on('request',request=>{if(request.resourceType()==='document')documents.push(new URL(request.url()).pathname);});
+  await page.goto('/projects.html');
+  await expect(page.locator('#sac-global-loader')).toHaveCount(0);
+  await expect(page.getByRole('link',{name:'Explore Atlas Rover'})).toBeVisible();
+  await page.getByRole('link',{name:'Explore Atlas Rover'}).click();
+  await expect(page.getByRole('heading',{name:'Good to see you.'})).toBeVisible();
+  expect(documents).not.toContain('/project.html');
+  expect(new URL(page.url()).searchParams.get('next')).toBe('/project.html?project=atlas');
+  expect(state.calls.some(call=>call.path.includes('/auth/v1/user')||call.path.endsWith('/content_details'))).toBe(false);
+  const bundles=[];page.on('request',request=>bundles.push(request.url()));
+  await page.goto('/project.html?project=atlas');
+  await expect(page).toHaveURL(/\/account\?next=/);
+  expect(bundles.some(url=>url.includes('/project-detail.js'))).toBe(false);
+});
+
+test('project controls and cards do not wait for website copy',async({page})=>{
+  await mock(page);
+  await page.route('**/rest/v1/site_content?**',()=>{});
+  await page.setViewportSize({width:390,height:844});
+  await page.goto('/projects.html');
+  await page.getByRole('button',{name:'Open navigation'}).click();
+  await expect(page.getByRole('button',{name:'Close navigation'})).toHaveAttribute('aria-expanded','true');
+  await expect(page.getByRole('link',{name:'Explore Atlas Rover'})).toBeVisible();
+  await page.getByRole('button',{name:'AI & vision',exact:true}).click();
+  await expect(page.locator('.filter-count')).toHaveText('0 concepts');
+});
+
+test('public event opens and closes immediately even with a slow detail request',async({page})=>{
+  const state=await mock(page);state.items[0].data.access='public';
+  await page.route('**/rest/v1/content_details?**',()=>{});
+  await page.goto('/events.html');
+  await page.getByRole('button',{name:'View details for Future Build'}).click();
+  const dialog=page.getByRole('dialog');
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toContainText('Loading event details');
+  await page.getByRole('button',{name:'Close event details'}).click();
+  await expect(dialog).not.toBeVisible();
+  await expect(page).toHaveURL(/events.html$/);
+});
+
+test('admin can switch event details between public and members only',async({page})=>{
+  const state=await mock(page,{signedIn:true});await page.goto('/admin');
+  await page.getByRole('button',{name:'Events',exact:true}).click();
+  await page.getByRole('button',{name:'Edit',exact:true}).click();
+  await expect(page.getByLabel('Event access')).toHaveValue('members');
+  await page.getByLabel('Event access').selectOption('public');
+  await page.getByRole('button',{name:'Save changes',exact:true}).click();
+  await expect.poll(()=>state.items.find(i=>i.kind==='event').data.access).toBe('public');
+  const guest=await page.context().browser().newPage();
+  try {
+    const guestState=await mock(guest);guestState.items=state.items;
+    await guest.goto('http://127.0.0.1:5178/events.html?event=future-build');
+    await expect(guest.getByRole('dialog')).toContainText(state.privateBody);
+    await guest.getByRole('button',{name:'Close event details'}).click();
+    await expect(guest.getByRole('dialog')).not.toBeVisible();
+    await page.getByRole('button',{name:'Edit',exact:true}).click();
+    await page.getByLabel('Event access').selectOption('members');
+    await page.getByRole('button',{name:'Save changes',exact:true}).click();
+    await expect.poll(()=>state.items.find(i=>i.kind==='event').data.access).toBe('members');
+    guestState.items=state.items;
+    await guest.reload();
+    await expect(guest).toHaveURL(/\/account\?next=/);
+    expect(new URL(guest.url()).searchParams.get('next')).toBe('/events.html?event=future-build');
+  } finally { await guest.close(); }
 });

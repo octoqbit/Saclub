@@ -31,6 +31,7 @@ async function showProject() {
   try {
     const profile = await requireMember();
     if (!profile) return;
+    message.hidden = false;
     const slug = new URLSearchParams(location.search).get('project');
     const projects = await loadContent('project');
     const item = projects.find(project => project.slug === slug);
@@ -105,6 +106,7 @@ async function showProject() {
       article.hidden = false;
     }
   } catch {
+    message.hidden = false;
     const retry = node('button', 'project-outline-button', 'Try again');
     retry.addEventListener('click', () => location.reload());
     message.replaceChildren(node('h1', '', 'Could not load this project.'), node('p', '', 'Please try again in a moment.'), retry);

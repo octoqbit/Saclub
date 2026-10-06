@@ -10,6 +10,14 @@ Briefs, features, components, milestones, next steps, repository links, and memb
 
 In **Admin → Projects → Edit**, update public artwork and introductions separately from member-only details. List fields use one entry per line. Project repository links accept GitHub HTTPS URLs. Generated artwork is documented in `docs/project-artwork.md`.
 
+### Event access and faster navigation
+
+In **Admin → Events → Edit → Visibility → Event access**, choose **Public** or **Members only**. Published previews remain visible to everyone. Public events open without login; members-only event details require approved membership. Registration still requires an approved member. Existing events stay members-only until explicitly changed.
+
+Apply [the event-access migration](supabase/migrations/20261006_event_access.sql) to the existing database before deploying this frontend. It is also included in the combined upgrade and new-install schema. This grants anonymous reads only for explicitly public, published event details through row-level security; project details and drafts remain protected.
+
+Timed boot screens have been removed. Guest project clicks go directly to login with the project return URL, and direct project bookmarks skip the project bundle for guests. Session hints only speed up routing; actual member access still uses verified authentication and database policies. Project controls and content requests no longer wait on website text requests.
+
 ### Search visibility and support
 
 Public metadata, organization structured data, `public/robots.txt`, and `public/sitemap.xml` currently use `https://saclub.tech` as the production domain, with `https://saclub.tech/index.html` as the canonical homepage. If the production domain changes, update the absolute URLs in the public HTML files and these two crawler files together. Help Center opens a contact banner on the current page with Team SAC information and `info@saclub.tech`; privacy, cookies, and terms are standalone static pages included in the Vite build.

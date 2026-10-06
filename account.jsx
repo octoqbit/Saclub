@@ -1,3 +1,4 @@
+import { hasSessionHint, isAuthCallback } from './lib/session-hint.js';
 import { memberEmoji, profilePronouns } from './lib/profile-options.mjs';
 import { RobotAvatar } from './lib/robot-avatar.jsx';
 import React, { useEffect, useState, useRef } from 'react';
@@ -8,7 +9,7 @@ import { Brand, Field, Notice, AuthLayout, AvatarPicker, PronounPicker } from '.
 
 const params=new URLSearchParams(location.search);
 function Account(){
-  const [profile,setProfile]=useState(null),[ready,setReady]=useState(!configured),[mode,setMode]=useState(params.get('mode')||'login'),[busy,setBusy]=useState(false),[error,setError]=useState(params.get('confirmationError')||''),[message,setMessage]=useState(params.get('confirmationMessage')||''),[avatar,setAvatar]=useState('robot'),[pronouns,setPronouns]=useState(''),[name,setName]=useState(''),[registrations,setRegistrations]=useState([]);
+  const [profile,setProfile]=useState(null),[ready,setReady]=useState(!configured || (!hasSessionHint() && !isAuthCallback())),[mode,setMode]=useState(params.get('mode')||'login'),[busy,setBusy]=useState(false),[error,setError]=useState(params.get('confirmationError')||''),[message,setMessage]=useState(params.get('confirmationMessage')||''),[avatar,setAvatar]=useState('robot'),[pronouns,setPronouns]=useState(''),[name,setName]=useState(''),[registrations,setRegistrations]=useState([]);
   const loadedUser=useRef(null);
   async function refresh(){const p=await currentProfile();setProfile(p);if(p){if(loadedUser.current!==p.id){setAvatar(memberEmoji(p.avatar));setPronouns(profilePronouns(p));setName(p.name);loadedUser.current=p.id;}const r=checked(await supabase.from('registrations').select('*,content(title,slug)').eq('user_id',p.id).order('created_at',{ascending:false}));setRegistrations(r);}return p;}
   useEffect(()=>{if(!configured)return;let alive=true;refresh().catch(e=>setError(e.message)).finally(()=>{if(alive)setReady(true);});const {data:{subscription}}=supabase.auth.onAuthStateChange(event=>{if(event==='PASSWORD_RECOVERY')setMode('reset');if(event==='SIGNED_OUT'){setProfile(null);loadedUser.current=null;}if(event==='SIGNED_IN')setTimeout(()=>{if(alive)refresh().catch(e=>setError(e.message));},0);});const timer=setInterval(()=>{if(alive)refresh().catch(()=>{});},30000);return()=>{alive=false;subscription.unsubscribe();clearInterval(timer);};},[]);

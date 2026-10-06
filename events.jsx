@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowUpRight, ArrowDown, Calendar, MapPin, Search, Radio, Zap, Cpu, MoveUpRight, X, Pause, Play, Download } from 'lucide-react';
 import { localDay, eventStatus, filterEvents, nextEvent, daysUntil, calendarFile } from './events-data.mjs';
 import { loadContent, asEvent, imageURL } from './lib/content.js';
+import { hasSessionHint, loginHref } from './lib/session-hint.js';
 import { supabase, checked, requireMember } from './lib/supabase.js';
 import { initializeMemberCta } from './lib/member-cta.js';
 initializeMemberCta();
@@ -32,7 +33,7 @@ function EventCard({ event, onOpen, paused, day }) {
     <div ref={ref} className="ev-ticket-shell" onPointerMove={tilt} onPointerLeave={resetTilt}>
       <div className="ev-ticket-top"><span>SAC / {event.symbol}</span><span><i />{status.toUpperCase()}</span></div>
       <div className="ev-ticket-image"><img src={imageURL(event.image)} alt={event.imageAlt||event.title} loading="lazy" width="1536" height="1024" /><span className="ev-image-word" aria-hidden="true">{event.tags[0]}</span><span className="ev-ticket-sticker">{status === 'Past' ? 'BEEN THERE.\nBUILT THAT.' : 'BRING YOUR\nWHAT IF.'}</span><div className="ev-image-scan" aria-hidden="true" /></div>
-      <div className="ev-ticket-copy"><span className="ev-kicker">{event.subtitle}</span><h3>{event.shortTitle}</h3><p>{event.description}</p><div className="ev-facts"><span><Calendar size={14} aria-hidden="true" />{event.date}</span><span><MapPin size={14} aria-hidden="true" />{event.location}</span></div><div className="ev-tags">{event.tags.map(tag => <span key={tag}>{tag}</span>)}</div></div>
+      <div className="ev-ticket-copy"><span className="ev-kicker">{event.subtitle}</span><h3>{event.shortTitle}</h3><p>{event.description}</p><div className="ev-facts"><span><Calendar size={14} aria-hidden="true" />{event.date}</span><span><MapPin size={14} aria-hidden="true" />{event.location}</span></div><div className="ev-tags"><span>{event.access==='public'?'Public event':'Members only'}</span>{event.tags.map(tag => <span key={tag}>{tag}</span>)}</div></div>
       <div className="ev-ticket-tear" aria-hidden="true"><span /><i /><span /></div>
       <div className="ev-ticket-bottom"><div><span className="ev-kicker">{status === 'Past' ? 'LISTED PRIZE POOL' : 'PRIZES WORTH'}</span><strong>₹{event.prizePool}<small>*</small></strong></div><button type="button" className="ev-open" onClick={() => onOpen(event)} aria-label={`View details for ${event.title}`}><ArrowUpRight aria-hidden="true" /></button></div>
       <button className="ev-ticket-link" type="button" onClick={() => onOpen(event)}>{status === 'Past' ? 'OPEN THE ARCHIVE' : 'GET THE FULL BRIEF'}<span aria-hidden="true">↗</span></button>
@@ -42,9 +43,18 @@ function EventCard({ event, onOpen, paused, day }) {
 
 function EventDialog({ event, onClose, day }) {
   const dialog = useRef(null);
+  const [detail,setDetail]=useState(null),[detailError,setDetailError]=useState(''),[retry,setRetry]=useState(0);
+  useEffect(()=>{
+    setDetail(null);setDetailError('');
+    if(!event)return;
+    let active=true;
+    const request=supabase?supabase.from('content_details').select('body').eq('content_id',event.id).maybeSingle():Promise.resolve({data:{body:''}});
+    request.then(result=>{const row=checked(result);if(!row)throw new Error('Event details are unavailable.');if(active)setDetail(row.body||'');}).catch(()=>{if(active)setDetailError('Could not open event details. Please try again.');});
+    return()=>{active=false;};
+  },[event?.id,retry]);
   const [registered,setRegistered]=useState(false),[busy,setBusy]=useState(false),[message,setMessage]=useState('');
   useEffect(()=>{setRegistered(false);setMessage('');if(!event?.profile)return;let active=true;supabase.from('registrations').select('event_id').eq('event_id',event.id).eq('user_id',event.profile.id).maybeSingle().then(r=>{const data=checked(r);if(active)setRegistered(!!data);}).catch(e=>{if(active)setMessage(e.message);});return()=>{active=false;};},[event]);
-  async function register(){setBusy(true);setMessage('');try{checked(await supabase.from('registrations').insert({event_id:event.id,user_id:event.profile.id}));setRegistered(true);setMessage('You’re registered! Find this event in your account.');}catch(e){if(e.code==='23505'){setRegistered(true);setMessage('You’re already registered for this event.');}else setMessage(e.message);}finally{setBusy(false);}}
+  async function register(){setBusy(true);setMessage('');try{const profile=await requireMember(`/events.html?event=${encodeURIComponent(event.slug)}`);if(!profile)return;checked(await supabase.from('registrations').insert({event_id:event.id,user_id:profile.id}));setRegistered(true);setMessage('You’re registered! Find this event in your account.');}catch(e){if(e.code==='23505'){setRegistered(true);setMessage('You’re already registered for this event.');}else setMessage(e.message);}finally{setBusy(false);}}
   useEffect(() => {
     if (!event) return;
     const opener = document.activeElement;
@@ -60,8 +70,8 @@ function EventDialog({ event, onClose, day }) {
   }}>
     <button className="ev-dialog-close" type="button" aria-label="Close event details" onClick={() => dialog.current.close()}><X /></button>
     <span className="ev-kicker">TRANSMISSION {event.symbol} / {eventStatus(event, day).toUpperCase()}</span><h2 id="ev-dialog-title">{event.title}</h2>
-    <div className="ev-facts"><span><Calendar size={16} />{event.date}</span><span><MapPin size={16} />{event.location}</span></div><p>{event.description}</p><div className="ev-tags">{event.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
-    <p style={{whiteSpace:'pre-wrap'}}>{event.privateBody||'More details will be shared by the club.'}</p><div className="ev-dialog-prize"><span>LISTED PRIZE POOL</span><strong>₹{event.prizePool}*</strong></div><p className="ev-dialog-note">*Prize pool as listed. Saving dates does not register you for the event.</p>
+    <div className="ev-facts"><span><Calendar size={16} />{event.date}</span><span><MapPin size={16} />{event.location}</span></div><p>{event.description}</p><div className="ev-tags"><span>{event.access==='public'?'Public event':'Members only'}</span>{event.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
+    {detailError?<p role="alert">{detailError} <button type="button" onClick={()=>setRetry(value=>value+1)}>Try again</button></p>:detail===null?<p role="status">Loading event details…</p>:<p style={{whiteSpace:'pre-wrap'}}>{detail||'More details will be shared by the club.'}</p>}<div className="ev-dialog-prize"><span>LISTED PRIZE POOL</span><strong>₹{event.prizePool}*</strong></div><p className="ev-dialog-note">*Prize pool as listed. Saving dates does not register you for the event.</p>
     <p role="status">{message}</p><div className="ev-dialog-actions">{event.registrationOpen&&eventStatus(event,day)!=='Past'?<button type="button" className="ev-button" disabled={busy||registered} onClick={register}>{registered?'YOU’RE REGISTERED':busy?'REGISTERING…':'REGISTER FOR EVENT'}</button>:<span className="ev-dialog-note">Registration is closed.</span>}<button type="button" className="ev-button" onClick={() => downloadCalendar(event)}><Download size={16} />SAVE DATES (.ICS)</button><a className="ev-text-link" href="/account">MY ACCOUNT <ArrowUpRight size={16} /></a></div>
   </dialog>;
 }
@@ -69,7 +79,17 @@ function EventDialog({ event, onClose, day }) {
 function EventsPage() {
   const [events,setEvents]=useState([]),[contentError,setContentError]=useState(''),[loading,setLoading]=useState(true),[opening,setOpening]=useState(false),[copyValues,setCopyValues]=useState({});
   const copy=(id,fallback)=>copyValues[id]??fallback;
-  async function openEvent(event){if(opening)return;setOpening(true);setContentError('');try{const profile=await requireMember();if(!profile)return;const detail=checked(await supabase.from('content_details').select('body').eq('content_id',event.id).maybeSingle());setSelected({...event,profile,privateBody:detail?.body||''});}catch(e){setContentError(e.message);}finally{setOpening(false);}}
+  async function openEvent(event){
+    if(opening)return;
+    setContentError('');
+    if(event.access==='public'){setSelected(event);return;}
+    const next=`/events.html?event=${encodeURIComponent(event.slug)}`;
+    if(!hasSessionHint()){location.assign(loginHref(next));return;}
+    setOpening(true);
+    try{const profile=await requireMember(next);if(profile)setSelected({...event,profile});}
+    catch{setContentError('Could not verify membership. Please try again.');}
+    finally{setOpening(false);}
+  }
   useEffect(()=>{loadContent('event').then(rows=>{const list=rows.map(asEvent);setEvents(list);const slug=new URLSearchParams(location.search).get('event');const found=list.find(e=>e.slug===slug);if(found)openEvent(found);}).catch(e=>setContentError('Events could not be loaded. Please refresh to try again.')).finally(()=>setLoading(false));loadSiteValues().then(setCopyValues).catch(()=>{});},[]);
   const reducedMotion = useReducedMotion();
   const [manualPause, setManualPause] = useState(false);
