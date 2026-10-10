@@ -44,7 +44,7 @@ update public.content set data=data where kind='project';
 lock table public.profiles in share row exclusive mode;
 
 create table if not exists public.member_id_counters (
-  department_code text primary key check (department_code in ('EC','ME','CS','EE','OT')),
+  department_code text primary key check (department_code in ('EC','ME','CS','EE','CE','BT','AI','RB','OT')),
   last_number bigint not null check (last_number > 0)
 );
 alter table public.member_id_counters enable row level security;
@@ -61,6 +61,10 @@ returns text language sql immutable set search_path = '' as $$
     when 'computerscienceengineering' then 'CS' when 'computerscienceandengineering' then 'CS'
     when 'ee' then 'EE' when 'eee' then 'EE' when 'electrical' then 'EE'
     when 'electricalengineering' then 'EE' when 'electricalandelectronicsengineering' then 'EE'
+    when 'civil' then 'CE' when 'ce' then 'CE' when 'civilengineering' then 'CE'
+    when 'biotech' then 'BT' when 'biotechnology' then 'BT' when 'bt' then 'BT'
+    when 'aiml' then 'AI' when 'artificialintelligence' then 'AI' when 'ai' then 'AI'
+    when 'robotics' then 'RB' when 'rb' then 'RB'
     else 'OT'
   end;
 $$;
@@ -109,7 +113,7 @@ grant execute on function public.review_member(uuid,text) to authenticated;
 insert into public.member_id_counters(department_code,last_number)
 select split_part(member_id,'-',2),max(split_part(member_id,'-',3)::bigint)
 from public.profiles
-where member_id ~ '^SAC-(EC|ME|CS|EE|OT)-[0-9]{3,}$'
+where member_id ~ '^SAC-(EC|ME|CS|EE|OT|CE|BT|AI|RB)-[0-9]{3,}$'
 group by split_part(member_id,'-',2)
 having max(split_part(member_id,'-',3)::bigint)>0
 on conflict(department_code) do update
@@ -121,7 +125,7 @@ declare applicant record;
 begin
   for applicant in
     select id,department from public.profiles
-    where (member_id is not null and member_id !~ '^SAC-(EC|ME|CS|EE|OT)-[0-9]{3,}$')
+    where (member_id is not null and member_id !~ '^SAC-(EC|ME|CS|EE|OT|CE|BT|AI|RB)-[0-9]{3,}$')
        or (member_id is null and role='member' and status='approved')
     order by created_at,id
   loop
@@ -176,10 +180,24 @@ begin
     left(coalesce(new.raw_user_meta_data->>'department',''),100), left(coalesce(new.raw_user_meta_data->>'study_year',''),20),
     case when jsonb_typeof(new.raw_user_meta_data->'interests')='array' then array(select jsonb_array_elements_text(new.raw_user_meta_data->'interests')) else '{}' end,
     left(coalesce(new.raw_user_meta_data->>'motivation',''),4000),
-    case when length(trim(coalesce(new.raw_user_meta_data->>'motivation',''))) > 0 then now() end);
+    case when length(trim(coalesce(new.raw_user_meta_data->>'motivation',''))) > 0 and new.email_confirmed_at is not null then now() end);
   return new;
 end; $$;
 revoke execute on function public.handle_new_user() from public,anon,authenticated;
+
+create or replace function public.handle_user_update() returns trigger language plpgsql security definer set search_path = '' as $$
+begin
+  if old.email_confirmed_at is null and new.email_confirmed_at is not null then
+    update public.profiles set submitted_at = now() 
+    where id = new.id and status = 'pending' and submitted_at is null
+      and length(trim(coalesce(motivation,''))) > 0;
+  end if;
+  return new;
+end; $$;
+revoke execute on function public.handle_user_update() from public,anon,authenticated;
+
+drop trigger if exists on_auth_user_updated on auth.users;
+create trigger on_auth_user_updated after update on auth.users for each row execute procedure public.handle_user_update();
 
 create or replace function public.save_profile(display_name text, emoji text) returns void language plpgsql security definer set search_path = '' as $$
 begin
