@@ -96,14 +96,14 @@
                     <h3 class="s2-heading" style="justify-content: flex-start; padding: 0;"><span
                             class="sq-bullet">■</span> Membership Details</h3>
                     <div class="join-info-box">
-                        <p><strong>Status:</strong> Open</p>
+                        <p><strong>Status:</strong> <span id="application-status">Open</span></p>
                         <p><strong>Deadline:</strong> Rolling</p>
                         <p><strong>Requirements:</strong> Curiosity</p>
                     </div>
                     <div class="join-perks">
                         <h4>What you get:</h4>
                         <ul>
-                            <li><span class="sq-bullet">■</span> 24/7 Lab Access</li>
+                            <li><span class="sq-bullet">■</span> Lab Access</li>
                             <li><span class="sq-bullet">■</span> Hardware Funding</li>
                             <li><span class="sq-bullet">■</span> Mentorship</li>
                             <li><span class="sq-bullet">■</span> Tech Workshops</li>
@@ -112,7 +112,7 @@
                 </div>
 
                 <div class="join-center">
-                    <form class="join-form" action="#" method="POST">
+                    <form class="join-form" action="#" method="POST" id="application-form">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="firstName">First Name</label>
@@ -150,6 +150,10 @@
                                     <option value="ee">Electrical Engineering</option>
                                     <option value="ece">Electronics and Communication Engineering</option>
                                     <option value="me">Mechanical Engineering</option>
+                                    <option value="civil">Civil Engineering</option>
+                                    <option value="biotech">Biotechnology</option>
+                                    <option value="aiml">AI/ML</option>
+                                    <option value="robotics">Robotics</option>
                                     <option value="other">Other</option>
                                 </select>
                                 <div class="input-corner i-tl"></div>
@@ -211,7 +215,7 @@
                             <legend>Your pronouns</legend>
                             <label><input type="radio" name="pronouns" value="he/him" required>He/Him</label>
                             <label><input type="radio" name="pronouns" value="she/her" required>She/Her</label>
-                            <p class="choice-note">Your selection is not fixed after you submit your application. After submission, Wait for the Onboard Mail from the team.</p>
+                            <p class="choice-note">Your selection is fixed after you submit your application.</p>
                         </fieldset>
                         <fieldset class="emoji-picker">
                             <legend>Your tech emoji</legend>
@@ -309,6 +313,7 @@
                 mobileBtn.classList.toggle('active');
             });
         }
+
     </script>
     <script type="module" src="./join.js"></script>
     <script type="module" src="./cursor-robot/main.js"></script>
