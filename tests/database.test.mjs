@@ -11,7 +11,7 @@ before(async()=>{
   // below is the actual production SQL, executed by PostgreSQL.
   await db.exec(`create role anon; create role authenticated;
     create schema auth; create schema storage;
-    create table auth.users(id uuid primary key,email text,raw_user_meta_data jsonb default '{}');
+    create table auth.users(id uuid primary key,email text,email_confirmed_at timestamptz,raw_user_meta_data jsonb default '{}');
     create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid $$;
     grant usage on schema auth,public,storage to anon,authenticated;
     grant execute on function auth.uid() to anon,authenticated;
@@ -21,7 +21,7 @@ before(async()=>{
     grant select,insert,delete on storage.objects to anon,authenticated;`);
   await db.exec(readFileSync('supabase/schema.sql','utf8'));
   await db.exec(readFileSync('supabase/seed.sql','utf8'));
-  for(const [id,email] of [[admin,'admin@test.local'],[pending,'pending@test.local'],[member,'member@test.local']]) await db.query(`insert into auth.users(id,email,raw_user_meta_data) values($1,$2,$3)`,[id,email,JSON.stringify({name:email,department:'CS',study_year:'2',motivation:'I like robots',role:'admin',status:'approved',avatar:'girl'})]);
+  for(const [id,email] of [[admin,'admin@test.local'],[pending,'pending@test.local'],[member,'member@test.local']]) await db.query(`insert into auth.users(id,email,email_confirmed_at,raw_user_meta_data) values($1,$2,now(),$3)`,[id,email,JSON.stringify({name:email,department:'CS',study_year:'2',motivation:'I like robots',role:'admin',status:'approved',avatar:'girl'})]);
   await db.query(`update public.profiles set role='admin',status='approved' where id=$1`,[admin]);
   await db.query(`update public.profiles set status='approved' where id=$1`,[member]);
   eventId=(await db.query(`update public.content set data=data||'{"startDate":"2099-01-01","endDate":"2099-01-02","registrationOpen":true}' where slug='genesis' returning id`)).rows[0].id;
@@ -130,7 +130,7 @@ test('members can change all eight emojis while pronouns stay fixed',async()=>{
 
 test('OAuth applications choose pronouns once and cannot resubmit or reserve the admin emoji',async()=>{
   const id='00000000-0000-4000-8000-000000000020';
-  await db.query("insert into auth.users(id,email) values($1,'oauth@example.test')",[id]);
+  await db.query("insert into auth.users(id,email,email_confirmed_at) values($1,'oauth@example.test',now())",[id]);
   await as('authenticated',id,async()=>{
     await assert.rejects(db.query("select public.submit_application('New Maker','robot','ece','2','{}','Build robots')"),/Complete all application fields/);
     await db.query("select public.submit_application('New Maker','satellite','ece','2','{}','Build robots','he/him')");
