@@ -17,7 +17,7 @@ create table public.profiles (
   created_at timestamptz not null default now()
 );
 create table if not exists public.member_id_counters (
-  department_code text primary key check (department_code in ('EC','ME','CS','EE','OT')),
+  department_code text primary key check (department_code in ('EC','ME','CS','EE','CE','BT','AI','RB','OT')),
   last_number bigint not null check (last_number > 0)
 );
 alter table public.member_id_counters enable row level security;
@@ -34,6 +34,10 @@ returns text language sql immutable set search_path = '' as $$
     when 'computerscienceengineering' then 'CS' when 'computerscienceandengineering' then 'CS'
     when 'ee' then 'EE' when 'eee' then 'EE' when 'electrical' then 'EE'
     when 'electricalengineering' then 'EE' when 'electricalandelectronicsengineering' then 'EE'
+    when 'civil' then 'CE' when 'ce' then 'CE' when 'civilengineering' then 'CE'
+    when 'biotech' then 'BT' when 'biotechnology' then 'BT' when 'bt' then 'BT'
+    when 'aiml' then 'AI' when 'artificialintelligence' then 'AI' when 'ai' then 'AI'
+    when 'robotics' then 'RB' when 'rb' then 'RB'
     else 'OT'
   end;
 $$;
@@ -89,7 +93,7 @@ begin
     left(coalesce(new.raw_user_meta_data->>'department',''),100), left(coalesce(new.raw_user_meta_data->>'study_year',''),20),
     case when jsonb_typeof(new.raw_user_meta_data->'interests')='array' then array(select jsonb_array_elements_text(new.raw_user_meta_data->'interests')) else '{}' end,
     left(coalesce(new.raw_user_meta_data->>'motivation',''),4000),
-    case when length(trim(coalesce(new.raw_user_meta_data->>'motivation',''))) > 0 then now() end);
+    case when length(trim(coalesce(new.raw_user_meta_data->>'motivation',''))) > 0 and new.email_confirmed_at is not null then now() end);
   return new;
 end; $$;
 revoke execute on function public.handle_new_user() from public,anon,authenticated;
@@ -124,6 +128,20 @@ revoke execute on function public.save_profile(text,text),public.submit_applicat
 grant execute on function public.save_profile(text,text),public.submit_application(text,text,text,text,text[],text,text) to authenticated;
 
 create trigger on_auth_user_created after insert on auth.users for each row execute procedure public.handle_new_user();
+
+create or replace function public.handle_user_update() returns trigger language plpgsql security definer set search_path = '' as $$
+begin
+  if old.email_confirmed_at is null and new.email_confirmed_at is not null then
+    update public.profiles set submitted_at = now() 
+    where id = new.id and status = 'pending' and submitted_at is null
+      and length(trim(coalesce(motivation,''))) > 0;
+  end if;
+  return new;
+end; $$;
+revoke execute on function public.handle_user_update() from public,anon,authenticated;
+
+drop trigger if exists on_auth_user_updated on auth.users;
+create trigger on_auth_user_updated after update on auth.users for each row execute procedure public.handle_user_update();
 
 create function public.is_admin() returns boolean language sql stable security definer set search_path = '' as $$
   select exists(select 1 from public.profiles where id = auth.uid() and role = 'admin' and status = 'approved');
