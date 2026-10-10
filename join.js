@@ -1,4 +1,5 @@
 import { supabase, configured, checked, currentProfile, setupMessage, accountURL } from './lib/supabase.js';
+import { loadSiteValues } from './lib/site-content.js';
 import './avatars.css';
 import { techEmojis, profilePronouns } from './lib/profile-options.mjs';
 
@@ -10,11 +11,23 @@ for(const [id,emoji,label] of techEmojis){
   icon.className='tech-emoji';icon.setAttribute('aria-hidden','true');icon.textContent=emoji;caption.textContent=label;
   choice.append(input,icon,caption);emojiChoices.append(choice);
 }
-if(configured)currentProfile().then(profile=>{
-  const fixed=profile&&profilePronouns(profile);if(!fixed)return;
-  for(const input of form.querySelectorAll('[name=pronouns]')){input.checked=input.value===fixed;input.disabled=true;}
-  document.querySelector('#join-pronouns .choice-note').textContent='Your pronouns are already saved and cannot be changed here.';
-}).catch(()=>{});
+if(configured){
+  loadSiteValues().then(values=>{
+    if(values['applications_open']==='false'){
+      form.style.display='none';
+      const statusEl = document.getElementById('application-status');
+      if(statusEl) statusEl.textContent = 'Closed';
+      const msg=document.createElement('div');msg.className='join-info-box';
+      msg.innerHTML='<p><strong>Applications are currently closed.</strong></p><p>Check back later or contact the club admin.</p>';
+      form.parentElement.appendChild(msg);
+    }
+  }).catch(()=>{});
+  currentProfile().then(profile=>{
+    const fixed=profile&&profilePronouns(profile);if(!fixed)return;
+    for(const input of form.querySelectorAll('[name=pronouns]')){input.checked=input.value===fixed;input.disabled=true;}
+    document.querySelector('#join-pronouns .choice-note').textContent='Your pronouns are already saved and cannot be changed here.';
+  }).catch(()=>{});
+}
 const message=document.createElement('p');message.setAttribute('role','status');message.style.cssText='padding:16px 0;line-height:1.6;white-space:pre-wrap';form.append(message);
 const button=form.querySelector('[type=submit]');
 if(!configured){message.textContent=setupMessage;button.disabled=true;}
